@@ -57,15 +57,9 @@ exception StackUnderflow of Stack
 
 (* Some helper functions for printing the stack *)
 
-
 fun printstack stack = let val conts = String.concatWith ", " (List.map Int.toString stack)
 		       in print ("[" ^ conts ^ "]\n")
 		       end
-
-(*
-fun printstack stack = print ("kya haal chaal")
-*)
-
 fun printtop (x::xs) = print (Int.toString x ^ "\n")
   | printtop _       = raise StackUnderflow []
 
@@ -77,7 +71,6 @@ fun step (Push x)     stack           = x :: stack
   | step ClearStack   _               = []
   | step (Exec oper) (a :: b :: rest) = Ast.binOpDenote oper a b :: rest
   | step _           stack            = raise StackUnderflow stack
-
 
 (* And finally this runs a program. *)
 
