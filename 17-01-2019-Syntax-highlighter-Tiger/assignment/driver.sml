@@ -14,7 +14,7 @@ struct
               else if (x = "white") then print.print_white t 
               else if (x = "magneta") then print.print_magneta t
               else print.print_cyan t; 
-		   if x="EOF" then () else do_it(count + 1)
+		   if x="EOF" then print("\n") else do_it(count + 1)
 	      end
 
        in do_it(0);
