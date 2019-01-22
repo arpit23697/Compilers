@@ -2,12 +2,12 @@ structure Tokens : Tiger_TOKENS =
 struct
 (*Just to include the starting three words*)
 type position = int * int 
-type token = string
+type token = string * string
 
-fun ARRAY  (i,j) = "ARRAY " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
-fun IF (i,j) = "IF " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
-fun THEN (i,j) = "THEN " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
-fun EOF (i,j)  = "EOF " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
+fun ARRAY  (i,j) x = (x , "red")
+fun IF(i,j) x = (x , "green")
+fun THEN(i,j) x = (x , "blue")
+fun EOF (i,j) x = ("" , "EOF")
 (*  
 fun BREAK(i,j) = "BREAK   " ^ Int.toString(i)
 fun OF(i,j) = "OF   " ^ Int.toString(i)

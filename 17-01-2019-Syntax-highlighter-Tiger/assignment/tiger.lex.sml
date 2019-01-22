@@ -11,7 +11,7 @@ val lineNum = ErrorMsg.lineNum
 val linePos = ErrorMsg.linePos
 fun err(p1,p2) = ErrorMsg.error p1
 
-fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,!lineNum)  end
+fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,!lineNum) ""  end
 
 
 end (* end of user routines *)
@@ -200,10 +200,10 @@ let fun continue() = lex() in
 			(* Application actions *)
 
   1 => (lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ; continue())
-| 10 => (current_pos := yypos - !pos_last_line ; Tokens.IF (!current_pos , !lineNum))
-| 15 => (current_pos := yypos - !pos_last_line ; Tokens.THEN (!current_pos , !lineNum) )
+| 10 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.IF (!current_pos , !lineNum) yytext  end
+| 15 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.THEN (!current_pos , !lineNum) yytext  end
 | 17 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; ErrorMsg.error yypos ("illegal character " ^ yytext); continue() end
-| 7 => ( current_pos := yypos - !pos_last_line  ;Tokens.ARRAY (!current_pos , !lineNum) )
+| 7 => let val yytext=yymktext() in  current_pos := yypos - !pos_last_line  ;Tokens.ARRAY (!current_pos , !lineNum) yytext  end
 | _ => raise Internal.LexerError
 
 		) end )
