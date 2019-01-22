@@ -4,10 +4,10 @@ struct
 type position = int * int 
 type token = string
 
-fun ARRAY ( (i,j) , (a,b) ) = "ARRAY " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
-fun IF((i,j) , (a,b)) = "IF " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
-fun THEN((i,j) , (a,b)) = "THEN " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
-fun EOF((i,j) , (a,b)) = "EOF " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
+fun ARRAY  (i,j) = "ARRAY " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
+fun IF (i,j) = "IF " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
+fun THEN (i,j) = "THEN " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
+fun EOF (i,j)  = "EOF " ^ Int.toString(i) ^ " " ^ Int.toString (j) ^ " "
 (*  
 fun BREAK(i,j) = "BREAK   " ^ Int.toString(i)
 fun OF(i,j) = "OF   " ^ Int.toString(i)
