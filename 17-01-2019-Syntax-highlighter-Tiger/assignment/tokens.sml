@@ -3,10 +3,14 @@ struct
 (*Just to include the starting three words*)
 type position = int * int 
 type token = string * string
-
+(*
 fun ARRAY  (i,j) x = (x , "red")
 fun IF(i,j) x = (x , "green")
-fun THEN(i,j) x = (x , "blue")
+fun THEN(i,j) x = (x , "blue") *)
+fun KEYWORDS (i , j) x = (x , "red")
+fun WHITESPACE (i , j) x = (x , "white")
+fun ILLEGAL (i , j) x = (x , "white")
+fun NEWLINE (i , j) x = (x , "white")
 fun EOF (i,j) x = ("" , "EOF")
 (*  
 fun BREAK(i,j) = "BREAK   " ^ Int.toString(i)

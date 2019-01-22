@@ -11,9 +11,14 @@ fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,!lineNum) ""  end
 
 
 %% 
+ws = [\ \t];
+keywords="array" | "if" | "then" | "else" | "while" | "for" | "to" | "do" | "let" | "in" | "end" | "of" | "break" | "nil" | "function" | "var" | "type" | "import" | "primitive" ;
+
+
+
 %%
-\n	=> (lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ; continue());
-ARRAY	=> ( current_pos := yypos - !pos_last_line  ;Tokens.ARRAY (!current_pos , !lineNum) yytext );
-IF	=> (current_pos := yypos - !pos_last_line ; Tokens.IF (!current_pos , !lineNum) yytext );
-THEN  	=> (current_pos := yypos - !pos_last_line ; Tokens.THEN (!current_pos , !lineNum) yytext );
-.       => (current_pos := yypos - !pos_last_line ; ErrorMsg.error yypos ("illegal character " ^ yytext); continue());
+\n	=> (lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.NEWLINE (!current_pos , !lineNum) yytext);
+{keywords} => (current_pos := yypos - !pos_last_line ; Tokens.KEYWORDS (!current_pos , !lineNum) yytext );
+{ws}+   => (current_pos := yypos - !pos_last_line ; Tokens.WHITESPACE (!current_pos , !lineNum) yytext );
+.       => (current_pos := yypos - !pos_last_line ; Tokens.ILLEGAL (!current_pos , !lineNum) yytext);
+
