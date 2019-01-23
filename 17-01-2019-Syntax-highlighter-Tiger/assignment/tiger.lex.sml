@@ -2,7 +2,7 @@ structure Mlex=
    struct
     structure UserDeclarations =
       struct
-
+(*#line 1.1 "tiger.lex"*)
 type pos = int
 val current_pos = ref 0;
 val pos_last_line = ref 1;
@@ -14,6 +14,7 @@ fun err(p1,p2) = ErrorMsg.error p1
 fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,!lineNum) ""  end
 
 
+(*#line 17.1 "tiger.lex.sml"*)
 end (* end of user routines *)
 exception LexError (* raised if illegal leaf action tried *)
 structure Internal =
@@ -36,9 +37,9 @@ val s = [
 \\000"
 ),
  (1, 
-"\003\003\003\003\003\003\003\003\003\091\093\003\003\003\003\003\
+"\003\003\003\003\003\003\003\003\003\092\094\003\003\003\003\003\
 \\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\
-\\091\003\088\003\003\003\004\003\004\004\004\087\004\087\004\083\
+\\092\003\088\003\003\003\004\003\004\004\004\087\004\087\004\083\
 \\076\076\076\076\076\076\076\076\076\076\075\004\074\004\072\003\
 \\003\005\005\005\005\005\005\005\005\005\005\005\005\005\005\005\
 \\005\005\005\005\005\005\005\005\005\005\005\004\003\004\003\005\
@@ -710,21 +711,21 @@ val s = [
 "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\079\000\079\000\000\
+\\078\078\078\078\078\078\078\078\078\078\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\078\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000"
 ),
- (79, 
+ (78, 
 "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\078\078\078\078\078\078\078\078\078\078\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\078\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000"
 ),
@@ -795,9 +796,20 @@ val s = [
 \\000"
 ),
  (88, 
+"\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\091\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\090\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089"
+),
+ (90, 
 "\089\089\089\089\089\089\089\089\089\089\000\089\089\089\089\089\
 \\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
-\\089\089\090\089\089\089\089\089\089\089\089\089\089\089\089\089\
+\\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
 \\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
 \\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
 \\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
@@ -805,10 +817,10 @@ val s = [
 \\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\089\
 \\089"
 ),
- (91, 
-"\000\000\000\000\000\000\000\000\000\092\000\000\000\000\000\000\
+ (92, 
+"\000\000\000\000\000\000\000\000\000\093\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\092\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\093\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -818,106 +830,107 @@ val s = [
 ),
 (0, "")]
 fun f x = x 
-val s = List.map f (List.rev (tl (List.rev s))) 
+val s = map f (rev (tl (rev s))) 
 exception LexHackingError 
 fun look ((j,x)::r, i: int) = if i = j then x else look(r, i) 
   | look ([], i) = raise LexHackingError
 fun g {fin=x, trans=i} = {fin=x, trans=look(s,i)} 
-in Vector.fromList(List.map g 
+in Vector.fromList(map g 
 [{fin = [], trans = 0},
 {fin = [], trans = 1},
 {fin = [], trans = 1},
-{fin = [(N 153)], trans = 0},
-{fin = [(N 138),(N 153)], trans = 0},
-{fin = [(N 151),(N 153)], trans = 5},
-{fin = [(N 151)], trans = 5},
-{fin = [(N 151),(N 153)], trans = 7},
-{fin = [(N 151)], trans = 8},
-{fin = [(N 151)], trans = 9},
-{fin = [(N 151)], trans = 10},
-{fin = [(N 107),(N 151)], trans = 5},
-{fin = [(N 151),(N 153)], trans = 12},
-{fin = [(N 151)], trans = 13},
-{fin = [(N 151),(N 153)], trans = 14},
-{fin = [(N 151)], trans = 15},
-{fin = [(N 151)], trans = 10},
-{fin = [(N 151)], trans = 17},
-{fin = [(N 151)], trans = 18},
-{fin = [(N 151),(N 153)], trans = 19},
-{fin = [(N 151)], trans = 20},
-{fin = [(N 151)], trans = 21},
-{fin = [(N 151)], trans = 22},
-{fin = [(N 151)], trans = 23},
-{fin = [(N 151)], trans = 24},
-{fin = [(N 151)], trans = 25},
-{fin = [(N 151)], trans = 10},
-{fin = [(N 151),(N 153)], trans = 27},
-{fin = [(N 151),(N 153)], trans = 28},
-{fin = [(N 151)], trans = 29},
-{fin = [(N 151)], trans = 30},
-{fin = [(N 151),(N 153)], trans = 31},
-{fin = [(N 151)], trans = 32},
-{fin = [(N 151)], trans = 33},
-{fin = [(N 151)], trans = 34},
-{fin = [(N 151)], trans = 35},
-{fin = [(N 151),(N 153)], trans = 36},
-{fin = [(N 151)], trans = 37},
-{fin = [(N 151),(N 153)], trans = 38},
-{fin = [(N 151)], trans = 39},
-{fin = [(N 151)], trans = 40},
-{fin = [(N 151)], trans = 41},
-{fin = [(N 151)], trans = 37},
-{fin = [(N 151),(N 153)], trans = 43},
-{fin = [(N 151)], trans = 44},
-{fin = [(N 151)], trans = 45},
-{fin = [(N 151)], trans = 46},
-{fin = [(N 151)], trans = 47},
-{fin = [(N 151)], trans = 48},
-{fin = [(N 151)], trans = 18},
-{fin = [(N 151)], trans = 13},
-{fin = [(N 151),(N 153)], trans = 51},
-{fin = [(N 151)], trans = 52},
-{fin = [(N 151)], trans = 53},
-{fin = [(N 151)], trans = 54},
-{fin = [(N 151)], trans = 35},
-{fin = [(N 151)], trans = 35},
-{fin = [(N 151)], trans = 57},
-{fin = [(N 151)], trans = 10},
-{fin = [(N 151),(N 153)], trans = 59},
-{fin = [(N 151),(N 153)], trans = 60},
-{fin = [(N 151)], trans = 61},
-{fin = [(N 151)], trans = 62},
-{fin = [(N 151)], trans = 63},
-{fin = [(N 151),(N 153)], trans = 64},
-{fin = [(N 151)], trans = 65},
-{fin = [(N 151)], trans = 66},
-{fin = [(N 151)], trans = 67},
-{fin = [(N 151),(N 153)], trans = 68},
-{fin = [(N 151)], trans = 69},
-{fin = [(N 151)], trans = 70},
-{fin = [(N 151)], trans = 71},
-{fin = [(N 138),(N 153)], trans = 72},
-{fin = [(N 138)], trans = 0},
-{fin = [(N 138),(N 153)], trans = 74},
-{fin = [(N 138),(N 153)], trans = 72},
-{fin = [(N 148),(N 153)], trans = 76},
+{fin = [(N 156)], trans = 0},
+{fin = [(N 151),(N 156)], trans = 0},
+{fin = [(N 154),(N 156)], trans = 5},
+{fin = [(N 154)], trans = 5},
+{fin = [(N 154),(N 156)], trans = 7},
+{fin = [(N 154)], trans = 8},
+{fin = [(N 154)], trans = 9},
+{fin = [(N 154)], trans = 10},
+{fin = [(N 120),(N 154)], trans = 5},
+{fin = [(N 154),(N 156)], trans = 12},
+{fin = [(N 154)], trans = 13},
+{fin = [(N 154),(N 156)], trans = 14},
+{fin = [(N 154)], trans = 15},
+{fin = [(N 154)], trans = 10},
+{fin = [(N 154)], trans = 17},
+{fin = [(N 154)], trans = 18},
+{fin = [(N 154),(N 156)], trans = 19},
+{fin = [(N 154)], trans = 20},
+{fin = [(N 154)], trans = 21},
+{fin = [(N 154)], trans = 22},
+{fin = [(N 154)], trans = 23},
+{fin = [(N 154)], trans = 24},
+{fin = [(N 154)], trans = 25},
+{fin = [(N 154)], trans = 10},
+{fin = [(N 154),(N 156)], trans = 27},
+{fin = [(N 154),(N 156)], trans = 28},
+{fin = [(N 154)], trans = 29},
+{fin = [(N 154)], trans = 30},
+{fin = [(N 154),(N 156)], trans = 31},
+{fin = [(N 154)], trans = 32},
+{fin = [(N 154)], trans = 33},
+{fin = [(N 154)], trans = 34},
+{fin = [(N 154)], trans = 35},
+{fin = [(N 154),(N 156)], trans = 36},
+{fin = [(N 154)], trans = 37},
+{fin = [(N 154),(N 156)], trans = 38},
+{fin = [(N 154)], trans = 39},
+{fin = [(N 154)], trans = 40},
+{fin = [(N 154)], trans = 41},
+{fin = [(N 154)], trans = 37},
+{fin = [(N 154),(N 156)], trans = 43},
+{fin = [(N 154)], trans = 44},
+{fin = [(N 154)], trans = 45},
+{fin = [(N 154)], trans = 46},
+{fin = [(N 154)], trans = 47},
+{fin = [(N 154)], trans = 48},
+{fin = [(N 154)], trans = 18},
+{fin = [(N 154)], trans = 13},
+{fin = [(N 154),(N 156)], trans = 51},
+{fin = [(N 154)], trans = 52},
+{fin = [(N 154)], trans = 53},
+{fin = [(N 154)], trans = 54},
+{fin = [(N 154)], trans = 35},
+{fin = [(N 154)], trans = 35},
+{fin = [(N 154)], trans = 57},
+{fin = [(N 154)], trans = 10},
+{fin = [(N 154),(N 156)], trans = 59},
+{fin = [(N 154),(N 156)], trans = 60},
+{fin = [(N 154)], trans = 61},
+{fin = [(N 154)], trans = 62},
+{fin = [(N 154)], trans = 63},
+{fin = [(N 154),(N 156)], trans = 64},
+{fin = [(N 154)], trans = 65},
+{fin = [(N 154)], trans = 66},
+{fin = [(N 154)], trans = 67},
+{fin = [(N 154),(N 156)], trans = 68},
+{fin = [(N 154)], trans = 69},
+{fin = [(N 154)], trans = 70},
+{fin = [(N 154)], trans = 71},
+{fin = [(N 151),(N 156)], trans = 72},
+{fin = [(N 151)], trans = 0},
+{fin = [(N 151),(N 156)], trans = 74},
+{fin = [(N 151),(N 156)], trans = 72},
+{fin = [(N 24),(N 156)], trans = 76},
 {fin = [], trans = 77},
-{fin = [(N 148)], trans = 0},
-{fin = [], trans = 79},
-{fin = [(N 148)], trans = 76},
+{fin = [(N 24)], trans = 78},
+{fin = [], trans = 78},
+{fin = [(N 24)], trans = 76},
 {fin = [], trans = 81},
-{fin = [(N 148)], trans = 82},
-{fin = [(N 138),(N 153)], trans = 83},
+{fin = [(N 24)], trans = 82},
+{fin = [(N 151),(N 156)], trans = 83},
 {fin = [], trans = 84},
 {fin = [], trans = 85},
-{fin = [(N 11)], trans = 84},
-{fin = [(N 138),(N 153)], trans = 87},
-{fin = [(N 153)], trans = 88},
+{fin = [(N 5)], trans = 84},
+{fin = [(N 151),(N 156)], trans = 87},
+{fin = [(N 156)], trans = 88},
 {fin = [], trans = 88},
-{fin = [(N 5)], trans = 88},
-{fin = [(N 110),(N 153)], trans = 91},
-{fin = [(N 110)], trans = 91},
-{fin = [(N 1)], trans = 0}])
+{fin = [], trans = 90},
+{fin = [(N 11)], trans = 0},
+{fin = [(N 123),(N 156)], trans = 92},
+{fin = [(N 123)], trans = 92},
+{fin = [(N 13)], trans = 0}])
 end
 structure StartStates =
 	struct
@@ -932,8 +945,9 @@ type result = UserDeclarations.lexresult
 	exception LexerError (* raised if illegal leaf action tried *)
 end
 
+structure YYPosInt : INTEGER = Int
 fun makeLexer yyinput =
-let	val yygone0=1
+let	val yygone0= YYPosInt.fromInt ~1
 	val yyb = ref "\n" 		(* buffer *)
 	val yybl = ref 1		(*buffer length *)
 	val yybufpos = ref 1		(* location of next character to use *)
@@ -952,51 +966,60 @@ let fun continue() = lex() in
 	| action (i,(node::acts)::l) =
 		case node of
 		    Internal.N yyk => 
-			(let fun yymktext() = String.substring(!yyb,i0,i-i0)
-			     val yypos = i0+ !yygone
+			(let fun yymktext() = substring(!yyb,i0,i-i0)
+			     val yypos = YYPosInt.+(YYPosInt.fromInt i0, !yygone)
 			open UserDeclarations Internal.StartStates
  in (yybufpos := i; case yyk of 
 
 			(* Application actions *)
 
-  1 => let val yytext=yymktext() in lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.NEWLINE (!current_pos , !lineNum) yytext end
-| 107 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.KEYWORDS (!current_pos , !lineNum) yytext  end
-| 11 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.COMMENT (!current_pos , !lineNum) yytext  end
-| 110 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.WHITESPACE (!current_pos , !lineNum) yytext  end
-| 138 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.SYMBOLS (!current_pos , !lineNum) yytext  end
-| 148 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.NUMERIC (!current_pos , !lineNum) yytext  end
-| 151 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.IDENTIFIER (!current_pos , !lineNum) yytext  end
-| 153 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.ILLEGAL (!current_pos , !lineNum) yytext ; continue() end
-| 5 => let val yytext=yymktext() in current_pos := yypos - !pos_last_line ; Tokens.STRING (!current_pos , !lineNum) yytext  end
+  11 => let val yytext=yymktext() in (*#line 22.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.STRING (!current_pos , !lineNum) yytext (*#line 976.1 "tiger.lex.sml"*)
+ end
+| 120 => let val yytext=yymktext() in (*#line 25.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.KEYWORDS (!current_pos , !lineNum) yytext (*#line 978.1 "tiger.lex.sml"*)
+ end
+| 123 => let val yytext=yymktext() in (*#line 26.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.WHITESPACE (!current_pos , !lineNum) yytext (*#line 980.1 "tiger.lex.sml"*)
+ end
+| 13 => let val yytext=yymktext() in (*#line 23.36 "tiger.lex"*)lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.NEWLINE (!current_pos , !lineNum) yytext(*#line 982.1 "tiger.lex.sml"*)
+ end
+| 151 => let val yytext=yymktext() in (*#line 27.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.SYMBOLS (!current_pos , !lineNum) yytext (*#line 984.1 "tiger.lex.sml"*)
+ end
+| 154 => let val yytext=yymktext() in (*#line 28.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.IDENTIFIER (!current_pos , !lineNum) yytext (*#line 986.1 "tiger.lex.sml"*)
+ end
+| 156 => let val yytext=yymktext() in (*#line 29.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.ILLEGAL (!current_pos , !lineNum) yytext (*#line 988.1 "tiger.lex.sml"*)
+ end
+| 24 => let val yytext=yymktext() in (*#line 24.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.NUMERIC (!current_pos , !lineNum) yytext (*#line 990.1 "tiger.lex.sml"*)
+ end
+| 5 => let val yytext=yymktext() in (*#line 21.37 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.COMMENT (!current_pos , !lineNum) yytext (*#line 992.1 "tiger.lex.sml"*)
+ end
 | _ => raise Internal.LexerError
 
 		) end )
 
-	val {fin,trans} = Unsafe.Vector.sub(Internal.tab, s)
+	val {fin,trans} = Vector.sub(Internal.tab, s)
 	val NewAcceptingLeaves = fin::AcceptingLeaves
 	in if l = !yybl then
 	     if trans = #trans(Vector.sub(Internal.tab,0))
 	       then action(l,NewAcceptingLeaves
 ) else	    let val newchars= if !yydone then "" else yyinput 1024
-	    in if (String.size newchars)=0
+	    in if (size newchars)=0
 		  then (yydone := true;
 		        if (l=i0) then UserDeclarations.eof ()
 		                  else action(l,NewAcceptingLeaves))
 		  else (if i0=l then yyb := newchars
-		     else yyb := String.substring(!yyb,i0,l-i0)^newchars;
-		     yygone := !yygone+i0;
-		     yybl := String.size (!yyb);
+		     else yyb := substring(!yyb,i0,l-i0)^newchars;
+		     yygone := YYPosInt.+(!yygone, YYPosInt.fromInt i0);
+		     yybl := size (!yyb);
 		     scan (s,AcceptingLeaves,l-i0,0))
 	    end
-	  else let val NewChar = Char.ord(Unsafe.CharVector.sub(!yyb,l))
+	  else let val NewChar = Char.ord(CharVector.sub(!yyb,l))
 		val NewChar = if NewChar<128 then NewChar else 128
-		val NewState = Char.ord(Unsafe.CharVector.sub(trans,NewChar))
+		val NewState = Char.ord(CharVector.sub(trans,NewChar))
 		in if NewState=0 then action(l,NewAcceptingLeaves)
 		else scan(NewState,NewAcceptingLeaves,l+1,i0)
 	end
 	end
 (*
-	val start= if String.substring(!yyb,!yybufpos-1,1)="\n"
+	val start= if substring(!yyb,!yybufpos-1,1)="\n"
 then !yybegin+1 else !yybegin
 *)
 	in scan(!yybegin (* start *),nil,!yybufpos,!yybufpos)
