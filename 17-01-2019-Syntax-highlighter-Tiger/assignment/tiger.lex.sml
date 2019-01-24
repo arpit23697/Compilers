@@ -14,8 +14,11 @@ val comment_num = ref 0
 
 fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,!lineNum) ""  end
 
+fun update_current yypos = (current_pos := yypos - !pos_last_line)
 
-(*#line 18.1 "tiger.lex.sml"*)
+
+
+(*#line 21.1 "tiger.lex.sml"*)
 end (* end of user routines *)
 exception LexError (* raised if illegal leaf action tried *)
 structure Internal =
@@ -1185,31 +1188,31 @@ let fun continue() = lex() in
 
 			(* Application actions *)
 
-  12 => let val yytext=yymktext() in (*#line 32.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ;comment_num := !comment_num + 1 ; Tokens.COMMENT (!current_pos , !lineNum) yytext(*#line 1188.1 "tiger.lex.sml"*)
+  12 => let val yytext=yymktext() in (*#line 35.54 "tiger.lex"*)update_current yypos ;comment_num := !comment_num + 1 ; Tokens.COMMENT (!current_pos , !lineNum) yytext(*#line 1191.1 "tiger.lex.sml"*)
  end
-| 15 => let val yytext=yymktext() in (*#line 33.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ;comment_num := !comment_num - 1 ; if (!comment_num > 0) then Tokens.COMMENT (!current_pos , !lineNum) yytext else (YYBEGIN INITIAL ; Tokens.COMMENT (!current_pos , !lineNum) yytext)  (*#line 1190.1 "tiger.lex.sml"*)
+| 15 => let val yytext=yymktext() in (*#line 36.54 "tiger.lex"*)update_current yypos ;comment_num := !comment_num - 1 ; if (!comment_num > 0) then Tokens.COMMENT (!current_pos , !lineNum) yytext else (YYBEGIN INITIAL ; Tokens.COMMENT (!current_pos , !lineNum) yytext)  (*#line 1193.1 "tiger.lex.sml"*)
  end
-| 155 => let val yytext=yymktext() in (*#line 38.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.KEYWORDS (!current_pos , !lineNum) yytext (*#line 1192.1 "tiger.lex.sml"*)
+| 155 => let val yytext=yymktext() in (*#line 41.54 "tiger.lex"*)update_current yypos ; Tokens.KEYWORDS (!current_pos , !lineNum) yytext (*#line 1195.1 "tiger.lex.sml"*)
  end
-| 158 => let val yytext=yymktext() in (*#line 39.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.WHITESPACE (!current_pos , !lineNum) yytext (*#line 1194.1 "tiger.lex.sml"*)
+| 158 => let val yytext=yymktext() in (*#line 42.54 "tiger.lex"*)update_current yypos ; Tokens.WHITESPACE (!current_pos , !lineNum) yytext (*#line 1197.1 "tiger.lex.sml"*)
  end
-| 186 => let val yytext=yymktext() in (*#line 40.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.SYMBOLS (!current_pos , !lineNum) yytext (*#line 1196.1 "tiger.lex.sml"*)
+| 186 => let val yytext=yymktext() in (*#line 43.54 "tiger.lex"*)update_current yypos ; Tokens.SYMBOLS (!current_pos , !lineNum) yytext (*#line 1199.1 "tiger.lex.sml"*)
  end
-| 189 => let val yytext=yymktext() in (*#line 41.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.IDENTIFIER (!current_pos , !lineNum) yytext (*#line 1198.1 "tiger.lex.sml"*)
+| 189 => let val yytext=yymktext() in (*#line 44.54 "tiger.lex"*)update_current yypos ; Tokens.IDENTIFIER (!current_pos , !lineNum) yytext (*#line 1201.1 "tiger.lex.sml"*)
  end
-| 191 => let val yytext=yymktext() in (*#line 42.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.ILLEGAL (!current_pos , !lineNum) yytext (*#line 1200.1 "tiger.lex.sml"*)
+| 191 => let val yytext=yymktext() in (*#line 45.54 "tiger.lex"*)update_current yypos ; Tokens.ILLEGAL (!current_pos , !lineNum) yytext (*#line 1203.1 "tiger.lex.sml"*)
  end
-| 22 => let val yytext=yymktext() in (*#line 34.54 "tiger.lex"*)lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.COMMENT (!current_pos , !lineNum) yytext (*#line 1202.1 "tiger.lex.sml"*)
+| 22 => let val yytext=yymktext() in (*#line 37.54 "tiger.lex"*)lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.COMMENT (!current_pos , !lineNum) yytext (*#line 1205.1 "tiger.lex.sml"*)
  end
-| 24 => let val yytext=yymktext() in (*#line 35.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.COMMENT (!current_pos , !lineNum) yytext(*#line 1204.1 "tiger.lex.sml"*)
+| 24 => let val yytext=yymktext() in (*#line 38.54 "tiger.lex"*)update_current yypos ; Tokens.COMMENT (!current_pos , !lineNum) yytext(*#line 1207.1 "tiger.lex.sml"*)
  end
-| 48 => let val yytext=yymktext() in (*#line 36.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.STRING (!current_pos , !lineNum) yytext (*#line 1206.1 "tiger.lex.sml"*)
+| 48 => let val yytext=yymktext() in (*#line 39.54 "tiger.lex"*)update_current yypos ; Tokens.STRING (!current_pos , !lineNum) yytext (*#line 1209.1 "tiger.lex.sml"*)
  end
-| 59 => let val yytext=yymktext() in (*#line 37.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ; Tokens.NUMERIC (!current_pos , !lineNum) yytext (*#line 1208.1 "tiger.lex.sml"*)
+| 59 => let val yytext=yymktext() in (*#line 40.54 "tiger.lex"*)update_current yypos ; Tokens.NUMERIC (!current_pos , !lineNum) yytext (*#line 1211.1 "tiger.lex.sml"*)
  end
-| 6 => let val yytext=yymktext() in (*#line 30.54 "tiger.lex"*)lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.NEWLINE (!current_pos , !lineNum) yytext(*#line 1210.1 "tiger.lex.sml"*)
+| 6 => let val yytext=yymktext() in (*#line 33.54 "tiger.lex"*)lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.NEWLINE (!current_pos , !lineNum) yytext(*#line 1213.1 "tiger.lex.sml"*)
  end
-| 9 => let val yytext=yymktext() in (*#line 31.54 "tiger.lex"*)current_pos := yypos - !pos_last_line ;YYBEGIN COMMENT ; comment_num := !comment_num + 1 ; Tokens.COMMENT (!current_pos , !lineNum) yytext(*#line 1212.1 "tiger.lex.sml"*)
+| 9 => let val yytext=yymktext() in (*#line 34.54 "tiger.lex"*)update_current yypos ;YYBEGIN COMMENT ; comment_num := !comment_num + 1 ; Tokens.COMMENT (!current_pos , !lineNum) yytext(*#line 1215.1 "tiger.lex.sml"*)
  end
 | _ => raise Internal.LexerError
 
