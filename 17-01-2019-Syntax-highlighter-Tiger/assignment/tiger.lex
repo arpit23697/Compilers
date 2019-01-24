@@ -1,11 +1,12 @@
 
 type pos = int
-val current_pos = ref 0;
-val pos_last_line = ref 1;
+val current_pos = ref 0
+val pos_last_line = ref 1
 type lexresult = Tokens.token
 val lineNum = ErrorMsg.lineNum
 val linePos = ErrorMsg.linePos
 fun err(p1,p2) = ErrorMsg.error p1
+val comment_num = ref 0
 
 fun eof() = let val pos = hd(!linePos) in Tokens.EOF(pos,!lineNum) ""  end
 
@@ -18,14 +19,21 @@ symbols = ","| ":"| ";"| "("| ")"| "["| "]"| "{"| "}"| "."| "+"| "-"| "*"| "/" |
 d=[0-9]+;
 
 escapes = [abfnrtv] | "num" | "xnum" | "\\" | "\"" | "character";
+startComment = "*/";
+endComment = "/*";
+commentSymbols = "*/" | "/*";
+
 
 %s COMMENT;
 
 %%
-
-<INITIAL>"/*".*"*/"                              => (current_pos := yypos - !pos_last_line ; Tokens.COMMENT (!current_pos , !lineNum) yytext );
-<INITIAL>"\""(\\{escapes} | [^\\"])*"\""         => (current_pos := yypos - !pos_last_line ; Tokens.STRING (!current_pos , !lineNum) yytext );
 <INITIAL>{newline}                               => (lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.NEWLINE (!current_pos , !lineNum) yytext);
+<INITIAL>"/*"                                    => (current_pos := yypos - !pos_last_line ;YYBEGIN COMMENT ; comment_num := !comment_num + 1 ; Tokens.COMMENT (!current_pos , !lineNum) yytext);
+<COMMENT>"/*"                                    => (current_pos := yypos - !pos_last_line ;comment_num := !comment_num + 1 ; Tokens.COMMENT (!current_pos , !lineNum) yytext);
+<COMMENT>"*/"                                    => (current_pos := yypos - !pos_last_line ;comment_num := !comment_num - 1 ; if (!comment_num > 0) then Tokens.COMMENT (!current_pos , !lineNum) yytext else (YYBEGIN INITIAL ; Tokens.COMMENT (!current_pos , !lineNum) yytext)  );
+<COMMENT>{newline}                               => (lineNum := !lineNum+1; linePos := yypos :: !linePos; pos_last_line := yypos ;Tokens.COMMENT (!current_pos , !lineNum) yytext );
+<COMMENT>.                                       => (current_pos := yypos - !pos_last_line ; Tokens.COMMENT (!current_pos , !lineNum) yytext);
+<INITIAL>"\""(\\{escapes} | [^\\"])*"\""         => (current_pos := yypos - !pos_last_line ; Tokens.STRING (!current_pos , !lineNum) yytext );
 <INITIAL>[-+]?{d}([.]{d})?([eE][-+]?{d})?        => (current_pos := yypos - !pos_last_line ; Tokens.NUMERIC (!current_pos , !lineNum) yytext );
 <INITIAL>{keywords}                              => (current_pos := yypos - !pos_last_line ; Tokens.KEYWORDS (!current_pos , !lineNum) yytext );
 <INITIAL>{ws}+                                   => (current_pos := yypos - !pos_last_line ; Tokens.WHITESPACE (!current_pos , !lineNum) yytext );
