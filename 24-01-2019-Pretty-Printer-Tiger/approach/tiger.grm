@@ -1,13 +1,10 @@
-(* This is the preamble where you can have arbitrary sml code. For us
-it is empty *)
-
 %%
 
 %eop EOF
 %pure
 %name Tiger
 
-(* The terminals or tokens of the language *)
+
 %term CONST of int
     | PLUS
     | MINUS
@@ -21,12 +18,6 @@ it is empty *)
        | PROGRAM of Ast.Expr list
 
 %noshift EOF
-(*
-
-Operator precedence and associativity. The %left says the operator is
-left associative and the precedence increase as you go down this list.
-
-*)
 
 %left PLUS MINUS  (* + and - are of same precedence *)
 %left MUL         (* higher than + and -            *)
@@ -39,7 +30,7 @@ left associative and the precedence increase as you go down this list.
 PROGRAM : EXPS                 ( EXPS )
 	| EXPS NEWLINE         ( EXPS )
 
-EXPS    : (* empty *)          ( []                  )
+EXPS    :          ( []                  )
 	| EXP NEWLINE EXPS     ( EXP :: EXPS         )
 
 EXP     : CONST                ( Ast.Const CONST     )

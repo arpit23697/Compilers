@@ -13,11 +13,12 @@ structure TigerParser = Join( structure ParserData = TigerLrVals.ParserData
 
 (* Build Lexers *)
 fun makeTigerLexer strm = TigerParser.makeLexer (fn n => TextIO.inputN(strm,n))
-
 val makeFileLexer      = makeTigerLexer o TextIO.openIn
 
-
 (* Parse command line and set a suitable lexer *)
+(* If takes the file name as the input and parses that file 
+ if no file name is mentioned as the input then it reads the input from the terminal
+ Otherwise it will give the error*)
 
 val thisLexer = case CommandLine.arguments() of
 		    []  => makeTigerLexer TextIO.stdIn
@@ -31,8 +32,8 @@ fun print_error (s,i:int,_) = TextIO.output(TextIO.stdErr,
 
 (* The portion of the code that does the actual compiling *)
 
-val (program,_) = ExprParser.parse (0,thisLexer,print_error,())
+val (program,_) = TigerParser.parse (0,thisLexer,print_error,())
 val executable  = Translate.compile program
-val _           = TextIO.output(TextIO.stdOut, Machine.programToString executable)
+(* val _           = TextIO.output(TextIO.stdOut, Machine.programToString executable) *)
 
 end
