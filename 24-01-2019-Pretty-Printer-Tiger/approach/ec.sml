@@ -34,6 +34,5 @@ fun print_error (s,i:int,_) = TextIO.output(TextIO.stdErr,
 
 val (program,_) = TigerParser.parse (0,thisLexer,print_error,())
 val executable  = Translate.compile program
-(* val _           = TextIO.output(TextIO.stdOut, Machine.programToString executable) *)
 
 end

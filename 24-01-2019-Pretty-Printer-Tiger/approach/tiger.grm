@@ -5,19 +5,26 @@
 %name Tiger
 
 
-%term CONST of int
+%term CONST of string
     | PLUS
     | MINUS
     | MUL
     | EOF
     | NEWLINE
+    | IF
+    | THEN
 
 (* The nonterminals of the language *)
 %nonterm EXP     of Ast.Expr
        | EXPS    of Ast.Expr list
        | PROGRAM of Ast.Expr list
+       | FOR_IF_THEN
 
 %noshift EOF
+
+
+
+
 
 %left PLUS MINUS  (* + and - are of same precedence *)
 %left MUL         (* higher than + and -            *)
@@ -31,9 +38,10 @@ PROGRAM : EXPS                 ( EXPS )
 	| EXPS NEWLINE         ( EXPS )
 
 EXPS    :          ( []                  )
-	| EXP NEWLINE EXPS     ( EXP :: EXPS         )
+	| EXP NEWLINE EXPS     ( EXP :: EXPS   )
 
 EXP     : CONST                ( Ast.Const CONST     )
         | EXP PLUS EXP         ( Ast.plus  EXP1 EXP2 )
 	| EXP MINUS EXP        ( Ast.minus EXP1 EXP2 )
 	| EXP MUL   EXP        ( Ast.mul   EXP1 EXP2 )
+    | IF EXP THEN EXP    (Ast.if_then EXP1 EXP2)
