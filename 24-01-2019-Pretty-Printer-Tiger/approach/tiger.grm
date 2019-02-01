@@ -5,7 +5,7 @@ it is empty *)
 
 %eop EOF
 %pure
-%name Expr
+%name Tiger
 
 (* The terminals or tokens of the language *)
 %term CONST of int

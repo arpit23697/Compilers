@@ -19,21 +19,7 @@ fun lineRange l r = "line " ^ l
 				  (*else ("line " ^ Int.toString l ^ "-" ^ Int.toString r)*)
 fun error (e,l,r) = TextIO.output(TextIO.stdErr, lineRange l r ^ ":" ^ e ^ "\n")
 
-(*
-   What to return at the end of the file. Note the extra (!pos,!pos). If you have
-   the clause
 
-   %term FOO of int  | BAR
-
-   The token module will have two functions which are
-
-   Token.FOO : int * pos * pos
-   Token.BAR : pos * pos
-
-   Here we give the eof function for the lexer which should return the
-   EOF terminal to the parser.
-
-*)
 fun eof   ()      = Tokens.EOF (!lineRef,!lineRef)
 
 (* Some helper functions during lexing *)
@@ -51,7 +37,7 @@ val toInt        = toSigned o String.explode
 val newlineCount = List.length o List.filter (fn x => x = #"\n") o String.explode
 
 %%
-%header (functor ExprLexFun(structure Tokens : Expr_TOKENS));
+%header (functor TigerLexFun(structure Tokens : Tiger_TOKENS));
 ws    = [\ \t];
 digit = [0-9]+;
 %%

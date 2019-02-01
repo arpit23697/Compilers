@@ -4,23 +4,23 @@ struct
 
 (* This three structure definitions are what the lexer and parser *)
 
-structure ExprLrVals = ExprLrValsFun(structure Token = LrParser.Token) (* Generate the LR values structure *)
-structure ExprLex    = ExprLexFun(structure Tokens = ExprLrVals.Tokens)
-structure ExprParser = Join( structure ParserData = ExprLrVals.ParserData
-			     structure Lex        = ExprLex
+structure TigerLrVals = TigerLrValsFun(structure Token = LrParser.Token) (* Generate the LR values structure *)
+structure TigerLex    = TigerLexFun(structure Tokens = TigerLrVals.Tokens)
+structure TigerParser = Join( structure ParserData = TigerLrVals.ParserData
+			     structure Lex        = TigerLex
 			     structure LrParser   = LrParser
 			   )
 
 (* Build Lexers *)
-fun makeExprLexer strm = ExprParser.makeLexer (fn n => TextIO.inputN(strm,n))
+fun makeTigerLexer strm = TigerParser.makeLexer (fn n => TextIO.inputN(strm,n))
 
-val makeFileLexer      = makeExprLexer o TextIO.openIn
+val makeFileLexer      = makeTigerLexer o TextIO.openIn
 
 
 (* Parse command line and set a suitable lexer *)
 
 val thisLexer = case CommandLine.arguments() of
-		    []  => makeExprLexer TextIO.stdIn
+		    []  => makeTigerLexer TextIO.stdIn
 		 |  [x] => makeFileLexer x
 		 |  _   => (TextIO.output(TextIO.stdErr, "usage: ec file"); OS.Process.exit OS.Process.failure)
 

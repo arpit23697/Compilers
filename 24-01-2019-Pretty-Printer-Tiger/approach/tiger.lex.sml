@@ -1,4 +1,4 @@
-(*#line 54.10 "tiger.lex"*)functor ExprLexFun(structure Tokens : Expr_TOKENS)(*#line 1.1 "tiger.lex.sml"*)
+(*#line 40.10 "tiger.lex"*)functor TigerLexFun(structure Tokens : Tiger_TOKENS)(*#line 1.1 "tiger.lex.sml"*)
 =
    struct
     structure UserDeclarations =
@@ -24,21 +24,7 @@ fun lineRange l r = "line " ^ l
 				  (*else ("line " ^ Int.toString l ^ "-" ^ Int.toString r)*)
 fun error (e,l,r) = TextIO.output(TextIO.stdErr, lineRange l r ^ ":" ^ e ^ "\n")
 
-(*
-   What to return at the end of the file. Note the extra (!pos,!pos). If you have
-   the clause
 
-   %term FOO of int  | BAR
-
-   The token module will have two functions which are
-
-   Token.FOO : int * pos * pos
-   Token.BAR : pos * pos
-
-   Here we give the eof function for the lexer which should return the
-   EOF terminal to the parser.
-
-*)
 fun eof   ()      = Tokens.EOF (!lineRef,!lineRef)
 
 (* Some helper functions during lexing *)
@@ -55,7 +41,7 @@ val toInt        = toSigned o String.explode
 
 val newlineCount = List.length o List.filter (fn x => x = #"\n") o String.explode
 
-(*#line 58.1 "tiger.lex.sml"*)
+(*#line 44.1 "tiger.lex.sml"*)
 end (* end of user routines *)
 exception LexError (* raised if illegal leaf action tried *)
 structure Internal =
@@ -195,22 +181,22 @@ let fun continue() = lex() in
 
 			(* Application actions *)
 
-  10 => let val yytext=yymktext() in (*#line 60.19 "tiger.lex"*) let val old = !lineRef
+  10 => let val yytext=yymktext() in (*#line 46.19 "tiger.lex"*) let val old = !lineRef
 		   in updateLine (newlineCount yytext); Tokens.NEWLINE (old, !lineRef)
 		   end
-		 (*#line 201.1 "tiger.lex.sml"*)
+		 (*#line 187.1 "tiger.lex.sml"*)
  end
-| 15 => let val yytext=yymktext() in (*#line 64.19 "tiger.lex"*) Tokens.CONST (toInt yytext, !lineRef, !lineRef) (*#line 203.1 "tiger.lex.sml"*)
+| 15 => let val yytext=yymktext() in (*#line 50.19 "tiger.lex"*) Tokens.CONST (toInt yytext, !lineRef, !lineRef) (*#line 189.1 "tiger.lex.sml"*)
  end
-| 17 => ((*#line 65.19 "tiger.lex"*) Tokens.PLUS  (!lineRef,!lineRef) (*#line 205.1 "tiger.lex.sml"*)
+| 17 => ((*#line 51.19 "tiger.lex"*) Tokens.PLUS  (!lineRef,!lineRef) (*#line 191.1 "tiger.lex.sml"*)
 )
-| 19 => ((*#line 66.19 "tiger.lex"*) Tokens.MINUS  (!lineRef,!lineRef) (*#line 207.1 "tiger.lex.sml"*)
+| 19 => ((*#line 52.19 "tiger.lex"*) Tokens.MINUS  (!lineRef,!lineRef) (*#line 193.1 "tiger.lex.sml"*)
 )
-| 21 => ((*#line 67.19 "tiger.lex"*) Tokens.MUL (!lineRef,!lineRef) (*#line 209.1 "tiger.lex.sml"*)
+| 21 => ((*#line 53.19 "tiger.lex"*) Tokens.MUL (!lineRef,!lineRef) (*#line 195.1 "tiger.lex.sml"*)
 )
-| 3 => ((*#line 58.19 "tiger.lex"*) updateLine 1; lex ()(*#line 211.1 "tiger.lex.sml"*)
+| 3 => ((*#line 44.19 "tiger.lex"*) updateLine 1; lex ()(*#line 197.1 "tiger.lex.sml"*)
 )
-| 6 => ((*#line 59.19 "tiger.lex"*) lex() (*#line 213.1 "tiger.lex.sml"*)
+| 6 => ((*#line 45.19 "tiger.lex"*) lex() (*#line 199.1 "tiger.lex.sml"*)
 )
 | _ => raise Internal.LexerError
 
