@@ -8,11 +8,11 @@ structure ParserData=
 struct
 structure Header = 
 struct
-(*#line 1.2 "expr.grm"*)(* This is the preamble where you can have arbitrary sml code. For us
+(*#line 1.2 "tiger.grm"*)(* This is the preamble where you can have arbitrary sml code. For us
 it is empty *)
 
 
-(*#line 15.1 "expr.grm.sml"*)
+(*#line 15.1 "tiger.grm.sml"*)
 end
 structure LrTable = Token.LrTable
 structure Token = Token
@@ -154,35 +154,35 @@ val actions =
 fn (i392,defaultPos,stack,
     (()):arg) =>
 case (i392,stack)
-of  ( 0, ( ( _, ( MlyValue.EXPS EXPS, EXPS1left, EXPS1right)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 40.33 "expr.grm"*) EXPS (*#line 157.1 "expr.grm.sml"*)
+of  ( 0, ( ( _, ( MlyValue.EXPS EXPS, EXPS1left, EXPS1right)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 39.33 "tiger.grm"*) EXPS (*#line 157.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 2, ( result, EXPS1left, EXPS1right), rest671)
 end
-|  ( 1, ( ( _, ( _, _, NEWLINE1right)) :: ( _, ( MlyValue.EXPS EXPS, EXPS1left, _)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 41.26 "expr.grm"*) EXPS (*#line 161.1 "expr.grm.sml"*)
+|  ( 1, ( ( _, ( _, _, NEWLINE1right)) :: ( _, ( MlyValue.EXPS EXPS, EXPS1left, _)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 40.26 "tiger.grm"*) EXPS (*#line 161.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 2, ( result, EXPS1left, NEWLINE1right), rest671)
 end
-|  ( 2, ( rest671)) => let val  result = MlyValue.EXPS ((*#line 43.33 "expr.grm"*) []                  (*#line 165.1 "expr.grm.sml"*)
+|  ( 2, ( rest671)) => let val  result = MlyValue.EXPS ((*#line 42.33 "tiger.grm"*) []                  (*#line 165.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, defaultPos, defaultPos), rest671)
 end
-|  ( 3, ( ( _, ( MlyValue.EXPS EXPS, _, EXPS1right)) :: _ :: ( _, ( MlyValue.EXP EXP, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXPS ((*#line 44.26 "expr.grm"*) EXP :: EXPS         (*#line 169.1 "expr.grm.sml"*)
+|  ( 3, ( ( _, ( MlyValue.EXPS EXPS, _, EXPS1right)) :: _ :: ( _, ( MlyValue.EXP EXP, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXPS ((*#line 43.26 "tiger.grm"*) EXP :: EXPS         (*#line 169.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, EXP1left, EXPS1right), rest671)
 end
-|  ( 4, ( ( _, ( MlyValue.CONST CONST, CONST1left, CONST1right)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 46.33 "expr.grm"*) Ast.Const CONST     (*#line 173.1 "expr.grm.sml"*)
+|  ( 4, ( ( _, ( MlyValue.CONST CONST, CONST1left, CONST1right)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 45.33 "tiger.grm"*) Ast.Const CONST     (*#line 173.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, CONST1left, CONST1right), rest671)
 end
-|  ( 5, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 47.33 "expr.grm"*) Ast.plus  EXP1 EXP2 (*#line 177.1 "expr.grm.sml"*)
+|  ( 5, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 46.33 "tiger.grm"*) Ast.plus  EXP1 EXP2 (*#line 177.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, EXP1left, EXP2right), rest671)
 end
-|  ( 6, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 48.26 "expr.grm"*) Ast.minus EXP1 EXP2 (*#line 181.1 "expr.grm.sml"*)
+|  ( 6, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 47.26 "tiger.grm"*) Ast.minus EXP1 EXP2 (*#line 181.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, EXP1left, EXP2right), rest671)
 end
-|  ( 7, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 49.26 "expr.grm"*) Ast.mul   EXP1 EXP2 (*#line 185.1 "expr.grm.sml"*)
+|  ( 7, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 48.26 "tiger.grm"*) Ast.mul   EXP1 EXP2 (*#line 185.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, EXP1left, EXP2right), rest671)
 end

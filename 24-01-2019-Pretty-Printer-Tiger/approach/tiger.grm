@@ -4,7 +4,6 @@ it is empty *)
 %%
 
 %eop EOF
-%verbose
 %pure
 %name Expr
 

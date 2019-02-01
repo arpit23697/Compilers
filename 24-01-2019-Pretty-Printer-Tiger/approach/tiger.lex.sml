@@ -1,9 +1,9 @@
-(*#line 54.10 "expr.lex"*)functor ExprLexFun(structure Tokens : Expr_TOKENS)(*#line 1.1 "expr.lex.sml"*)
+(*#line 54.10 "tiger.lex"*)functor ExprLexFun(structure Tokens : Expr_TOKENS)(*#line 1.1 "tiger.lex.sml"*)
 =
    struct
     structure UserDeclarations =
       struct
-(*#line 1.1 "expr.lex"*)(* Internal datatypes and functions required by the lexer *)
+(*#line 1.1 "tiger.lex"*)(* Internal datatypes and functions required by the lexer *)
 (* Keeping track of position in source                    *)
 
 type lineNo            = int
@@ -55,7 +55,7 @@ val toInt        = toSigned o String.explode
 
 val newlineCount = List.length o List.filter (fn x => x = #"\n") o String.explode
 
-(*#line 58.1 "expr.lex.sml"*)
+(*#line 58.1 "tiger.lex.sml"*)
 end (* end of user routines *)
 exception LexError (* raised if illegal leaf action tried *)
 structure Internal =
@@ -195,22 +195,22 @@ let fun continue() = lex() in
 
 			(* Application actions *)
 
-  10 => let val yytext=yymktext() in (*#line 60.19 "expr.lex"*) let val old = !lineRef
+  10 => let val yytext=yymktext() in (*#line 60.19 "tiger.lex"*) let val old = !lineRef
 		   in updateLine (newlineCount yytext); Tokens.NEWLINE (old, !lineRef)
 		   end
-		 (*#line 201.1 "expr.lex.sml"*)
+		 (*#line 201.1 "tiger.lex.sml"*)
  end
-| 15 => let val yytext=yymktext() in (*#line 64.19 "expr.lex"*) Tokens.CONST (toInt yytext, !lineRef, !lineRef) (*#line 203.1 "expr.lex.sml"*)
+| 15 => let val yytext=yymktext() in (*#line 64.19 "tiger.lex"*) Tokens.CONST (toInt yytext, !lineRef, !lineRef) (*#line 203.1 "tiger.lex.sml"*)
  end
-| 17 => ((*#line 65.19 "expr.lex"*) Tokens.PLUS  (!lineRef,!lineRef) (*#line 205.1 "expr.lex.sml"*)
+| 17 => ((*#line 65.19 "tiger.lex"*) Tokens.PLUS  (!lineRef,!lineRef) (*#line 205.1 "tiger.lex.sml"*)
 )
-| 19 => ((*#line 66.19 "expr.lex"*) Tokens.MINUS  (!lineRef,!lineRef) (*#line 207.1 "expr.lex.sml"*)
+| 19 => ((*#line 66.19 "tiger.lex"*) Tokens.MINUS  (!lineRef,!lineRef) (*#line 207.1 "tiger.lex.sml"*)
 )
-| 21 => ((*#line 67.19 "expr.lex"*) Tokens.MUL (!lineRef,!lineRef) (*#line 209.1 "expr.lex.sml"*)
+| 21 => ((*#line 67.19 "tiger.lex"*) Tokens.MUL (!lineRef,!lineRef) (*#line 209.1 "tiger.lex.sml"*)
 )
-| 3 => ((*#line 58.19 "expr.lex"*) updateLine 1; lex ()(*#line 211.1 "expr.lex.sml"*)
+| 3 => ((*#line 58.19 "tiger.lex"*) updateLine 1; lex ()(*#line 211.1 "tiger.lex.sml"*)
 )
-| 6 => ((*#line 59.19 "expr.lex"*) lex() (*#line 213.1 "expr.lex.sml"*)
+| 6 => ((*#line 59.19 "tiger.lex"*) lex() (*#line 213.1 "tiger.lex.sml"*)
 )
 | _ => raise Internal.LexerError
 
