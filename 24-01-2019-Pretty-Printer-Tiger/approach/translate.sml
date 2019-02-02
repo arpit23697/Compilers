@@ -35,7 +35,7 @@ fun compileExpr  (Ast.expression x) = (print_expression_indent x ; print("\n"))
     | compileExpr (Ast.IF_THEN ( x , y)  ) = (print("IF (")  ; 
                                           print_condition x; print (" )") ;
                                           print("\nTHEN\n") ;
-                                        indent := !indent + 1 ; print_expression_indent y; indent := !indent -1 ;
+                                        indent := !indent + 1 ; compileExpr y; indent := !indent -1 ;
                                          print("\n") )
     | compileExpr (Ast.assignment (x , y)) = ( print_tabs_real () ; print_identifier x ; print(" := ") ; print_expression y; print("\n") )
 

@@ -70,7 +70,7 @@ CONDITION : EXP GT EXP       (Ast.greater EXP1 EXP2 )
 
 identifier : ID                 ( Ast.identify ID)
 
-STATEMENT : IF CONDITION THEN EXP     (Ast.if_then CONDITION EXP )
+STATEMENT : IF CONDITION THEN STATEMENT     (Ast.if_then CONDITION STATEMENT )
           | identifier ASSIGN EXP             (Ast.assign identifier EXP)
 
 

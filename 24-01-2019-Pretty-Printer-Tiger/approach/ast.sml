@@ -24,10 +24,7 @@ datatype iden = ID of string
 
 datatype program_string = expression of Expr
                        | assignment of (iden * Expr)
-                       |  IF_THEN of (condition * Expr)
-
-
-
+                       |  IF_THEN of (condition * program_string)
 
 (* Conversion to strings *)
 
