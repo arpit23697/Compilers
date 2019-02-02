@@ -43,10 +43,10 @@ val s = [
 \\000"
 ),
  (1, 
-"\000\000\000\000\000\000\000\000\000\017\018\000\000\000\000\000\
+"\000\000\000\000\000\000\000\000\000\020\021\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\017\000\000\000\000\000\000\000\000\000\016\015\000\014\000\000\
-\\012\012\012\012\012\012\012\012\012\012\000\000\011\010\009\000\
+\\020\000\000\000\000\000\000\000\019\018\017\016\000\015\000\000\
+\\013\013\013\013\013\013\013\013\013\013\000\012\011\010\009\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\007\000\000\000\000\000\000\
@@ -97,21 +97,21 @@ val s = [
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000"
 ),
- (12, 
+ (13, 
 "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\013\013\013\013\013\013\013\013\013\013\000\000\000\000\000\000\
+\\014\014\014\014\014\014\014\014\014\014\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000"
 ),
- (17, 
-"\000\000\000\000\000\000\000\000\000\017\000\000\000\000\000\000\
+ (20, 
+"\000\000\000\000\000\000\000\000\000\020\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\017\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\020\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -139,12 +139,15 @@ in Vector.fromList(map g
 {fin = [(N 25)], trans = 0},
 {fin = [(N 29)], trans = 0},
 {fin = [(N 27)], trans = 0},
-{fin = [(N 17)], trans = 12},
-{fin = [(N 17)], trans = 12},
+{fin = [(N 31)], trans = 0},
+{fin = [(N 17)], trans = 13},
+{fin = [(N 17)], trans = 13},
 {fin = [(N 21)], trans = 0},
 {fin = [(N 19)], trans = 0},
 {fin = [(N 23)], trans = 0},
-{fin = [(N 4)], trans = 17},
+{fin = [(N 35)], trans = 0},
+{fin = [(N 33)], trans = 0},
+{fin = [(N 4)], trans = 20},
 {fin = [(N 1)], trans = 0}])
 end
 structure StartStates =
@@ -188,27 +191,33 @@ let fun continue() = lex() in
 
 			(* Application actions *)
 
-  1 => ((*#line 26.14 "tiger.lex"*) updateLine 1; Tokens.NEWLINE (!lineRef , !lineRef) (*#line 191.1 "tiger.lex.sml"*)
+  1 => ((*#line 26.14 "tiger.lex"*) updateLine 1; lex() (*#line 194.1 "tiger.lex.sml"*)
 )
-| 12 => ((*#line 29.21 "tiger.lex"*)Tokens.THEN (!lineRef , !lineRef)(*#line 193.1 "tiger.lex.sml"*)
+| 12 => ((*#line 29.21 "tiger.lex"*)Tokens.THEN (!lineRef , !lineRef)(*#line 196.1 "tiger.lex.sml"*)
 )
-| 17 => let val yytext=yymktext() in (*#line 30.19 "tiger.lex"*) Tokens.CONST (  yytext, !lineRef, !lineRef) (*#line 195.1 "tiger.lex.sml"*)
+| 17 => let val yytext=yymktext() in (*#line 30.19 "tiger.lex"*) Tokens.CONST (  yytext, !lineRef, !lineRef) (*#line 198.1 "tiger.lex.sml"*)
  end
-| 19 => ((*#line 31.19 "tiger.lex"*) Tokens.PLUS  (!lineRef,!lineRef) (*#line 197.1 "tiger.lex.sml"*)
+| 19 => ((*#line 31.19 "tiger.lex"*) Tokens.PLUS  (!lineRef,!lineRef) (*#line 200.1 "tiger.lex.sml"*)
 )
-| 21 => ((*#line 32.19 "tiger.lex"*) Tokens.MINUS  (!lineRef,!lineRef) (*#line 199.1 "tiger.lex.sml"*)
+| 21 => ((*#line 32.19 "tiger.lex"*) Tokens.MINUS  (!lineRef,!lineRef) (*#line 202.1 "tiger.lex.sml"*)
 )
-| 23 => ((*#line 33.19 "tiger.lex"*) Tokens.MUL (!lineRef,!lineRef) (*#line 201.1 "tiger.lex.sml"*)
+| 23 => ((*#line 33.19 "tiger.lex"*) Tokens.MUL (!lineRef,!lineRef) (*#line 204.1 "tiger.lex.sml"*)
 )
-| 25 => ((*#line 34.19 "tiger.lex"*)Tokens.GT (!lineRef , !lineRef)(*#line 203.1 "tiger.lex.sml"*)
+| 25 => ((*#line 34.19 "tiger.lex"*)Tokens.GT (!lineRef , !lineRef)(*#line 206.1 "tiger.lex.sml"*)
 )
-| 27 => ((*#line 35.19 "tiger.lex"*)Tokens.LT (!lineRef , !lineRef)(*#line 205.1 "tiger.lex.sml"*)
+| 27 => ((*#line 35.19 "tiger.lex"*)Tokens.LT (!lineRef , !lineRef)(*#line 208.1 "tiger.lex.sml"*)
 )
-| 29 => ((*#line 36.19 "tiger.lex"*)Tokens.EQ (!lineRef , !lineRef)(*#line 207.1 "tiger.lex.sml"*)
+| 29 => ((*#line 36.19 "tiger.lex"*)Tokens.EQ (!lineRef , !lineRef)(*#line 210.1 "tiger.lex.sml"*)
 )
-| 4 => ((*#line 27.19 "tiger.lex"*) lex() (*#line 209.1 "tiger.lex.sml"*)
+| 31 => ((*#line 37.19 "tiger.lex"*)Tokens.SEMICOLON (!lineRef , !lineRef)(*#line 212.1 "tiger.lex.sml"*)
 )
-| 7 => ((*#line 28.21 "tiger.lex"*)Tokens.IF (!lineRef , !lineRef)(*#line 211.1 "tiger.lex.sml"*)
+| 33 => ((*#line 38.19 "tiger.lex"*)Tokens.LPARA (!lineRef , !lineRef)(*#line 214.1 "tiger.lex.sml"*)
+)
+| 35 => ((*#line 39.19 "tiger.lex"*)Tokens.RPARA (!lineRef , !lineRef)(*#line 216.1 "tiger.lex.sml"*)
+)
+| 4 => ((*#line 27.19 "tiger.lex"*) lex() (*#line 218.1 "tiger.lex.sml"*)
+)
+| 7 => ((*#line 28.21 "tiger.lex"*)Tokens.IF (!lineRef , !lineRef)(*#line 220.1 "tiger.lex.sml"*)
 )
 | _ => raise Internal.LexerError
 

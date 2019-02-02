@@ -7,6 +7,7 @@ datatype BinOp = Plus
 
 datatype Expr  = Const of string
 	       | Op    of Expr * BinOp * Expr
+         | Brackets of Expr
 
 
 datatype condition = GT of (Expr * Expr)
@@ -30,6 +31,7 @@ fun minus a b = Op (a, Minus, b)
 fun mul   a b = Op (a, Mul, b)
 fun if_then a b = IF_THEN (a , b)
 fun expression_to_programString a = expression(a)
+fun brackets a = Brackets (a)
 
 
 fun greater a b = GT (a , b)

@@ -23,7 +23,7 @@ ws    = [\ \t];
 digit = [0-9]+;
 
 %%
-\n       => ( updateLine 1; Tokens.NEWLINE (!lineRef , !lineRef) );
+\n       => ( updateLine 1; lex() );
 {ws}+         => ( lex() );
 "if"            => (Tokens.IF (!lineRef , !lineRef));
 "then"          => (Tokens.THEN (!lineRef , !lineRef));
@@ -34,3 +34,6 @@ digit = [0-9]+;
 ">"           => (Tokens.GT (!lineRef , !lineRef));
 "<"           => (Tokens.LT (!lineRef , !lineRef));
 "="           => (Tokens.EQ (!lineRef , !lineRef));
+";"           => (Tokens.SEMICOLON (!lineRef , !lineRef));
+"("           => (Tokens.LPARA (!lineRef , !lineRef));
+")"           => (Tokens.RPARA (!lineRef , !lineRef));
