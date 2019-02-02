@@ -16,9 +16,16 @@
     | GT
     | LT 
     | EQ
+    | EQ_LT
+    | EQ_GT
+    | TRUE
+    | FALSE
     | SEMICOLON
     | LPARA
     | RPARA
+    | ID of string
+    | ASSIGN
+
 
 
 
@@ -28,6 +35,7 @@
         | PROGRAM of Ast.program_string list
         | STATEMENT of Ast.program_string
         | CONDITION of Ast.condition
+        | identifier of Ast.iden
 
 %noshift EOF
 
@@ -54,9 +62,17 @@ EXPS    :                  ( [] )
 CONDITION : EXP GT EXP       (Ast.greater EXP1 EXP2 )
             | EXP LT EXP      (Ast.lesser EXP1 EXP2)
             | EXP EQ EXP      (Ast.equal EXP1 EXP2)
+            | EXP EQ_LT EXP    (Ast.equal_less EXP1 EXP2)
+            | EXP EQ_GT EXP    (Ast.equal_greater EXP1 EXP2)
+            | TRUE             (Ast.true_ ())
+            | FALSE             (Ast.false_ ())
+            | LPARA CONDITION RPARA  (Ast.brackets_condition CONDITION)
 
+identifier : ID                 ( Ast.identify ID)
 
 STATEMENT : IF CONDITION THEN EXP     (Ast.if_then CONDITION EXP )
+          | identifier ASSIGN EXP             (Ast.assign identifier EXP)
+
 
 EXP     : CONST                ( Ast.Const CONST     )
         | EXP PLUS EXP         ( Ast.plus  EXP1 EXP2 )

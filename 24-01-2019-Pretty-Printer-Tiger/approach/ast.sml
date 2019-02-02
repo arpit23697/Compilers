@@ -13,9 +13,19 @@ datatype Expr  = Const of string
 datatype condition = GT of (Expr * Expr)
                     | LT of (Expr * Expr)
                     | EQ of (Expr * Expr)
+                    | EQ_LT of (Expr * Expr)
+                    | EQ_GT of (Expr * Expr)
+                    | TRUE
+                    | FALSE
+                    | bracket_condition of (condition)
+
+datatype iden = ID of string
+
 
 datatype program_string = expression of Expr
+                       | assignment of (iden * Expr)
                        |  IF_THEN of (condition * Expr)
+
 
 
 
@@ -37,7 +47,15 @@ fun brackets a = Brackets (a)
 fun greater a b = GT (a , b)
 fun lesser a b = LT (a , b)
 fun equal  a b = EQ (a , b)
+fun equal_less a b = EQ_LT (a , b)
+fun equal_greater a b = EQ_GT (a , b)
+fun true_ () = TRUE
+fun false_ () = FALSE
+fun brackets_condition a = bracket_condition (a)
 
+
+fun assign a b = assignment (a , b)
+fun identify a = ID (a)
 
 
 end

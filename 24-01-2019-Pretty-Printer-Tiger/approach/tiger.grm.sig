@@ -2,9 +2,15 @@ signature Tiger_TOKENS =
 sig
 type ('a,'b) token
 type svalue
+val ASSIGN:  'a * 'a -> (svalue,'a) token
+val ID: (string) *  'a * 'a -> (svalue,'a) token
 val RPARA:  'a * 'a -> (svalue,'a) token
 val LPARA:  'a * 'a -> (svalue,'a) token
 val SEMICOLON:  'a * 'a -> (svalue,'a) token
+val FALSE:  'a * 'a -> (svalue,'a) token
+val TRUE:  'a * 'a -> (svalue,'a) token
+val EQ_GT:  'a * 'a -> (svalue,'a) token
+val EQ_LT:  'a * 'a -> (svalue,'a) token
 val EQ:  'a * 'a -> (svalue,'a) token
 val LT:  'a * 'a -> (svalue,'a) token
 val GT:  'a * 'a -> (svalue,'a) token

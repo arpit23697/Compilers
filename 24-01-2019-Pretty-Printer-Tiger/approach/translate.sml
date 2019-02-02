@@ -22,8 +22,13 @@ fun print_expression_indent x = (print_tabs_real () ; print_expression x)
 fun print_condition (Ast.GT (x , y)) = (print_expression x ; print(" > ") ; print_expression y)
     | print_condition (Ast.LT (x , y)) = (print_expression x ; print(" < ") ; print_expression y)
     | print_condition (Ast.EQ (x , y)) = (print_expression x ; print(" = ") ; print_expression y)
+    | print_condition (Ast.EQ_LT (x , y)) = (print_expression x ; print(" <= ") ; print_expression y)
+    | print_condition (Ast.EQ_GT (x , y)) = (print_expression x ; print(" >= ") ; print_expression y)
+    | print_condition (Ast.TRUE ) = (print (" true "))
+    | print_condition (Ast.FALSE) = (print (" false "))
+    | print_condition (Ast.bracket_condition x) = (print("( ") ; print_condition x ; print(" )")) 
 
-
+fun print_identifier (Ast.ID x) = print(x)
 
 
 fun compileExpr  (Ast.expression x) = (print_expression_indent x ; print("\n"))
@@ -32,6 +37,7 @@ fun compileExpr  (Ast.expression x) = (print_expression_indent x ; print("\n"))
                                           print("\nTHEN\n") ;
                                         indent := !indent + 1 ; print_expression_indent y; indent := !indent -1 ;
                                          print("\n") )
+    | compileExpr (Ast.assignment (x , y)) = ( print_tabs_real () ; print_identifier x ; print(" := ") ; print_expression y; print("\n") )
 
 
 fun compile []        = ()
