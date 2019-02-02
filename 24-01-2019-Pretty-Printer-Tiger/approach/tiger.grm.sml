@@ -18,53 +18,66 @@ val table=let val actionRows =
 "\
 \\001\000\001\000\007\000\000\000\
 \\001\000\002\000\013\000\003\000\012\000\004\000\011\000\006\000\010\000\000\000\
-\\001\000\002\000\013\000\003\000\012\000\004\000\011\000\008\000\020\000\000\000\
+\\001\000\002\000\013\000\003\000\012\000\004\000\011\000\009\000\024\000\
+\\010\000\023\000\011\000\022\000\000\000\
 \\001\000\005\000\000\000\000\000\
 \\001\000\006\000\008\000\000\000\
-\\023\000\006\000\009\000\000\000\
-\\024\000\000\000\
-\\025\000\001\000\007\000\007\000\006\000\000\000\
-\\026\000\000\000\
-\\027\000\000\000\
-\\028\000\002\000\013\000\003\000\012\000\004\000\011\000\000\000\
-\\029\000\000\000\
-\\030\000\004\000\011\000\000\000\
-\\031\000\004\000\011\000\000\000\
-\\032\000\000\000\
+\\001\000\008\000\021\000\000\000\
+\\030\000\006\000\009\000\000\000\
+\\031\000\000\000\
+\\032\000\001\000\007\000\007\000\006\000\000\000\
+\\033\000\000\000\
+\\034\000\000\000\
+\\035\000\002\000\013\000\003\000\012\000\004\000\011\000\000\000\
+\\036\000\002\000\013\000\003\000\012\000\004\000\011\000\000\000\
+\\037\000\002\000\013\000\003\000\012\000\004\000\011\000\000\000\
+\\038\000\002\000\013\000\003\000\012\000\004\000\011\000\000\000\
+\\039\000\000\000\
+\\040\000\004\000\011\000\000\000\
+\\041\000\004\000\011\000\000\000\
+\\042\000\000\000\
 \"
 val actionRowNumbers =
-"\007\000\004\000\005\000\001\000\
-\\000\000\011\000\007\000\006\000\
-\\007\000\000\000\000\000\000\000\
-\\002\000\009\000\008\000\014\000\
-\\013\000\012\000\000\000\010\000\
-\\003\000"
+"\008\000\004\000\006\000\001\000\
+\\000\000\015\000\008\000\007\000\
+\\008\000\000\000\000\000\000\000\
+\\005\000\002\000\010\000\009\000\
+\\018\000\017\000\016\000\000\000\
+\\000\000\000\000\000\000\014\000\
+\\013\000\012\000\011\000\003\000"
 val gotoT =
 "\
-\\001\000\003\000\002\000\002\000\003\000\020\000\004\000\001\000\000\000\
+\\001\000\003\000\002\000\002\000\003\000\027\000\004\000\001\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
-\\001\000\012\000\000\000\
-\\000\000\
-\\001\000\003\000\002\000\013\000\004\000\001\000\000\000\
+\\001\000\013\000\005\000\012\000\000\000\
 \\000\000\
 \\001\000\003\000\002\000\014\000\004\000\001\000\000\000\
-\\001\000\015\000\000\000\
+\\000\000\
+\\001\000\003\000\002\000\015\000\004\000\001\000\000\000\
 \\001\000\016\000\000\000\
 \\001\000\017\000\000\000\
+\\001\000\018\000\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
 \\000\000\
-\\001\000\019\000\000\000\
+\\000\000\
+\\001\000\023\000\000\000\
+\\001\000\024\000\000\000\
+\\001\000\025\000\000\000\
+\\001\000\026\000\000\000\
+\\000\000\
+\\000\000\
+\\000\000\
 \\000\000\
 \\000\000\
 \"
-val numstates = 21
-val numrules = 10
+val numstates = 28
+val numrules = 13
 val s = ref "" and index = ref 0
 val string_to_int = fn () => 
 let val i = !index
@@ -126,7 +139,7 @@ type pos = int
 type arg = unit
 structure MlyValue = 
 struct
-datatype svalue = VOID | ntVOID of unit | CONST of  (string) | STATEMENT of  (Ast.program_string) | PROGRAM of  (Ast.program_string list) | EXPS of  (Ast.program_string list) | EXP of  (Ast.Expr)
+datatype svalue = VOID | ntVOID of unit | CONST of  (string) | CONDITION of  (Ast.condition) | STATEMENT of  (Ast.program_string) | PROGRAM of  (Ast.program_string list) | EXPS of  (Ast.program_string list) | EXP of  (Ast.Expr)
 end
 type svalue = MlyValue.svalue
 type result = Ast.program_string list
@@ -151,13 +164,16 @@ fn (T 0) => "CONST"
   | (T 5) => "NEWLINE"
   | (T 6) => "IF"
   | (T 7) => "THEN"
+  | (T 8) => "GT"
+  | (T 9) => "LT"
+  | (T 10) => "EQ"
   | _ => "bogus-term"
 local open Header in
 val errtermvalue=
 fn _ => MlyValue.VOID
 end
 val terms : term list = nil
- $$ (T 7) $$ (T 6) $$ (T 5) $$ (T 4) $$ (T 3) $$ (T 2) $$ (T 1)end
+ $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7) $$ (T 6) $$ (T 5) $$ (T 4) $$ (T 3) $$ (T 2) $$ (T 1)end
 structure Actions =
 struct 
 exception mlyAction of int
@@ -166,43 +182,55 @@ val actions =
 fn (i392,defaultPos,stack,
     (()):arg) =>
 case (i392,stack)
-of  ( 0, ( ( _, ( MlyValue.EXPS EXPS, EXPS1left, EXPS1right)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 37.29 "tiger.grm"*) EXPS (*#line 169.1 "tiger.grm.sml"*)
+of  ( 0, ( ( _, ( MlyValue.EXPS EXPS, EXPS1left, EXPS1right)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 41.29 "tiger.grm"*) EXPS (*#line 185.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 2, ( result, EXPS1left, EXPS1right), rest671)
 end
-|  ( 1, ( ( _, ( _, _, NEWLINE1right)) :: ( _, ( MlyValue.EXPS EXPS, EXPS1left, _)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 38.26 "tiger.grm"*) EXPS (*#line 173.1 "tiger.grm.sml"*)
+|  ( 1, ( ( _, ( _, _, NEWLINE1right)) :: ( _, ( MlyValue.EXPS EXPS, EXPS1left, _)) :: rest671)) => let val  result = MlyValue.PROGRAM ((*#line 42.26 "tiger.grm"*) EXPS (*#line 189.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 2, ( result, EXPS1left, NEWLINE1right), rest671)
 end
-|  ( 2, ( rest671)) => let val  result = MlyValue.EXPS ((*#line 40.29 "tiger.grm"*) [] (*#line 177.1 "tiger.grm.sml"*)
+|  ( 2, ( rest671)) => let val  result = MlyValue.EXPS ((*#line 44.29 "tiger.grm"*) [] (*#line 193.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, defaultPos, defaultPos), rest671)
 end
-|  ( 3, ( ( _, ( MlyValue.EXPS EXPS, _, EXPS1right)) :: _ :: ( _, ( MlyValue.EXP EXP, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXPS ((*#line 41.26 "tiger.grm"*) Ast.expression_to_programString EXP :: EXPS   (*#line 181.1 "tiger.grm.sml"*)
+|  ( 3, ( ( _, ( MlyValue.EXPS EXPS, _, EXPS1right)) :: _ :: ( _, ( MlyValue.EXP EXP, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXPS ((*#line 45.26 "tiger.grm"*) Ast.expression_to_programString EXP :: EXPS   (*#line 197.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, EXP1left, EXPS1right), rest671)
 end
-|  ( 4, ( ( _, ( MlyValue.EXPS EXPS, _, EXPS1right)) :: _ :: ( _, ( MlyValue.STATEMENT STATEMENT, STATEMENT1left, _)) :: rest671)) => let val  result = MlyValue.EXPS ((*#line 42.41 "tiger.grm"*)STATEMENT :: EXPS(*#line 185.1 "tiger.grm.sml"*)
+|  ( 4, ( ( _, ( MlyValue.EXPS EXPS, _, EXPS1right)) :: _ :: ( _, ( MlyValue.STATEMENT STATEMENT, STATEMENT1left, _)) :: rest671)) => let val  result = MlyValue.EXPS ((*#line 46.41 "tiger.grm"*)STATEMENT :: EXPS(*#line 201.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, STATEMENT1left, EXPS1right), rest671)
 end
-|  ( 5, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, _, _)) :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.STATEMENT ((*#line 44.34 "tiger.grm"*)Ast.if_then EXP1 EXP2(*#line 189.1 "tiger.grm.sml"*)
+|  ( 5, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.CONDITION ((*#line 49.31 "tiger.grm"*)Ast.greater EXP1 EXP2 (*#line 205.1 "tiger.grm.sml"*)
 )
- in ( LrTable.NT 3, ( result, IF1left, EXP2right), rest671)
+ in ( LrTable.NT 4, ( result, EXP1left, EXP2right), rest671)
 end
-|  ( 6, ( ( _, ( MlyValue.CONST CONST, CONST1left, CONST1right)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 46.33 "tiger.grm"*) Ast.Const CONST     (*#line 193.1 "tiger.grm.sml"*)
+|  ( 6, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.CONDITION ((*#line 50.32 "tiger.grm"*)Ast.lesser EXP1 EXP2(*#line 209.1 "tiger.grm.sml"*)
+)
+ in ( LrTable.NT 4, ( result, EXP1left, EXP2right), rest671)
+end
+|  ( 7, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.CONDITION ((*#line 51.32 "tiger.grm"*)Ast.equal EXP1 EXP2(*#line 213.1 "tiger.grm.sml"*)
+)
+ in ( LrTable.NT 4, ( result, EXP1left, EXP2right), rest671)
+end
+|  ( 8, ( ( _, ( MlyValue.EXP EXP, _, EXP1right)) :: _ :: ( _, ( MlyValue.CONDITION CONDITION, _, _)) :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.STATEMENT ((*#line 54.40 "tiger.grm"*)Ast.if_then CONDITION EXP (*#line 217.1 "tiger.grm.sml"*)
+)
+ in ( LrTable.NT 3, ( result, IF1left, EXP1right), rest671)
+end
+|  ( 9, ( ( _, ( MlyValue.CONST CONST, CONST1left, CONST1right)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 56.33 "tiger.grm"*) Ast.Const CONST     (*#line 221.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, CONST1left, CONST1right), rest671)
 end
-|  ( 7, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 47.33 "tiger.grm"*) Ast.plus  EXP1 EXP2 (*#line 197.1 "tiger.grm.sml"*)
+|  ( 10, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 57.33 "tiger.grm"*) Ast.plus  EXP1 EXP2 (*#line 225.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, EXP1left, EXP2right), rest671)
 end
-|  ( 8, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 48.30 "tiger.grm"*) Ast.minus EXP1 EXP2 (*#line 201.1 "tiger.grm.sml"*)
+|  ( 11, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 58.30 "tiger.grm"*) Ast.minus EXP1 EXP2 (*#line 229.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, EXP1left, EXP2right), rest671)
 end
-|  ( 9, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 49.30 "tiger.grm"*) Ast.mul   EXP1 EXP2 (*#line 205.1 "tiger.grm.sml"*)
+|  ( 12, ( ( _, ( MlyValue.EXP EXP2, _, EXP2right)) :: _ :: ( _, ( MlyValue.EXP EXP1, EXP1left, _)) :: rest671)) => let val  result = MlyValue.EXP ((*#line 59.30 "tiger.grm"*) Ast.mul   EXP1 EXP2 (*#line 233.1 "tiger.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, EXP1left, EXP2right), rest671)
 end
@@ -226,5 +254,8 @@ fun EOF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 4,(ParserData.MlyValue.VOID,
 fun NEWLINE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 5,(ParserData.MlyValue.VOID,p1,p2))
 fun IF (p1,p2) = Token.TOKEN (ParserData.LrTable.T 6,(ParserData.MlyValue.VOID,p1,p2))
 fun THEN (p1,p2) = Token.TOKEN (ParserData.LrTable.T 7,(ParserData.MlyValue.VOID,p1,p2))
+fun GT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 8,(ParserData.MlyValue.VOID,p1,p2))
+fun LT (p1,p2) = Token.TOKEN (ParserData.LrTable.T 9,(ParserData.MlyValue.VOID,p1,p2))
+fun EQ (p1,p2) = Token.TOKEN (ParserData.LrTable.T 10,(ParserData.MlyValue.VOID,p1,p2))
 end
 end

@@ -13,12 +13,16 @@
     | NEWLINE
     | IF
     | THEN
+    | GT
+    | LT 
+    | EQ
 
 (* The nonterminals of the language *)
 %nonterm EXP     of Ast.Expr
-       | EXPS    of Ast.program_string list
-       | PROGRAM of Ast.program_string list
-       | STATEMENT of Ast.program_string
+        | EXPS    of Ast.program_string list
+        | PROGRAM of Ast.program_string list
+        | STATEMENT of Ast.program_string
+        | CONDITION of Ast.condition
 
 %noshift EOF
 
@@ -41,11 +45,15 @@ EXPS    :                  ( [] )
 	| EXP NEWLINE EXPS     ( Ast.expression_to_programString EXP :: EXPS   )  
     | STATEMENT  NEWLINE EXPS          (STATEMENT :: EXPS)
 
-STATEMENT : IF EXP THEN EXP     (Ast.if_then EXP1 EXP2)
+
+CONDITION : EXP GT EXP       (Ast.greater EXP1 EXP2 )
+            | EXP LT EXP      (Ast.lesser EXP1 EXP2)
+            | EXP EQ EXP      (Ast.equal EXP1 EXP2)
+
+
+STATEMENT : IF CONDITION THEN EXP     (Ast.if_then CONDITION EXP )
 
 EXP     : CONST                ( Ast.Const CONST     )
         | EXP PLUS EXP         ( Ast.plus  EXP1 EXP2 )
 	    | EXP MINUS EXP        ( Ast.minus EXP1 EXP2 )
 	    | EXP MUL   EXP        ( Ast.mul   EXP1 EXP2 )
-
-

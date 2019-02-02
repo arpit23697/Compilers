@@ -9,8 +9,12 @@ datatype Expr  = Const of string
 	       | Op    of Expr * BinOp * Expr
 
 
+datatype condition = GT of (Expr * Expr)
+                    | LT of (Expr * Expr)
+                    | EQ of (Expr * Expr)
+
 datatype program_string = expression of Expr
-                       |  IF_THEN of (Expr * Expr)
+                       |  IF_THEN of (condition * Expr)
 
 
 
@@ -26,6 +30,12 @@ fun minus a b = Op (a, Minus, b)
 fun mul   a b = Op (a, Mul, b)
 fun if_then a b = IF_THEN (a , b)
 fun expression_to_programString a = expression(a)
+
+
+fun greater a b = GT (a , b)
+fun lesser a b = LT (a , b)
+fun equal  a b = EQ (a , b)
+
 
 
 end
