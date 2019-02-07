@@ -25,6 +25,7 @@ datatype iden = ID of string
 datatype program_string = expression of Expr
                        | assignment of (iden * Expr)
                        |  IF_THEN of (condition * program_string)
+                       | WHILE_DO of (condition * program_string)
 
 (* Conversion to strings *)
 
@@ -37,6 +38,7 @@ fun plus  a b = Op (a, Plus, b)
 fun minus a b = Op (a, Minus, b)
 fun mul   a b = Op (a, Mul, b)
 fun if_then a b = IF_THEN (a , b)
+fun while_do a b = WHILE_DO (a , b)
 fun expression_to_programString a = expression(a)
 fun brackets a = Brackets (a)
 
@@ -49,6 +51,8 @@ fun equal_greater a b = EQ_GT (a , b)
 fun true_ () = TRUE
 fun false_ () = FALSE
 fun brackets_condition a = bracket_condition (a)
+
+
 
 
 fun assign a b = assignment (a , b)

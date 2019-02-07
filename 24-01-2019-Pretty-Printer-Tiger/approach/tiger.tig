@@ -7,3 +7,4 @@ if true then arp := 2 + 3;
 if true then arpit := 6;
 
 if 2 + 3  > 4 then if 2 > 5 then  a := 4; 
+while false do if 2 > 5 then a:= 5;

@@ -37,6 +37,11 @@ fun compileExpr  (Ast.expression x) = (print_expression_indent x ; print("\n"))
                                           print ("\n"); print_tabs_real () ;print("THEN\n") ;
                                           indent := !indent + 1; compileExpr y; indent := !indent -1 ;
                                          print("\n") )
+    | compileExpr (Ast.WHILE_DO (x , y) ) = (print_tabs_real () ;   print("WHILE (")  ; 
+                                          print_condition x ; print (" )") ; 
+                                          print ("\n"); print_tabs_real () ;print("DO\n") ;
+                                          indent := !indent + 1; compileExpr y; indent := !indent -1 ;
+                                         print("\n") )
     | compileExpr (Ast.assignment (x , y)) = ( print_tabs_real () ; print_identifier x ; print(" := ") ; print_expression y; print("\n") )
 
 
