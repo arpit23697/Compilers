@@ -23,9 +23,6 @@ fun passProduction (A , x) = let
 (* Pass through the whole grammar ones and updates the nullable*)
 fun passAllRules () = map passProduction (AtomMap.listItemsi (!rules))
 
-val x = passAllRules ()
-val x = printAtomSet (!nullable)
-
 fun findNullable () = let
                     val x = (!nullable)
                     val z = passAllRules() 
@@ -33,4 +30,6 @@ fun findNullable () = let
                     if (AtomSet.equal (x , (!nullable) ) = false) then (findNullable ()) else ()
                     end
 
+val x = findNullable ()
+val x = printAtomSet (!nullable)
 end
