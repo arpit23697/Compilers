@@ -1,13 +1,27 @@
-val t1 = addSymbols "a";
-val t1 = addSymbols "b";
-val t1 = addTokens "A";
-val t1 = addTokens "B";
-val t1 = addTokens "S";
+(* val x = Grammar.addSymbols "S";
+val x = Grammar.addSymbols "E";
+val x = Grammar.addSymbols "E'";
+val x = Grammar.addSymbols "T";
+val x = Grammar.addSymbols "T'";
+val x = Grammar.addTokens "+";
+val x = Grammar.addSymbols "*";
+val x = Grammar.addSymbols "N";
+val x = Grammar.addSymbols "$";
+val x = Grammar.addRule "S" [["E", "$"]];
+val x = Grammar.addRule "E" [["T", "E'"]];
+val x = Grammar.addRule "E'" [["T", "E'"] , []];
+val x = Grammar.addRule "T" [["N", "T'"]];
+val x = Grammar.addRule "T'" [["*", "N" , "T'"] , []];
+val x = Grammar.printRules() *)
 
-val t1 = printSymbols ();
-val t1 = printTokens ();
-
-val t1 = addRule "S" [["a" , "B"], ["a" , "a"]]
-val t1 = addRule "B" [["b"]]
-
-val t1 = printRules ();
+val x = Grammar.addSymbols "S";
+val x = Grammar.addSymbols "A";
+val x = Grammar.addSymbols "B'";
+val x = Grammar.addSymbols "D";
+val x = Grammar.addTokens "a";
+val x = Grammar.addSymbols "b";
+val x = Grammar.addRule "S" [["D", "B"]];
+val x = Grammar.addRule "A" [["a", "A"] , []];
+val x = Grammar.addRule "B" [["b", "B"] , []];
+val x = Grammar.addRule "D" [["A", "B"]];
+val x = Grammar.printRules()
