@@ -43,5 +43,7 @@ digit = [0-9]+;
 ";"           => (Tokens.SEMICOLON (!lineRef , !lineRef));
 "("           => (Tokens.LPARA (!lineRef , !lineRef));
 ")"           => (Tokens.RPARA (!lineRef , !lineRef));
+"{"           => (Tokens.LBRACE(!lineRef , !lineRef));
+"}"           => (Tokens.RBRACE (!lineRef , !lineRef));
 [a-zA-Z_][a-zA-Z0-9_]*  => (Tokens.ID (yytext , !lineRef , !lineRef));
 ":="                    => (Tokens.ASSIGN (!lineRef , !lineRef));

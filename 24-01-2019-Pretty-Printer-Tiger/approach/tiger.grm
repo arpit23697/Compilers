@@ -25,6 +25,8 @@
     | SEMICOLON
     | LPARA
     | RPARA
+    | LBRACE
+    | RBRACE
     | ID of string
     | ASSIGN
 
@@ -59,7 +61,7 @@ PROGRAM : EXPS             ( EXPS )
 EXPS    :                  ( [] )
 	| EXP SEMICOLON EXPS     ( Ast.expression_to_programString EXP :: EXPS   )  
     | STATEMENT  SEMICOLON EXPS          (STATEMENT :: EXPS)
-
+    | LBRACE EXPS RBRACE                   (EXPS)
 
 CONDITION : EXP GT EXP       (Ast.greater EXP1 EXP2 )
             | EXP LT EXP      (Ast.lesser EXP1 EXP2)
@@ -72,9 +74,10 @@ CONDITION : EXP GT EXP       (Ast.greater EXP1 EXP2 )
 
 identifier : ID                 ( Ast.identify ID)
 
-STATEMENT : IF CONDITION THEN STATEMENT     (Ast.if_then CONDITION STATEMENT    )
+STATEMENT : IF CONDITION THEN EXPS     (Ast.if_then CONDITION EXPS    )
           | identifier ASSIGN EXP             (Ast.assign identifier EXP)
-          | WHILE CONDITION DO STATEMENT     (Ast.while_do CONDITION STATEMENT )
+          | WHILE CONDITION DO EXPS     (Ast.while_do CONDITION EXPS )
+          
 
 
 EXP     : CONST                ( Ast.Const CONST     )

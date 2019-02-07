@@ -2,31 +2,30 @@
 structure Ast = struct
 
 datatype BinOp = Plus   
-                | Minus
-                | Mul
+				| Minus
+				| Mul
 
 datatype Expr  = Const of string
-	       | Op    of Expr * BinOp * Expr
-         | Brackets of Expr
+		   | Op    of Expr * BinOp * Expr
+		 | Brackets of Expr
 
 
 datatype condition = GT of (Expr * Expr)
-                    | LT of (Expr * Expr)
-                    | EQ of (Expr * Expr)
-                    | EQ_LT of (Expr * Expr)
-                    | EQ_GT of (Expr * Expr)
-                    | TRUE
-                    | FALSE
-                    | bracket_condition of (condition)
+					| LT of (Expr * Expr)
+					| EQ of (Expr * Expr)
+					| EQ_LT of (Expr * Expr)
+					| EQ_GT of (Expr * Expr)
+					| TRUE
+					| FALSE
+					| bracket_condition of (condition)
 
 datatype iden = ID of string
 
 
 datatype program_string = expression of Expr
-                       | assignment of (iden * Expr)
-                       |  IF_THEN of (condition * program_string)
-                       | WHILE_DO of (condition * program_string)
-
+					   | assignment of (iden * Expr)
+					   |  IF_THEN of (condition * (program_string) list)
+					   | WHILE_DO of (condition *  (program_string) list )
 (* Conversion to strings *)
 
 fun binOpToString Plus  = "+"

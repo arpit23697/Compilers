@@ -4,6 +4,8 @@ type ('a,'b) token
 type svalue
 val ASSIGN:  'a * 'a -> (svalue,'a) token
 val ID: (string) *  'a * 'a -> (svalue,'a) token
+val RBRACE:  'a * 'a -> (svalue,'a) token
+val LBRACE:  'a * 'a -> (svalue,'a) token
 val RPARA:  'a * 'a -> (svalue,'a) token
 val LPARA:  'a * 'a -> (svalue,'a) token
 val SEMICOLON:  'a * 'a -> (svalue,'a) token

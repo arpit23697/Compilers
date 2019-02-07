@@ -31,18 +31,22 @@ fun print_condition (Ast.GT (x , y)) = (print_expression x ; print(" > ") ; prin
 fun print_identifier (Ast.ID x) = print(x)
 
 
+(* val compileExprList = map compileExpr *)
+
+
 fun compileExpr  (Ast.expression x) = (print_expression_indent x ; print("\n"))
     | compileExpr (Ast.IF_THEN ( x , y)  ) = (print_tabs_real () ;   print("IF (")  ; 
                                           print_condition x ; print (" )") ; 
                                           print ("\n"); print_tabs_real () ;print("THEN\n") ;
-                                          indent := !indent + 1; compileExpr y; indent := !indent -1 ;
+                                          indent := !indent + 1; map compileExpr y; indent := !indent -1 ;
                                          print("\n") )
     | compileExpr (Ast.WHILE_DO (x , y) ) = (print_tabs_real () ;   print("WHILE (")  ; 
                                           print_condition x ; print (" )") ; 
                                           print ("\n"); print_tabs_real () ;print("DO\n") ;
-                                          indent := !indent + 1; compileExpr y; indent := !indent -1 ;
+                                          indent := !indent + 1; map compileExpr y; indent := !indent -1 ;
                                          print("\n") )
     | compileExpr (Ast.assignment (x , y)) = ( print_tabs_real () ; print_identifier x ; print(" := ") ; print_expression y; print("\n") )
+
 
 
 fun compile []        = ()
