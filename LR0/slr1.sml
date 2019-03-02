@@ -1,8 +1,8 @@
-structure lr0 = struct 
+structure slr1 = struct 
 
 (* open the follow grammar as it contains all the previous functions for first, follow and nullable*)
 open foGrammar;
-val x = print("=================================== This is for the lr0 ==============================\n")
+val x = print("==================================== This is for the slr1 ==============================\n")
 
 (* type for the lr0 item
 lhs : this is the left hand side of the grammar 
@@ -249,7 +249,7 @@ val initialItem = { lhs       = Atom.atom "S'",
                 after  = sProduction
                 }
 val t = insertIntoItemMap (fullClosure (ItemSet.singleton initialItem))
-fun lr_oneIteration () = let 
+fun slr_oneIteration () = let 
                         val ans:Bool.bool ref = ref false
                         fun f ((oneState:LRItemSet), stateNo) = let 
                                                         val  t3 = if AtomMap.inDomain( (!gotoEdges) , stateNo ) = false
@@ -313,36 +313,40 @@ fun lr_oneIteration () = let
                             ) 
                         end
 
-fun findLR () = let 
-                    val t = lr_oneIteration()
+fun findSLR () = let 
+                    val t = slr_oneIteration()
                 in
-                    if (t = true) then findLR() else () 
+                    if (t = true) then findSLR() else () 
                 end
 
 (* Function to find the reduce operations *)
 fun reduceOneState  (oneState:LRItemSet , stateNo) = let 
                                                         fun g(oneItem:Item) = let 
-                                                                                        val lhs1 = #lhs oneItem
-                                                                                        val before1 = #before oneItem
-                                                                                        val after1 = #after oneItem
-                                                                                        val prod = AtomMap.lookup ((!rules) , lhs1)
-                                                                                        fun printList (x::xs) = (printAtom x ; print " " ; printList xs)
-                                                                                            | printList [] = (print "")
-                                                                                        fun h rhs = if compare_atom_list ( (List.rev before1) , rhs) = EQUAL
-                                                                                                    then
-                                                                                                    (print "Reduce on state " ;
-                                                                                                     printAtom stateNo ;
-                                                                                                     print "using Production : " ;
-                                                                                                     printAtom lhs1 ; 
-                                                                                                     print " -> ";
-                                                                                                     printList rhs;
-                                                                                                     print "\n"
-                                                                                                    )
-                                                                                                    else
-                                                                                                    ()
-                                                                                        in 
-                                                                                            map h (RHSSet.listItems prod)
-                                                                                        end
+                                                                            val lhs1 = #lhs oneItem
+                                                                            val before1 = #before oneItem
+                                                                            val after1 = #after oneItem
+                                                                            val prod = AtomMap.lookup ((!rules) , lhs1)
+                                                                            val followSet = AtomMap.lookup ((!followAllSymbols) , lhs1)
+                                                                            val followList = AtomSet.listItems (followSet)
+                                                                            fun printList (x::xs) = (printAtom x ; print " " ; printList xs)
+                                                                                | printList [] = (print "")
+                                                                            fun h rhs = if compare_atom_list ( (List.rev before1) , rhs) = EQUAL
+                                                                                        then
+                                                                                        (print "Reduce on state " ;
+                                                                                            printAtom stateNo ;
+                                                                                            print "using Production : " ;
+                                                                                            printAtom lhs1 ; 
+                                                                                            print " -> ";
+                                                                                            printList rhs;
+                                                                                            print " with lookup symbol - ";
+                                                                                            printList followList;
+                                                                                            print "\n"
+                                                                                        )
+                                                                                        else
+                                                                                        ()
+                                                                            in 
+                                                                                map h (RHSSet.listItems prod)
+                                                                            end
                                                          in
                                                             map g (ItemSet.listItems oneState)
                                                          end
@@ -375,7 +379,7 @@ fun nicePrinting () = let
 
 
 
-val t = findLR()
+val t = findSLR()
 fun printgotoAction () = map printOneProduction (AtomMap.listItemsi (!gotoEdges))
 
 val t = nicePrinting ()
