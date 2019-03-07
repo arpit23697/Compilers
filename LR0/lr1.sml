@@ -1,20 +1,23 @@
-structure slr1 = struct 
+structure lr0 = struct 
 
 (* open the follow grammar as it contains all the previous functions for first, follow and nullable*)
 open foGrammar;
-val x = print("==================================== This is for the slr1 ==============================\n")
+val x = print("=================================== This is for the LR1 ==============================\n")
 
-(* type for the lr0 item
+(* type for the lr1 item
 lhs : this is the left hand side of the grammar 
 before : right side of the production before "."
 after : right side of the production after "."
+lookup : for the lookup symbols and its type is atomSet
 *)
+
 type Item = {   lhs : Atom.atom ,             (* the left hand side *)
                 before : Atom.atom list,      (* the symbols/tokens before the dot*)
-                after : Atom.atom list        (* The symbols/tokens after the dot*)
+                after : Atom.atom list,        (* The symbols/tokens after the dot*)
+                lookup : AtomSet.set
             }
 
-
+(* function to compare two atom list in the lexicographical order*)
 fun compare_atom_list ([] , []) = EQUAL
         | compare_atom_list ([] , xs) = LESS
         | compare_atom_list (xs , []) = GREATER
@@ -23,7 +26,8 @@ fun compare_atom_list ([] , []) = EQUAL
                                 | LESS => LESS
                                 | EQUAL => compare_atom_list (xs , ys)
 
-(* Structure for comparing the lrItems 
+
+(* Structure for comparing the LR1Items
 This is created since we want to create the set of the lrItems
 and atomMap that have the lrItems as the key*)
 
@@ -36,57 +40,64 @@ structure ItemKey : ORD_KEY = struct
                                              val before2 = #before y 
                                              val after1 = #after x 
                                              val after2 = #after y
+                                             val lookup1 = #lookup x
+                                             val lookup2 = #lookup y
                                           in
                             
-                                            case (Atom.compare (lhs1 , lhs2) , compare_atom_list (before1 , before2) , compare_atom_list(after1 , after2)) 
-                                            of (LESS , _ , _) => LESS
-                                            | (GREATER , _ ,_ ) => GREATER
-                                            | (EQUAL , LESS , _) => LESS
-                                            | (EQUAL , GREATER , _) => GREATER
-                                            | (EQUAL , EQUAL , LESS ) => LESS
-                                            | (EQUAL , EQUAL , GREATER ) => GREATER
-                                            | (EQUAL , EQUAL , EQUAL) => EQUAL 
+                                            case (Atom.compare (lhs1 , lhs2) , compare_atom_list (before1 , before2) ,
+                                             compare_atom_list(after1 , after2) , AtomSet.compare( lookup1 , lookup2 )) 
+                                            of (LESS , _ , _ , _) => LESS
+                                            | (GREATER , _ ,_ , _ ) => GREATER
+                                            | (EQUAL , LESS , _ , _) => LESS
+                                            | (EQUAL , GREATER , _ , _) => GREATER
+                                            | (EQUAL , EQUAL , LESS , _ ) => LESS
+                                            | (EQUAL , EQUAL , GREATER , _ ) => GREATER
+                                            | (EQUAL , EQUAL , EQUAL , LESS)  => LESS
+                                            | (EQUAL , EQUAL , EQUAL , GREATER)  => GREATER 
+                                            | (EQUAL , EQUAL , EQUAL , EQUAL)  => EQUAL
                                            
                                            end 
 end
-
-
-(* Item set that contains the lrItems as the element *)
+ 
+(* Item set that contains the LR!Items as the element *)
+(* Each of this set is going to form the state of the lr1 item *)
 structure ItemSet = RedBlackSetFn(ItemKey)
 type LRItemSet = ItemSet.set
 
-(* This structure defines the ordering over the set of LR items *)
+(* This structure defines the ordering over the set of LR1 items *)
+(* We need to define the ordering over state which is a set of LR1 items 
+So we are defining it here*)
 structure ItemSetKey: ORD_KEY = struct
     type ord_key = LRItemSet
     fun compare (x,y) = ItemSet.compare (x,y)
 end
-
-
-
-
-(* In this map the keys are atoms and the values are LR Item set *)
+(* In this map the keys are atoms and the values are LR Item set which are the states *)
 type atomToLRItemSet = LRItemSet AtomMap.map
 
-(*in this map the keys are lrItemsSet and the value are atoms
-*)
+(*in this map the keys are lrItemsSet (which are the states) and the value are atoms*)
 structure ItemSetMap = RedBlackMapFn(ItemSetKey)
 type lRItemSettoAtom = Atom.atom ItemSetMap.map
 
-(* Helper function for printing the lr0 items *)
+(* Helper function for printing the lr1 items *)
 fun printLRItem (x:Item) = let val a = #lhs x 
                                val b = #before x 
                                val c = #after x
+                               val d = #lookup x
                             in
-                                ( print "    " ; printAtom a ; 
+                                ( 
+                                print "    " ; printAtom a ; 
                                 print(" -> ") ;
                                 (map printAtom (List.rev b) );
                                 print(". ") ;
                                 (map printAtom c) ;
-                                print "\n")
-                             end
+                                print " , lookup ";
+                                (printAtomSet d);
+                                print "\n" 
+                                )
+                            end
 
-(* This function is for printing the lrItem set *)
-fun printLRItemSet x = map printLRItem (ItemSet.listItems(x))   
+(* This function is for printing the lr1Item set *)
+fun printLRItemSet x = map printLRItem (ItemSet.listItems(x))  
 
 (* function printing ItemSetMap *)
 fun printLRItemSettoAtom (x:lRItemSettoAtom) = let 
@@ -95,12 +106,12 @@ fun printLRItemSettoAtom (x:lRItemSettoAtom) = let
                                                map f (ItemSetMap.listItemsi x) 
                                             end
 
-
 fun printAtomToLRItemSet (x:atomToLRItemSet) = let 
                                                 fun f (key , value) = (print "State : " ; printAtom key ; print "\n" ; printLRItemSet (value))
                                             in
                                                 map f (AtomMap.listItemsi x)
                                             end
+
 
 
 (* This function takes one lrItem find its closure and return the set
@@ -109,6 +120,7 @@ fun closure_OneItem (x:Item) = let
                                 val lhs1 = #lhs x 
                                 val before1 = #before x
                                 val after1 = #after x
+                                val lookup1 = #lookup x
                                 val newSet:LRItemSet ref = ref (ItemSet.singleton x) (*Puts the single element in the set of its closure*)
 
                                 (* the type of right side is atom list *)
@@ -116,9 +128,15 @@ fun closure_OneItem (x:Item) = let
                                                     then 
                                                   let
                                                     val firstElement = List.hd after1
+                                                    val temp = List.tl after1
+                                                    val lookupList = AtomSet.listItems lookup1
+                                                    val firstOf = temp @ lookupList
+                                                    val first = firstAtomList firstOf
+
                                                     val aItem = { lhs       = firstElement,
                                                                 before = List.map Atom.atom [],
-                                                                after = right_side
+                                                                after = right_side,
+                                                                lookup = first
                                                                 }
                                                   in 
                                                     newSet := ItemSet.union( (!newSet) , ItemSet.singleton aItem)
@@ -144,7 +162,7 @@ fun closure_OneItem (x:Item) = let
                                     (ItemSet.singleton x) 
                                end 
 
-(* This function takes the set of LRItems and then find it's closure for only one iteration *)
+(* This function takes the set of LR1temSet and then find it's closure for only one iteration *)
 (* So this function simply goes through all the items in the set and include it's closure *)
 fun fullClosure_oneIter (x:LRItemSet)  = let
                                             val newSet:LRItemSet ref = ref x   (*Start the newSet with the value x*)
@@ -169,12 +187,12 @@ fun fullClosure (x:LRItemSet) = let
                                     (!newSet)
                                 end 
 
+
+
 (* Counter to keep account of total number of states *)
 val totolNumberOfStates = ref 0
 val StateToAtomMap: lRItemSettoAtom ref = ref ItemSetMap.empty 
 val AtomtoStateMap: atomToLRItemSet ref = ref AtomMap.empty 
-
-
 
 (* this function takes the LRItemSet , check if it is already a state if not insert it into map *)
 fun insertIntoItemMap (x:LRItemSet):Bool.bool = if ItemSetMap.inDomain( (!StateToAtomMap) , x) = false
@@ -193,7 +211,6 @@ fun insertIntoItemMap (x:LRItemSet):Bool.bool = if ItemSetMap.inDomain( (!StateT
                                      (false) 
 
 
-
 fun goto ( I:LRItemSet , X:Atom.atom ) = let
                                     val newSet:LRItemSet ref = ref ItemSet.empty
                                     fun f (y:Item) = let 
@@ -201,6 +218,7 @@ fun goto ( I:LRItemSet , X:Atom.atom ) = let
                                                         val lhs1 = #lhs y
                                                         val before1 = #before y
                                                         val after1 = #after y
+                                                        val lookup1 = #lookup y
                                                     in
                                                         if (List.null(after1) = false )
                                                         then
@@ -212,7 +230,8 @@ fun goto ( I:LRItemSet , X:Atom.atom ) = let
                                                                     let 
                                                                         val aItem = { lhs       = lhs1,
                                                                                     before = firstElement :: before1,
-                                                                                    after = List.tl after1
+                                                                                    after = List.tl after1,
+                                                                                    lookup = lookup1
                                                                                     }
                                                                     in
                                                                         (newSet := ItemSet.union( (!newSet) , ItemSet.singleton aItem))
@@ -232,13 +251,14 @@ fun goto ( I:LRItemSet , X:Atom.atom ) = let
                                    end 
 
 
+
 (* We need some data structure to store the edges *)
 (* For the edges *)
 (* Keys are the atoms which correspond to the state number and values are another state and the symbol or the token *)
 type gotoEdgesType = RHSSet.set AtomMap.map
 val gotoEdges: gotoEdgesType ref = ref AtomMap.empty
 
-(* Info about the states is stored in the map AtomtoStateMap and StatetoAtomMap *)
+
 
 
 (* Initialise the AtomtoStateMap  *)
@@ -246,10 +266,13 @@ val gotoEdges: gotoEdgesType ref = ref AtomMap.empty
 val sProduction = List.hd (RHSSet.listItems (AtomMap.lookup ((!rules) , Atom.atom "S'")))
 val initialItem = { lhs       = Atom.atom "S'",
                 before = List.map Atom.atom [],
-                after  = sProduction
+                after  = sProduction,
+                lookup = AtomSet.empty
                 }
+
 val t = insertIntoItemMap (fullClosure (ItemSet.singleton initialItem))
-fun slr_oneIteration () = let 
+
+fun lr_oneIteration () = let 
                         val ans:Bool.bool ref = ref false
                         fun f ((oneState:LRItemSet), stateNo) = let 
                                                         val  t3 = if AtomMap.inDomain( (!gotoEdges) , stateNo ) = false
@@ -261,6 +284,7 @@ fun slr_oneIteration () = let
                                                                                     val lhs1 = #lhs oneItem
                                                                                     val before1 = #before oneItem
                                                                                     val after1 = #after oneItem
+                                                                                    val lookup1 = #lookup oneItem
                                                                                 in 
                                                                                     if (List.null (after1) = false)
                                                                                     then
@@ -313,21 +337,23 @@ fun slr_oneIteration () = let
                             ) 
                         end
 
-fun findSLR () = let 
-                    val t = slr_oneIteration()
+fun findLR () = let 
+                    val t = lr_oneIteration()
                 in
-                    if (t = true) then findSLR() else () 
+                    if (t = true) then findLR() else () 
                 end
 
+(* Function to find the reduce operations *)
 (* Function to find the reduce operations *)
 fun reduceOneState  (oneState:LRItemSet , stateNo) = let 
                                                         fun g(oneItem:Item) = let 
                                                                             val lhs1 = #lhs oneItem
                                                                             val before1 = #before oneItem
                                                                             val after1 = #after oneItem
+                                                                            val lookup1 = #lookup oneItem
                                                                             val prod = AtomMap.lookup ((!rules) , lhs1)
-                                                                            val followSet = AtomMap.lookup ((!followAllSymbols) , lhs1)
-                                                                            val followList = AtomSet.listItems (followSet)
+                                                                            val lookupList = AtomSet.listItems lookup1
+
                                                                             fun printList (x::xs) = (printAtom x ; print " " ; printList xs)
                                                                                 | printList [] = (print "")
                                                                             fun h rhs = if compare_atom_list ( (List.rev before1) , rhs) = EQUAL
@@ -339,7 +365,7 @@ fun reduceOneState  (oneState:LRItemSet , stateNo) = let
                                                                                             print " -> ";
                                                                                             printList rhs;
                                                                                             print " with lookup symbol - ";
-                                                                                            printList followList;
+                                                                                            printList lookupList;
                                                                                             print "\n"
                                                                                         )
                                                                                         else
@@ -352,8 +378,6 @@ fun reduceOneState  (oneState:LRItemSet , stateNo) = let
                                                          end
 
 fun reduceOperations () = map reduceOneState (ItemSetMap.listItemsi (!StateToAtomMap) )
-                           
-
 
 fun nicePrinting () = let  
                         fun f (stateNo , state) = let 
@@ -378,45 +402,26 @@ fun nicePrinting () = let
                     end
 
 
-
-val t = findSLR()
+val t = findLR()
 fun printgotoAction () = map printOneProduction (AtomMap.listItemsi (!gotoEdges))
 
 val t = nicePrinting ()
 val t = "==================================================="
-(* val t = printAtomToLRItemSet (!AtomtoStateMap)
-val t = print "\n \n \n"
 
-val t = printgotoAction()
-val t = print "\n \n \n"
-
-val t= reduceOperations () *)
-
-(* An example of the lr0 item  *)
-(* val aItem = { lhs       = Atom.atom "S",
+(* ============================= Testing bench ====================================== *)
+(* val aItem = { lhs       = Atom.atom "S'",
               before = List.map Atom.atom [],
-              after  = List.map Atom.atom ["(" , "L" , ")"]
-            } *)
+              after  = List.map Atom.atom [ "S" , "$"],
+              lookup = AtomSet.fromList ( (List.map Atom.atom []) )
+            } 
+
+val t = printLRItem aItem
+
+val c = fullClosure (ItemSet.singleton aItem)
+val t = printLRItemSet c
+ *)
 
 
-(* val temp = ItemSetMap.lookup ( (!StateToAtomMap) , oneIter)  *)
-(* val gotoSet = goto (ItemSet.singleton aItem , (Atom.atom "(") ) *)
-(* val t = printLRItemSet gotoSet *)
 
-(* val t = print "Done" *)
 
-(* val t = print "hiiifdsajldafi\n" *)
-(* val aItemClosure = closure_OneItem aItem *)
-(* val t = printLRItemSet aItemClosure *)
-
-(* val t =print "afdfa]\n" *)
-(* val oneIter = fullClosure (ItemSet.singleton aItem) *)
-(* val t = printLRItemSet oneIter *)
-
-(* val t = insertIntoItemMap (oneIter) *)
-(* val t = insertIntoItemMap (ItemSet.singleton aItem) *)
-(* val t = insertIntoItemMap (ItemSet.singleton aItem) *)
-(* val t = printLRItemSettoAtom (!StateToAtomMap) *)
-
-(* val t = print "\n \n \n" *)
 end
