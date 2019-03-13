@@ -46,7 +46,74 @@ datatype program = declarationList
                             | character of string
 
     (* ========================================= function declaration ================================ *)
-    
+    and funDeclaration = functionReturn of (typeSpecifier * string * params * statement)       (* typeSpecifier ID (params) statement  // string is for the ID*)
+                        | functionVoid of (string * params * statement)           (* string is for the ID ; void ID (params) statement *)
 
+    and params = parameterList of paramList 
+                | emptyParameter   (*for the empty parameter*)
+    
+    and paramList = pList of (paramList * paramTypeList)           (*paramList is the list of paramTypeList*)
+                    | singleParam of (paramTypeList)
+    
+    and paramTypeList = parameter of (typeSpecifier * paramIDList) 
+
+    and paramIDList = listOfID of (paramIDList * paramID) 
+                    | singleIDParameter of (paramID)
+
+    and paramID = normalID of string                (*id of the type : ID*)
+                 | arrayID of string                (*id of the type : ID[]*)
+
+
+    (*============================================ for the statement ============================*)
+    and statement = eStatement of expressionStmt
+                    | cStatement of compoundStmt
+                    | sStatement of selectionStmt
+                    | iStatement of iterationStmt
+                    | rStatement of returnStmt
+                    | bStatement of breakStmt
+                    | conStatement of continueStmt
+
+    and compoundStmt = statementWithBrace of (localDeclarations * statementList)       (*{localDeclaration statementList}*)
+    
+    and localDeclarations = declIn of (localDeclarations * scopedVarDeclaration)
+                            | emptyDeclIn
+
+    and statementList = listOfStatements of (statementList * statement)
+                        | emptyListStatement 
+
+    and expressionStmt = basicExpression of (expression)            (*for the type -- expression ;*) 
+                        | semicolon                                 (*statement of the form ;*)
+
+    and selectionStmt = IF of  (simpleExpression * statement)         (*if (simpleExression) statment*)
+                        | IF_ELSE of (simpleExpression * statement * statement)   (*if (simpleExpression) statement else statement*)
+
+    and iterationStmt = WHILE of (simpleExpression * statement)        (*while (simpleExpression) statement*)
+    
+    and returnStmt = returnNoValue                                (*return ;*)                     
+                    | returnValue of (expression)                 (*return expression;*)
+
+    and breakStmt = BREAK                                       (*break ;*)
+    and continueStmt = CONTINUE                                 (*continue ;*)
+
+    (* ===================================== for the expression ================================== *)
+    and expression = assign of (mutable * expression)
+                    | assignPlus of (mutable * expression)
+                    | assignMinus of (mutable * exression)
+                    | assignMult of (mutable * exression)
+                    | assignDiv of (mutable * expression)
+                    | increment of mutable           (*mutable++*)
+                    | decrement of mutable           (*mutable--*)
+                    | plainExpression of simpleExpression
+
+    and simpleExpression = or of (simpleExpression * andExpression)   (*simpleExpression or andExpression*)
+                        | noOr of andExpression
+
+    and andExpression = simleAnd of (andExpression * unaryRelExpression)
+                        | uExpr of unaryRelExpression
+
+    and unaryRelExpression = not of unaryRelExpression   (* not unaryRelExression*)
+                        | rExpr of relExpression 
+
+    and 
 
 end
