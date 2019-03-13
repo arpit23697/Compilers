@@ -50,7 +50,6 @@ structure ItemKey : ORD_KEY = struct
                                            end 
 end
 
-
 (* Item set that contains the lrItems as the element *)
 structure ItemSet = RedBlackSetFn(ItemKey)
 type LRItemSet = ItemSet.set

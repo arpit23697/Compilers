@@ -59,7 +59,7 @@ val x = Grammar.addRule "S'" [["E" , "$"]];
 val x = Grammar.addRule "E" [["T" , "+" , "E"] , ["T"]];
 val x = Grammar.addRule "T" [["x"]];
 val x = Grammar.printRules()  *)
- val x = Grammar.addSymbols "S'";
+ (* val x = Grammar.addSymbols "S'";
 val x = Grammar.addSymbols "S";
 val x = Grammar.addSymbols "E";
 val x = Grammar.addSymbols "V";
@@ -71,4 +71,17 @@ val x = Grammar.addRule "S'" [["S" , "$"]];
 val x = Grammar.addRule "S" [["V" , "=" , "E"] , ["E"]];
 val x = Grammar.addRule "E" [["V"]];
 val x = Grammar.addRule "V" [["*" , "E"] , ["x"]];
+val x = Grammar.printRules() *)
+
+val x = Grammar.addSymbols "S'";
+val x = Grammar.addSymbols "S";
+val x = Grammar.addSymbols "B";
+
+val x = Grammar.addTokens "c";
+val x = Grammar.addTokens "$";
+
+val x = Grammar.addRule "S'" [["S" , "$"]];
+val x = Grammar.addRule "S" [["B"] ];
+val x = Grammar.addRule "B" [["c"]];
+(* val x = Grammar.addRule "V" [["*" , "E"] , ["x"]]; *)
 val x = Grammar.printRules()
