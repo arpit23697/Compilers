@@ -40,7 +40,8 @@ datatype program = declL of  declarationList
                             | simpleType of typeSpecifier
 
     and typeSpecifier = ret of returnTypeSpecifier        (*one type is not understood properly*)
-
+                        | RECTYPE of string 
+                        
     and returnTypeSpecifier = integer
                             | boolean 
                             | character

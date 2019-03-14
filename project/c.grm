@@ -123,8 +123,9 @@
 %left QUES DASH STAR
 %nonassoc iff 
 %nonassoc ELSE 
-%nonassoc LPARA 
 %nonassoc c
+%nonassoc LPARA 
+
 
 
 (* The type that captures position in the input *)
@@ -147,9 +148,9 @@ declaration : varDeclaration                                    (Ast.variableDec
 recDeclaration : RECORD ID LEFTBRACE localDeclarations RIGHTBRACE   (Ast.recordID (ID , localDeclarations))
 
 (* ============================ variable declaration ===================== *)
-varDeclaration : typeSpecifier varDeclList                          (Ast.vDecl (typeSpecifier , varDeclList))
+varDeclaration : typeSpecifier varDeclList SEMICOLON                         (Ast.vDecl (typeSpecifier , varDeclList))
 
-scopedVarDeclaration : scopedTypeSpecifier varDeclList              (Ast.sDecl (scopedTypeSpecifier , varDeclList) )
+scopedVarDeclaration : scopedTypeSpecifier varDeclList  SEMICOLON          (Ast.sDecl (scopedTypeSpecifier , varDeclList) )
 
 varDeclList : varDeclList COMMA varDeclInitialize                   (Ast.vList (varDeclList , varDeclInitialize))
              | varDeclInitialize                                    (Ast.vSingleDecl (varDeclInitialize))
@@ -164,7 +165,7 @@ scopedTypeSpecifier : STATIC typeSpecifier                          (Ast.staticT
                     | typeSpecifier                                 (Ast.simpleType (typeSpecifier))
 
 typeSpecifier : returnTypeSpecifier                                 (Ast.ret (returnTypeSpecifier))
-
+                (* | ID                                                 (Ast.RECTYPE (ID)) *)
 returnTypeSpecifier : INT                                           (Ast.integer)
                     | BOOL                                          (Ast.boolean)
                     | CHAR                                          (Ast.character)
@@ -196,7 +197,7 @@ statement : expressionStmt                                          (Ast.eStatem
             | returnStmt                                            (Ast.rStatement (returnStmt))
             | breakStmt                                             (Ast.bStatement (breakStmt))
             | continueStmt                                           (Ast.conStatement (continueStmt))
-
+                
 compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.statementWithBrace (localDeclarations , statementList))
 
 localDeclarations : localDeclarations scopedVarDeclaration          (Ast.declIn (localDeclarations , scopedVarDeclaration) ) 

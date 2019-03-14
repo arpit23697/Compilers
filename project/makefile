@@ -12,4 +12,4 @@ source    : ast.sml translate.sml c.grm c.grm.sml c.lex.sml ec.sml source.mlb
 		mlton source.mlb
 
 test : all 
-	 ${CURDIR}/source  main.c
+	 ${CURDIR}/source main.c
