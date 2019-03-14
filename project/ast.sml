@@ -34,7 +34,7 @@ datatype program = declarationList
                                                                             (*Second one is like assignment on declarations*)
 
     and varDeclID = ID of string                          (*this is declaration of the form ID*)
-                    | arrayLike of (string * numConst)     (*declaration of the form ID [NUMCONST] //like that of array*)
+                    | arrayLike of (string * string)     (*declaration of the form ID [NUMCONST] //like that of array*)
         
     and scopedTypeSpecifier = staticType of typeSpecifier  (*Of the form static typeSpecifier*)
                             | simpleType of typeSpecifier
@@ -87,7 +87,8 @@ datatype program = declarationList
     and selectionStmt = IF of  (simpleExpression * statement)         (*if (simpleExression) statment*)
                         | IF_ELSE of (simpleExpression * statement * statement)   (*if (simpleExpression) statement else statement*)
 
-    and iterationStmt = WHILE of (simpleExpression * statement)        (*while (simpleExpression) statement*)
+    and iterationStmt = WHILE of (simpleExpression * statement)                                     (*while (simpleExpression) statement*)
+                        | FOR of (expressionStmt * simpleExpression * expression * statement)    (*for (expressionStmt expressionStmt simpleExpression) statement*)
     
     and returnStmt = returnNoValue                                (*return ;*)                     
                     | returnValue of (expression)                 (*return expression;*)
@@ -98,8 +99,8 @@ datatype program = declarationList
     (* ===================================== for the expression ================================== *)
     and expression = assign of (mutable * expression)
                     | assignPlus of (mutable * expression)
-                    | assignMinus of (mutable * exression)
-                    | assignMult of (mutable * exression)
+                    | assignMinus of (mutable * expression)
+                    | assignMult of (mutable * expression)
                     | assignDiv of (mutable * expression)
                     | increment of mutable           (*mutable++*)
                     | decrement of mutable           (*mutable--*)
@@ -114,6 +115,48 @@ datatype program = declarationList
     and unaryRelExpression = not of unaryRelExpression   (* not unaryRelExression*)
                         | rExpr of relExpression 
 
-    and 
+    and relExpression = relExp of (sumExpression * relop * sumExpression)
+                        | noRel of (sumExpression)
 
+    and relop = LTE | LT | GTE | GT | EQ | NEQ
+
+    and sumExpression = sumExp of (sumExpression * sumOp * term)
+                        | noSum of (term)
+
+    and sumOp = PLUS | MINUS 
+
+    and term = multExp of (term * mulOp * unaryExpression )
+                | noMult of unaryExpression
+            
+    and mulOp = MULT | DIV | MOD
+
+    and unaryExpression = uExp of (unaryOp * unaryExpression)
+                        | noUnary of (factor)
+
+    and unaryOp = STAR | DASH | QUES
+
+    and factor = mut of (mutable)
+                | immut of (immutable)
+
+    and mutable = mID of string 
+                | mArray of (mutable * expression)              (*mutable [expression]*)
+                | mRecord of (mutable * string )                (*mutable.ID*)
+
+    and immutable = paranthesis of expression                   (*(expression)*)
+                    | c of call
+                    | const of constant 
+
+    and call = callArgs of (string * args)                      (*of the form ID (args)*)
+
+    and args = aList of argList
+                | emptyArg
+
+    and argList = aaList of (argList * expression)
+                | oneArg of (expression)
+
+    and constant = number of string
+                    | charConst of string 
+                    | boolConst of bool 
+ 
+ 
 end
