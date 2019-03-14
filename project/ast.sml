@@ -15,18 +15,18 @@ datatype program = declL of  declarationList
     
     and declaration = variableDeclaration of varDeclaration 
                     | functionDeclaration of  funDeclaration
-                    | recordDeclaration of recDeclaraion
+                    | recordDeclaration of recDeclaration
 
     (* ============================== record declaration ================================= *)
 
-    and recDeclaraion = recordID of (string * localDeclarations)     (*string is for the ID ; record ID { local Declarations }*)
+    and recDeclaration = recordID of (string * localDeclarations)     (*string is for the ID ; record ID { local Declarations }*)
 
     (* =============================== variable declaration =============================== *)
-    and varDeclaration = vDecl of (typeSpecifier * varDecList) 
+    and varDeclaration = vDecl of (typeSpecifier * varDeclList) 
 
-    and scopedVarDeclaration = sDecl of (scopedTypeSpecifier * varDecList )  
+    and scopedVarDeclaration = sDecl of (scopedTypeSpecifier * varDeclList )  
 
-    and varDecList = vList of (varDecList * varDeclInitialize)  (*varDeclList is a list of varDeclInitialize*)
+    and varDeclList = vList of (varDeclList * varDeclInitialize)  (*varDeclList is a list of varDeclInitialize*)
                     | vSingleDecl of varDeclInitialize
 
     and varDeclInitialize = declarationOnlyID of varDeclID
@@ -109,7 +109,7 @@ datatype program = declL of  declarationList
     and simpleExpression = or of (simpleExpression * andExpression)   (*simpleExpression or andExpression*)
                         | noOr of andExpression
 
-    and andExpression = simleAnd of (andExpression * unaryRelExpression)
+    and andExpression = simpleAnd of (andExpression * unaryRelExpression)
                         | uExpr of unaryRelExpression
 
     and unaryRelExpression = not of unaryRelExpression   (* not unaryRelExression*)
@@ -156,7 +156,8 @@ datatype program = declL of  declarationList
 
     and constant = number of string
                     | charConst of string 
-                    | boolConst of bool 
+                    | trueValue
+                    | falseValue
  
  
 end

@@ -42,9 +42,9 @@ val s = [
 \\000"
 ),
  (1, 
-"\000\000\000\000\000\000\000\000\000\119\120\000\000\000\000\000\
+"\000\000\000\000\000\000\000\000\000\121\122\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\119\117\000\000\000\116\114\000\113\112\110\107\106\103\102\100\
+\\121\119\000\000\118\117\115\000\114\113\110\107\106\103\102\100\
 \\000\000\000\000\000\000\000\000\000\000\099\098\096\094\092\091\
 \\000\000\000\082\000\000\000\000\000\080\000\000\000\000\072\000\
 \\000\000\000\000\000\000\000\000\000\000\000\071\000\070\000\000\
@@ -836,7 +836,7 @@ val s = [
  (110, 
 "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\112\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\111\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -844,22 +844,11 @@ val s = [
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000"
 ),
- (114, 
+ (115, 
 "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\115\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\116\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000"
-),
- (117, 
-"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\000\000\000\000\000\000\000\000\000\000\000\000\000\118\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -867,9 +856,20 @@ val s = [
 \\000"
 ),
  (119, 
-"\000\000\000\000\000\000\000\000\000\119\000\000\000\000\000\000\
+"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\\119\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\120\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\000"
+),
+ (121, 
+"\000\000\000\000\000\000\000\000\000\121\000\000\000\000\000\000\
+\\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\\121\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
 \\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
@@ -904,7 +904,7 @@ in Vector.fromList(map g
 {fin = [], trans = 16},
 {fin = [], trans = 17},
 {fin = [], trans = 18},
-{fin = [(N 158)], trans = 0},
+{fin = [(N 163)], trans = 0},
 {fin = [], trans = 20},
 {fin = [], trans = 21},
 {fin = [], trans = 22},
@@ -931,7 +931,7 @@ in Vector.fromList(map g
 {fin = [], trans = 43},
 {fin = [], trans = 44},
 {fin = [], trans = 45},
-{fin = [(N 164)], trans = 0},
+{fin = [(N 169)], trans = 0},
 {fin = [], trans = 47},
 {fin = [], trans = 48},
 {fin = [], trans = 49},
@@ -964,9 +964,9 @@ in Vector.fromList(map g
 {fin = [], trans = 76},
 {fin = [], trans = 77},
 {fin = [], trans = 78},
-{fin = [(N 186)], trans = 0},
+{fin = [(N 191)], trans = 0},
 {fin = [], trans = 80},
-{fin = [(N 167)], trans = 0},
+{fin = [(N 172)], trans = 0},
 {fin = [], trans = 82},
 {fin = [], trans = 83},
 {fin = [], trans = 84},
@@ -975,7 +975,7 @@ in Vector.fromList(map g
 {fin = [], trans = 87},
 {fin = [], trans = 88},
 {fin = [], trans = 89},
-{fin = [(N 177)], trans = 0},
+{fin = [(N 182)], trans = 0},
 {fin = [(N 151)], trans = 0},
 {fin = [(N 130)], trans = 92},
 {fin = [(N 133)], trans = 0},
@@ -987,7 +987,7 @@ in Vector.fromList(map g
 {fin = [(N 14)], trans = 0},
 {fin = [(N 147)], trans = 100},
 {fin = [(N 109)], trans = 0},
-{fin = [(N 153)], trans = 0},
+{fin = [(N 158)], trans = 0},
 {fin = [(N 143)], trans = 103},
 {fin = [(N 103)], trans = 0},
 {fin = [(N 115)], trans = 0},
@@ -997,14 +997,16 @@ in Vector.fromList(map g
 {fin = [(N 112)], trans = 0},
 {fin = [(N 145)], trans = 110},
 {fin = [(N 106)], trans = 0},
+{fin = [(N 154)], trans = 0},
 {fin = [(N 22)], trans = 0},
 {fin = [(N 20)], trans = 0},
-{fin = [], trans = 114},
+{fin = [], trans = 115},
 {fin = [(N 121)], trans = 0},
 {fin = [(N 149)], trans = 0},
-{fin = [(N 123)], trans = 117},
+{fin = [(N 156)], trans = 0},
+{fin = [(N 123)], trans = 119},
 {fin = [(N 139)], trans = 0},
-{fin = [(N 4)], trans = 119},
+{fin = [(N 4)], trans = 121},
 {fin = [(N 1)], trans = 0}])
 end
 structure StartStates =
@@ -1048,109 +1050,113 @@ let fun continue() = lex() in
 
 			(* Application actions *)
 
-  1 => ((*#line 30.41 "c.lex"*) updateLine 1; lex() (*#line 1051.1 "c.lex.sml"*)
+  1 => ((*#line 30.41 "c.lex"*) updateLine 1; lex() (*#line 1053.1 "c.lex.sml"*)
 )
-| 10 => ((*#line 34.41 "c.lex"*)Tokens.COMMA (!lineRef , !lineRef)(*#line 1053.1 "c.lex.sml"*)
+| 10 => ((*#line 34.41 "c.lex"*)Tokens.COMMA (!lineRef , !lineRef)(*#line 1055.1 "c.lex.sml"*)
 )
-| 100 => ((*#line 55.41 "c.lex"*)Tokens.PLUSEQUAL (!lineRef , !lineRef)(*#line 1055.1 "c.lex.sml"*)
+| 100 => ((*#line 55.41 "c.lex"*)Tokens.PLUSEQUAL (!lineRef , !lineRef)(*#line 1057.1 "c.lex.sml"*)
 )
-| 103 => ((*#line 56.41 "c.lex"*)Tokens.MIUNSEQUAL (!lineRef , !lineRef)(*#line 1057.1 "c.lex.sml"*)
+| 103 => ((*#line 56.41 "c.lex"*)Tokens.MINUSEQUAL (!lineRef , !lineRef)(*#line 1059.1 "c.lex.sml"*)
 )
-| 106 => ((*#line 57.41 "c.lex"*)Tokens.MULTEQUAL (!lineRef , !lineRef)(*#line 1059.1 "c.lex.sml"*)
+| 106 => ((*#line 57.41 "c.lex"*)Tokens.MULTEQUAL (!lineRef , !lineRef)(*#line 1061.1 "c.lex.sml"*)
 )
-| 109 => ((*#line 58.41 "c.lex"*)Tokens.DIVEQUAL (!lineRef , !lineRef)(*#line 1061.1 "c.lex.sml"*)
+| 109 => ((*#line 58.41 "c.lex"*)Tokens.DIVEQUAL (!lineRef , !lineRef)(*#line 1063.1 "c.lex.sml"*)
 )
-| 112 => ((*#line 59.41 "c.lex"*)Tokens.INC (!lineRef , !lineRef)(*#line 1063.1 "c.lex.sml"*)
+| 112 => ((*#line 59.41 "c.lex"*)Tokens.INC (!lineRef , !lineRef)(*#line 1065.1 "c.lex.sml"*)
 )
-| 115 => ((*#line 60.41 "c.lex"*)Tokens.DEC (!lineRef , !lineRef)(*#line 1065.1 "c.lex.sml"*)
+| 115 => ((*#line 60.41 "c.lex"*)Tokens.DEC (!lineRef , !lineRef)(*#line 1067.1 "c.lex.sml"*)
 )
-| 118 => ((*#line 61.41 "c.lex"*)Tokens.OR (!lineRef , !lineRef)(*#line 1067.1 "c.lex.sml"*)
+| 118 => ((*#line 61.41 "c.lex"*)Tokens.OR (!lineRef , !lineRef)(*#line 1069.1 "c.lex.sml"*)
 )
-| 12 => ((*#line 35.41 "c.lex"*)Tokens.SEMICOLON (!lineRef , !lineRef)(*#line 1069.1 "c.lex.sml"*)
+| 12 => ((*#line 35.41 "c.lex"*)Tokens.SEMICOLON (!lineRef , !lineRef)(*#line 1071.1 "c.lex.sml"*)
 )
-| 121 => ((*#line 62.41 "c.lex"*)Tokens.AND (!lineRef , !lineRef)(*#line 1071.1 "c.lex.sml"*)
+| 121 => ((*#line 62.41 "c.lex"*)Tokens.AND (!lineRef , !lineRef)(*#line 1073.1 "c.lex.sml"*)
 )
-| 123 => ((*#line 63.41 "c.lex"*)Tokens.NOT (!lineRef , !lineRef)(*#line 1073.1 "c.lex.sml"*)
+| 123 => ((*#line 63.41 "c.lex"*)Tokens.NOT (!lineRef , !lineRef)(*#line 1075.1 "c.lex.sml"*)
 )
-| 126 => ((*#line 64.41 "c.lex"*)Tokens.LESSEQUAL (!lineRef , !lineRef)(*#line 1075.1 "c.lex.sml"*)
+| 126 => ((*#line 64.41 "c.lex"*)Tokens.LESSEQUAL (!lineRef , !lineRef)(*#line 1077.1 "c.lex.sml"*)
 )
-| 128 => ((*#line 65.41 "c.lex"*)Tokens.LESS (!lineRef , !lineRef)(*#line 1077.1 "c.lex.sml"*)
+| 128 => ((*#line 65.41 "c.lex"*)Tokens.LESS (!lineRef , !lineRef)(*#line 1079.1 "c.lex.sml"*)
 )
-| 130 => ((*#line 66.41 "c.lex"*)Tokens.GREATER (!lineRef , !lineRef)(*#line 1079.1 "c.lex.sml"*)
+| 130 => ((*#line 66.41 "c.lex"*)Tokens.GREATER (!lineRef , !lineRef)(*#line 1081.1 "c.lex.sml"*)
 )
-| 133 => ((*#line 67.41 "c.lex"*)Tokens.GREATEREQUAL (!lineRef , !lineRef)(*#line 1081.1 "c.lex.sml"*)
+| 133 => ((*#line 67.41 "c.lex"*)Tokens.GREATEREQUAL (!lineRef , !lineRef)(*#line 1083.1 "c.lex.sml"*)
 )
-| 136 => ((*#line 68.41 "c.lex"*)Tokens.EQUALEQUAL (!lineRef , !lineRef)(*#line 1083.1 "c.lex.sml"*)
+| 136 => ((*#line 68.41 "c.lex"*)Tokens.EQUALEQUAL (!lineRef , !lineRef)(*#line 1085.1 "c.lex.sml"*)
 )
-| 139 => ((*#line 69.41 "c.lex"*)Tokens.NOTEQUAL (!lineRef , !lineRef)(*#line 1085.1 "c.lex.sml"*)
+| 139 => ((*#line 69.41 "c.lex"*)Tokens.NOTEQUAL (!lineRef , !lineRef)(*#line 1087.1 "c.lex.sml"*)
 )
-| 14 => ((*#line 36.41 "c.lex"*)Tokens.COLON (!lineRef , !lineRef)(*#line 1087.1 "c.lex.sml"*)
+| 14 => ((*#line 36.41 "c.lex"*)Tokens.COLON (!lineRef , !lineRef)(*#line 1089.1 "c.lex.sml"*)
 )
-| 141 => ((*#line 70.41 "c.lex"*)Tokens.PLUS (!lineRef , !lineRef)(*#line 1089.1 "c.lex.sml"*)
+| 141 => ((*#line 70.41 "c.lex"*)Tokens.PLUS (!lineRef , !lineRef)(*#line 1091.1 "c.lex.sml"*)
 )
-| 143 => ((*#line 71.41 "c.lex"*)Tokens.MINUS (!lineRef , !lineRef)(*#line 1091.1 "c.lex.sml"*)
+| 143 => ((*#line 71.41 "c.lex"*)Tokens.MINUS (!lineRef , !lineRef)(*#line 1093.1 "c.lex.sml"*)
 )
-| 145 => ((*#line 72.42 "c.lex"*)Tokens.MULT (!lineRef , !lineRef)(*#line 1093.1 "c.lex.sml"*)
+| 145 => ((*#line 72.42 "c.lex"*)Tokens.MULT (!lineRef , !lineRef)(*#line 1095.1 "c.lex.sml"*)
 )
-| 147 => ((*#line 73.41 "c.lex"*)Tokens.DIV (!lineRef , !lineRef)(*#line 1095.1 "c.lex.sml"*)
+| 147 => ((*#line 73.41 "c.lex"*)Tokens.DIV (!lineRef , !lineRef)(*#line 1097.1 "c.lex.sml"*)
 )
-| 149 => ((*#line 74.41 "c.lex"*)Tokens.MOD (!lineRef , !lineRef)(*#line 1097.1 "c.lex.sml"*)
+| 149 => ((*#line 74.41 "c.lex"*)Tokens.MOD (!lineRef , !lineRef)(*#line 1099.1 "c.lex.sml"*)
 )
-| 151 => ((*#line 75.41 "c.lex"*)Tokens.QUES (!lineRef , !lineRef)(*#line 1099.1 "c.lex.sml"*)
+| 151 => ((*#line 75.41 "c.lex"*)Tokens.QUES (!lineRef , !lineRef)(*#line 1101.1 "c.lex.sml"*)
 )
-| 153 => ((*#line 76.41 "c.lex"*)Tokens.DOT (!lineRef , !lineRef)(*#line 1101.1 "c.lex.sml"*)
+| 154 => ((*#line 76.42 "c.lex"*)Tokens.STAR (!lineRef , !lineRef)(*#line 1103.1 "c.lex.sml"*)
 )
-| 158 => ((*#line 77.41 "c.lex"*)Tokens.TRUE (!lineRef , !lineRef)(*#line 1103.1 "c.lex.sml"*)
+| 156 => ((*#line 77.41 "c.lex"*)Tokens.DASH (!lineRef , !lineRef)(*#line 1105.1 "c.lex.sml"*)
 )
-| 16 => ((*#line 37.41 "c.lex"*)Tokens.LEFTBRACKET (!lineRef , !lineRef)(*#line 1105.1 "c.lex.sml"*)
+| 158 => ((*#line 78.41 "c.lex"*)Tokens.DOT (!lineRef , !lineRef)(*#line 1107.1 "c.lex.sml"*)
 )
-| 164 => ((*#line 78.41 "c.lex"*)Tokens.FALSE (!lineRef , !lineRef)(*#line 1107.1 "c.lex.sml"*)
+| 16 => ((*#line 37.41 "c.lex"*)Tokens.LEFTBRACKET (!lineRef , !lineRef)(*#line 1109.1 "c.lex.sml"*)
 )
-| 167 => ((*#line 79.41 "c.lex"*)Tokens.ID (!lineRef , !lineRef)(*#line 1109.1 "c.lex.sml"*)
+| 163 => ((*#line 79.41 "c.lex"*)Tokens.TRUE (!lineRef , !lineRef)(*#line 1111.1 "c.lex.sml"*)
 )
-| 177 => let val yytext=yymktext() in (*#line 80.41 "c.lex"*)Tokens.CHARCONST (yytext, !lineRef , !lineRef)(*#line 1111.1 "c.lex.sml"*)
+| 169 => ((*#line 80.41 "c.lex"*)Tokens.FALSE (!lineRef , !lineRef)(*#line 1113.1 "c.lex.sml"*)
+)
+| 172 => let val yytext=yymktext() in (*#line 81.41 "c.lex"*)Tokens.ID (yytext , !lineRef , !lineRef)(*#line 1115.1 "c.lex.sml"*)
  end
-| 18 => ((*#line 38.41 "c.lex"*)Tokens.RIGHTBRACKET (!lineRef , !lineRef)(*#line 1113.1 "c.lex.sml"*)
+| 18 => ((*#line 38.41 "c.lex"*)Tokens.RIGHTBRACKET (!lineRef , !lineRef)(*#line 1117.1 "c.lex.sml"*)
 )
-| 186 => let val yytext=yymktext() in (*#line 81.39 "c.lex"*)Tokens.NUMCONST (yytext, !lineRef , !lineRef)(*#line 1115.1 "c.lex.sml"*)
+| 182 => let val yytext=yymktext() in (*#line 82.41 "c.lex"*)Tokens.CHARCONST (yytext, !lineRef , !lineRef)(*#line 1119.1 "c.lex.sml"*)
  end
-| 20 => ((*#line 39.41 "c.lex"*)Tokens.LPARA (!lineRef , !lineRef)(*#line 1117.1 "c.lex.sml"*)
+| 191 => let val yytext=yymktext() in (*#line 83.39 "c.lex"*)Tokens.NUMCONST (yytext, !lineRef , !lineRef)(*#line 1121.1 "c.lex.sml"*)
+ end
+| 20 => ((*#line 39.41 "c.lex"*)Tokens.LPARA (!lineRef , !lineRef)(*#line 1123.1 "c.lex.sml"*)
 )
-| 22 => ((*#line 40.41 "c.lex"*)Tokens.RPARA (!lineRef , !lineRef)(*#line 1119.1 "c.lex.sml"*)
+| 22 => ((*#line 40.41 "c.lex"*)Tokens.RPARA (!lineRef , !lineRef)(*#line 1125.1 "c.lex.sml"*)
 )
-| 29 => ((*#line 41.42 "c.lex"*)Tokens.RECORD (!lineRef , !lineRef)(*#line 1121.1 "c.lex.sml"*)
+| 29 => ((*#line 41.42 "c.lex"*)Tokens.RECORD (!lineRef , !lineRef)(*#line 1127.1 "c.lex.sml"*)
 )
-| 36 => ((*#line 42.41 "c.lex"*)Tokens.STATIC (!lineRef , !lineRef)(*#line 1123.1 "c.lex.sml"*)
+| 36 => ((*#line 42.41 "c.lex"*)Tokens.STATIC (!lineRef , !lineRef)(*#line 1129.1 "c.lex.sml"*)
 )
-| 4 => ((*#line 31.41 "c.lex"*) lex() (*#line 1125.1 "c.lex.sml"*)
+| 4 => ((*#line 31.41 "c.lex"*) lex() (*#line 1131.1 "c.lex.sml"*)
 )
-| 40 => ((*#line 43.41 "c.lex"*)Tokens.INT (!lineRef , !lineRef)(*#line 1127.1 "c.lex.sml"*)
+| 40 => ((*#line 43.41 "c.lex"*)Tokens.INT (!lineRef , !lineRef)(*#line 1133.1 "c.lex.sml"*)
 )
-| 45 => ((*#line 44.41 "c.lex"*)Tokens.BOOL (!lineRef , !lineRef)(*#line 1129.1 "c.lex.sml"*)
+| 45 => ((*#line 44.41 "c.lex"*)Tokens.BOOL (!lineRef , !lineRef)(*#line 1135.1 "c.lex.sml"*)
 )
-| 50 => ((*#line 45.41 "c.lex"*)Tokens.CHAR (!lineRef , !lineRef)(*#line 1131.1 "c.lex.sml"*)
+| 50 => ((*#line 45.41 "c.lex"*)Tokens.CHAR (!lineRef , !lineRef)(*#line 1137.1 "c.lex.sml"*)
 )
-| 55 => ((*#line 46.41 "c.lex"*)Tokens.VOID (!lineRef , !lineRef)(*#line 1133.1 "c.lex.sml"*)
+| 55 => ((*#line 46.41 "c.lex"*)Tokens.VOID (!lineRef , !lineRef)(*#line 1139.1 "c.lex.sml"*)
 )
-| 58 => ((*#line 47.41 "c.lex"*)Tokens.IF (!lineRef , !lineRef)(*#line 1135.1 "c.lex.sml"*)
+| 58 => ((*#line 47.41 "c.lex"*)Tokens.IF (!lineRef , !lineRef)(*#line 1141.1 "c.lex.sml"*)
 )
-| 6 => ((*#line 32.41 "c.lex"*)Tokens.LEFTBRACE (!lineRef , !lineRef)(*#line 1137.1 "c.lex.sml"*)
+| 6 => ((*#line 32.41 "c.lex"*)Tokens.LEFTBRACE (!lineRef , !lineRef)(*#line 1143.1 "c.lex.sml"*)
 )
-| 63 => ((*#line 48.41 "c.lex"*)Tokens.ELSE (!lineRef , !lineRef)(*#line 1139.1 "c.lex.sml"*)
+| 63 => ((*#line 48.41 "c.lex"*)Tokens.ELSE (!lineRef , !lineRef)(*#line 1145.1 "c.lex.sml"*)
 )
-| 69 => ((*#line 49.41 "c.lex"*)Tokens.WHILE (!lineRef , !lineRef)(*#line 1141.1 "c.lex.sml"*)
+| 69 => ((*#line 49.41 "c.lex"*)Tokens.WHILE (!lineRef , !lineRef)(*#line 1147.1 "c.lex.sml"*)
 )
-| 73 => ((*#line 50.41 "c.lex"*)Tokens.FOR (!lineRef , !lineRef)(*#line 1143.1 "c.lex.sml"*)
+| 73 => ((*#line 50.41 "c.lex"*)Tokens.FOR (!lineRef , !lineRef)(*#line 1149.1 "c.lex.sml"*)
 )
-| 8 => ((*#line 33.41 "c.lex"*)Tokens.RIGHTBRACE (!lineRef , !lineRef)(*#line 1145.1 "c.lex.sml"*)
+| 8 => ((*#line 33.41 "c.lex"*)Tokens.RIGHTBRACE (!lineRef , !lineRef)(*#line 1151.1 "c.lex.sml"*)
 )
-| 80 => ((*#line 51.41 "c.lex"*)Tokens.RETURN (!lineRef , !lineRef)(*#line 1147.1 "c.lex.sml"*)
+| 80 => ((*#line 51.41 "c.lex"*)Tokens.RETURN (!lineRef , !lineRef)(*#line 1153.1 "c.lex.sml"*)
 )
-| 86 => ((*#line 52.41 "c.lex"*)Tokens.BREAK (!lineRef , !lineRef)(*#line 1149.1 "c.lex.sml"*)
+| 86 => ((*#line 52.41 "c.lex"*)Tokens.BREAK (!lineRef , !lineRef)(*#line 1155.1 "c.lex.sml"*)
 )
-| 95 => ((*#line 53.41 "c.lex"*)Tokens.CONTINUE (!lineRef , !lineRef)(*#line 1151.1 "c.lex.sml"*)
+| 95 => ((*#line 53.41 "c.lex"*)Tokens.CONTINUE (!lineRef , !lineRef)(*#line 1157.1 "c.lex.sml"*)
 )
-| 97 => ((*#line 54.41 "c.lex"*)Tokens.EQUAL (!lineRef , !lineRef)(*#line 1153.1 "c.lex.sml"*)
+| 97 => ((*#line 54.41 "c.lex"*)Tokens.EQUAL (!lineRef , !lineRef)(*#line 1159.1 "c.lex.sml"*)
 )
 | _ => raise Internal.LexerError
 

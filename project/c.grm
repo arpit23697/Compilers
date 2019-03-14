@@ -6,6 +6,7 @@
 
 (* This section is for the terminal of the language *)
 %term RECORD
+        | EOF
         | ID of string
         | LEFTBRACE 
         | RIGHTBRACE
@@ -50,11 +51,15 @@
         | DIV 
         | MOD 
         | QUES
+        | DASH 
+        | STAR
         | DOT 
         | NUMCONST of string 
         | CHARCONST  of string 
         | TRUE 
         | FALSE
+        | iff 
+        | c 
 
 
 (* The nonterminals of the language *)
@@ -91,13 +96,9 @@
         | andExpression of Ast.andExpression
         | unaryRelExpression of Ast.unaryRelExpression
         | relExpression of Ast.relExpression
-        | relop of Ast.relop
         | sumExpression of Ast.sumExpression
-        | sumOp of Ast.sumOp
         | term of Ast.term
-        | mulOp of Ast.mulOp
         | unaryExpression of Ast.unaryExpression
-        | unaryOp of unaryOp
         | factor of Ast.factor
         | mutable of Ast.mutable
         | immutable of Ast.immutable
@@ -110,8 +111,20 @@
 
 
 %noshift EOF
+%verbose 
 
-
+(* Precedence increase in the downward direction *)
+%left OR 
+%left AND 
+%left NOT 
+%left LESSEQUAL LESS GREATER GREATEREQUAL EQUALEQUAL NOTEQUAL 
+%left PLUS MINUS 
+%left MULT DIV MOD 
+%left QUES DASH STAR
+%nonassoc iff 
+%nonassoc ELSE 
+%nonassoc LPARA 
+%nonassoc c
 
 
 (* The type that captures position in the input *)
@@ -124,7 +137,7 @@
 program : declarationList                                       ( Ast.declL(declarationList) )
 
 declarationList : declarationList declaration                   ( Ast.declList (declarationList , declaration) )
-                | declaration                                   ( Ast.singleDec (declaration) )
+                | declaration                                   ( Ast.singleDecl (declaration) )
 
 declaration : varDeclaration                                    (Ast.variableDeclaration (varDeclaration) ) 
             | funDeclaration                                    (Ast.functionDeclaration (funDeclaration) )
@@ -136,7 +149,7 @@ recDeclaration : RECORD ID LEFTBRACE localDeclarations RIGHTBRACE   (Ast.recordI
 (* ============================ variable declaration ===================== *)
 varDeclaration : typeSpecifier varDeclList                          (Ast.vDecl (typeSpecifier , varDeclList))
 
-scopedVarDeclaration : scopedTypeSpecifier varDeclList              (Ast.sDecl (scopedTypeSpecifier , var) )
+scopedVarDeclaration : scopedTypeSpecifier varDeclList              (Ast.sDecl (scopedTypeSpecifier , varDeclList) )
 
 varDeclList : varDeclList COMMA varDeclInitialize                   (Ast.vList (varDeclList , varDeclInitialize))
              | varDeclInitialize                                    (Ast.vSingleDecl (varDeclInitialize))
@@ -184,7 +197,7 @@ statement : expressionStmt                                          (Ast.eStatem
             | breakStmt                                             (Ast.bStatement (breakStmt))
             | continueStmt                                           (Ast.conStatement (continueStmt))
 
-compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.statementWithBrace (localDeclarations * statementList))
+compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.statementWithBrace (localDeclarations , statementList))
 
 localDeclarations : localDeclarations scopedVarDeclaration          (Ast.declIn (localDeclarations , scopedVarDeclaration) ) 
             |                                                       (Ast.emptyDeclIn)
@@ -195,8 +208,8 @@ statementList : statementList statement                             (Ast.listOfS
 expressionStmt : expression SEMICOLON                               (Ast.basicExpression (expression))
              | SEMICOLON                                            (Ast.semicolon )
 
-selectionStmt : IF LPARA simpleExpression RPARA statement           (Ast.IF (simpleExpression , statement))
-            | IF LPARA simpleExpression RPARA statement ELSE statement (Ast.IF_ELSE (simpleExpression , statement1 , statement2))
+selectionStmt : IF LPARA simpleExpression RPARA statement       %prec iff   (Ast.IF (simpleExpression , statement))  
+            | IF LPARA simpleExpression RPARA statement ELSE statement  (Ast.IF_ELSE (simpleExpression , statement1 , statement2))
 
 iterationStmt : WHILE LPARA simpleExpression RPARA statement         (Ast.WHILE(simpleExpression , statement))
         
@@ -216,3 +229,58 @@ expression : mutable EQUAL expression                               (Ast.assign 
             | mutable INC                                           (Ast.increment (mutable))
             | mutable DEC                                           (Ast.decrement (mutable))
             | simpleExpression                                      (Ast.plainExpression (simpleExpression))
+
+simpleExpression : simpleExpression OR andExpression                (Ast.or(simpleExpression , andExpression))
+                | andExpression                                     (Ast.noOr (andExpression) )
+
+andExpression : andExpression AND unaryRelExpression                (Ast.simpleAnd (andExpression , unaryRelExpression)) 
+                | unaryRelExpression                                (Ast.uExpr (unaryRelExpression))
+
+unaryRelExpression : NOT unaryRelExpression                         (Ast.not (unaryRelExpression))
+                | relExpression                                      (Ast.rExpr (relExpression))
+
+relExpression : sumExpression LESSEQUAL sumExpression                       (Ast.relExp (sumExpression , Ast.LTE , sumExpression ))    
+                | sumExpression LESS sumExpression                           (Ast.relExp (sumExpression , Ast.LT , sumExpression ))
+                | sumExpression GREATER sumExpression                       (Ast.relExp (sumExpression , Ast.GTE , sumExpression ))
+                | sumExpression GREATEREQUAL sumExpression                  (Ast.relExp (sumExpression , Ast.GT , sumExpression ))
+                | sumExpression EQUALEQUAL sumExpression                    (Ast.relExp (sumExpression , Ast.EQ , sumExpression ))
+                | sumExpression NOTEQUAL sumExpression                      (Ast.relExp (sumExpression , Ast.NEQ , sumExpression ))
+                | sumExpression                                              (Ast.noRel (sumExpression))
+
+sumExpression : sumExpression PLUS term                                    (Ast.sumExp (sumExpression , Ast.PLUS , term)) 
+                | sumExpression MINUS term                                  (Ast.sumExp (sumExpression , Ast.MINUS , term))
+                | term                                                      (Ast.noSum (term))
+
+term            : term MULT unaryExpression                                (Ast.multExp (term , Ast.MULT , unaryExpression)) 
+                | term DIV unaryExpression                                 (Ast.multExp (term , Ast.DIV , unaryExpression))
+                | term MOD unaryExpression                                 (Ast.multExp (term , Ast.MOD , unaryExpression))
+                | unaryExpression                                          (Ast.noMult (unaryExpression))
+
+unaryExpression : DASH unaryExpression                                    (Ast.uExp (Ast.DASH , unaryExpression)) 
+                | STAR unaryExpression                                      (Ast.uExp (Ast.STAR , unaryExpression) )
+                | QUES unaryExpression                                     (Ast.uExp (Ast.QUES , unaryExpression))
+                | factor                                                   (Ast.noUnary (factor))
+
+factor : immutable                                                         (Ast.immut (immutable))
+        | mutable                                                          (Ast.mut (mutable))
+
+mutable : ID                                          %prec c                     (Ast.mID (ID))
+        | mutable LEFTBRACKET expression RIGHTBRACKET                      (Ast.mArray (mutable , expression ))
+        | mutable DOT ID                                                    (Ast.mRecord (mutable,ID))
+
+immutable : LPARA expression RPARA                                          (Ast.paranthesis(expression)) 
+        | call                                                              (Ast.c (call))
+        | constant                                                          (Ast.const (constant))
+
+call : ID LPARA args RPARA                                                  (Ast.callArgs (ID , args))
+
+args : argList                                                              (Ast.aList (argList))
+        |                                                                    (Ast.emptyArg)
+
+argList : argList COMMA expression                                            (Ast.aaList(argList , expression))
+        | expression                                                            (Ast.oneArg (expression))
+
+constant : NUMCONST                                                             (Ast.number(NUMCONST))
+        | CHARCONST                                                             (Ast.charConst (CHARCONST))
+        | TRUE                                                                  (Ast.trueValue)
+        | FALSE                                                                 (Ast.falseValue)
