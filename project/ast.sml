@@ -8,7 +8,7 @@ record
 
 
 
-datatype program = declarationList
+datatype program = declL of  declarationList
     
     and declarationList =  declList of (declarationList * declaration)   (*This is simply a list of declarations*)
                         | singleDecl of declaration

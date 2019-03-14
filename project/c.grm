@@ -1,0 +1,121 @@
+%%
+
+%eop EOF
+%pure
+%name Tiger
+
+(* This section is for the terminal of the language *)
+%term RECORD
+        | ID of string
+        | LEFTBRACE 
+        | RIGHTBRACE
+        | COMMA
+        | SEMICOLON
+        | COLON
+        | LEFTBRACKET
+        | RIGHTBRACKET
+        | STATIC
+        | LPARA
+        | RPARA
+        | INT 
+        | BOOL 
+        | CHAR 
+        | VOID
+        | IF
+        | ELSE
+        | WHILE
+        | FOR 
+        | RETURN 
+        | BREAK 
+        | CONTINUE 
+        | EQUAL
+        | PLUSEQUAL
+        | MINUSEQUAL
+        | MULTEQUAL
+        | DIVEQUAL
+        | INC
+        | DEC 
+        | OR
+        | AND 
+        | NOT 
+        | LESSEQUAL
+        | LESS 
+        | GREATER 
+        | GREATEREQUAL 
+        | EQUALEQUAL
+        | NOTEQUAL
+        | PLUS 
+        | MINUS 
+        | MULT 
+        | DIV 
+        | MOD 
+        | QUES
+        | DOT 
+        | NUMCONST of string 
+        | CHARCONST  of string 
+        | TRUE 
+        | FALSE
+
+
+(* The nonterminals of the language *)
+%nonterm program of Ast.program
+        | declarationList of Ast.declarationList
+        | declaration of  Ast.declaration
+        | recDeclaration of Ast.recDeclaration
+        | varDeclaration of Ast.varDeclaration
+        | scopedVarDeclaration of Ast.scopedVarDeclaration
+        | varDeclList of Ast.varDeclList
+        | varDeclInitialize of Ast.varDeclInitialize
+        | varDeclID of Ast.varDeclID
+        | scopedTypeSpecifier of Ast.scopedTypeSpecifier
+        | typeSpecifier of Ast.typeSpecifier
+        | returnTypeSpecifier of Ast.returnTypeSpecifier
+        | funDeclaration of Ast.funDeclaration
+        | params of Ast.params
+        | paramList of Ast.paramList
+        | paramTypeList of Ast.paramTypeList
+        | paramIDList of Ast.paramIDList
+        | paramID of Ast.paramID
+        | statement of Ast.statement
+        | compoundStmt of Ast.compoundStmt
+        | localDeclarations of Ast.localDeclarations
+        | statementList of Ast.statementList
+        | expressionStmt of Ast.expressionStmt
+        | selectionStmt of Ast.selectionStmt
+        | iterationStmt of Ast.iterationStmt
+        | returnStmt of Ast.returnStmt
+        | breakStmt of Ast.breakStmt
+        | continueStmt of Ast.continueStmt
+        | expression of Ast.expression
+        | simpleExpression of Ast.simpleExpression
+        | andExpression of Ast.andExpression
+        | unaryRelExpression of Ast.unaryRelExpression
+        | relExpression of Ast.relExpression
+        | relop of Ast.relop
+        | sumExpression of Ast.sumExpression
+        | sumOp of Ast.sumOp
+        | term of Ast.term
+        | mulOp of Ast.mulOp
+        | unaryExpression of Ast.unaryExpression
+        | unaryOp of unaryOp
+        | factor of Ast.factor
+        | mutable of Ast.mutable
+        | immutable of Ast.immutable
+        | call of Ast.call
+        | args of Ast.args
+        | argList of Ast.argList
+        | constant of Ast.constant
+    
+
+
+
+%noshift EOF
+
+
+
+
+(* The type that captures position in the input *)
+%pos int
+
+(* Grammar of the language *)
+%%
