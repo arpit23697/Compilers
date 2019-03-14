@@ -119,3 +119,100 @@
 
 (* Grammar of the language *)
 %%
+
+(* =============================== Grammar ================================*)
+program : declarationList                                       ( Ast.declL(declarationList) )
+
+declarationList : declarationList declaration                   ( Ast.declList (declarationList , declaration) )
+                | declaration                                   ( Ast.singleDec (declaration) )
+
+declaration : varDeclaration                                    (Ast.variableDeclaration (varDeclaration) ) 
+            | funDeclaration                                    (Ast.functionDeclaration (funDeclaration) )
+            | recDeclaration                                    (Ast.recordDeclaration (recDeclaration) )
+
+(* ============================ record declaration ====================== *)
+recDeclaration : RECORD ID LEFTBRACE localDeclarations RIGHTBRACE   (Ast.recordID (ID , localDeclarations))
+
+(* ============================ variable declaration ===================== *)
+varDeclaration : typeSpecifier varDeclList                          (Ast.vDecl (typeSpecifier , varDeclList))
+
+scopedVarDeclaration : scopedTypeSpecifier varDeclList              (Ast.sDecl (scopedTypeSpecifier , var) )
+
+varDeclList : varDeclList COMMA varDeclInitialize                   (Ast.vList (varDeclList , varDeclInitialize))
+             | varDeclInitialize                                    (Ast.vSingleDecl (varDeclInitialize))
+
+varDeclInitialize : varDeclID                                       (Ast.declarationOnlyID (varDeclID) )
+                | varDeclID COLON simpleExpression                  (Ast.declarationAssignment (varDeclID , simpleExpression))
+
+varDeclID : ID                                                     (Ast.vID (ID))
+            | ID LEFTBRACKET NUMCONST RIGHTBRACKET                  (Ast.arrayLike (ID , NUMCONST))
+
+scopedTypeSpecifier : STATIC typeSpecifier                          (Ast.staticType (typeSpecifier))
+                    | typeSpecifier                                 (Ast.simpleType (typeSpecifier))
+
+typeSpecifier : returnTypeSpecifier                                 (Ast.ret (returnTypeSpecifier))
+
+returnTypeSpecifier : INT                                           (Ast.integer)
+                    | BOOL                                          (Ast.boolean)
+                    | CHAR                                          (Ast.character)
+
+
+(* ================================== function declaration =========================== *)
+funDeclaration : typeSpecifier ID LPARA params RPARA statement       (Ast.functionReturn (typeSpecifier , ID , params , statement))  
+                | VOID ID LPARA params RPARA statement              (Ast.functionVoid (ID , params , statement))
+
+params : paramList                                                  (Ast.parameterList (paramList))
+        |                                                           (Ast.emptyParameter)
+
+paramList : paramList SEMICOLON paramTypeList                       (Ast.pList (paramList , paramTypeList))                   
+        | paramTypeList                                             (Ast.singleParam (paramTypeList))
+
+paramTypeList : typeSpecifier paramIDList                           (Ast.parameter(typeSpecifier , paramIDList))
+        
+paramIDList : paramIDList COMMA paramID                             (Ast.listOfID (paramIDList , paramID)) 
+            | paramID                                               (Ast.singleIDParameter (paramID))
+
+paramID : ID                                                        (Ast.normalID (ID))
+        | ID LEFTBRACKET RIGHTBRACKET                               (Ast.arrayID (ID))
+
+(* =============================== statements ==================================== *)
+statement : expressionStmt                                          (Ast.eStatement (expressionStmt)) 
+            | compoundStmt                                          (Ast.cStatement (compoundStmt))
+            | selectionStmt                                         (Ast.sStatement (selectionStmt))
+            | iterationStmt                                         (Ast.iStatement (iterationStmt))
+            | returnStmt                                            (Ast.rStatement (returnStmt))
+            | breakStmt                                             (Ast.bStatement (breakStmt))
+            | continueStmt                                           (Ast.conStatement (continueStmt))
+
+compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.statementWithBrace (localDeclarations * statementList))
+
+localDeclarations : localDeclarations scopedVarDeclaration          (Ast.declIn (localDeclarations , scopedVarDeclaration) ) 
+            |                                                       (Ast.emptyDeclIn)
+
+statementList : statementList statement                             (Ast.listOfStatements (statementList , statement)) 
+            |                                                       (Ast.emptyListStatement)
+
+expressionStmt : expression SEMICOLON                               (Ast.basicExpression (expression))
+             | SEMICOLON                                            (Ast.semicolon )
+
+selectionStmt : IF LPARA simpleExpression RPARA statement           (Ast.IF (simpleExpression , statement))
+            | IF LPARA simpleExpression RPARA statement ELSE statement (Ast.IF_ELSE (simpleExpression , statement1 , statement2))
+
+iterationStmt : WHILE LPARA simpleExpression RPARA statement         (Ast.WHILE(simpleExpression , statement))
+        
+returnStmt : RETURN SEMICOLON                                        (Ast.returnNoValue)
+            | RETURN expression SEMICOLON                           (Ast.returnValue (expression))
+
+breakStmt : BREAK SEMICOLON                                             (Ast.BREAK)
+continueStmt : CONTINUE SEMICOLON                                       (Ast.CONTINUE)
+
+
+(* ================================= EXPRESSION ======================================= *)
+expression : mutable EQUAL expression                               (Ast.assign (mutable , expression))
+            | mutable PLUSEQUAL expression                          (Ast.assignPlus (mutable , expression))
+            | mutable MINUSEQUAL expression                         (Ast.assignMinus (mutable , expression))
+            | mutable MULTEQUAL expression                          (Ast.assignMult (mutable , expression))
+            | mutable DIVEQUAL expression                           (Ast.assignDiv (mutable , expression))
+            | mutable INC                                           (Ast.increment (mutable))
+            | mutable DEC                                           (Ast.decrement (mutable))
+            | simpleExpression                                      (Ast.plainExpression (simpleExpression))

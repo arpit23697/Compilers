@@ -33,7 +33,7 @@ datatype program = declL of  declarationList
                         | declarationAssignment of (varDeclID * simpleExpression)    (*Of the form valDeclID : simpleExpression*)
                                                                             (*Second one is like assignment on declarations*)
 
-    and varDeclID = ID of string                          (*this is declaration of the form ID*)
+    and varDeclID = vID of string                          (*this is declaration of the form ID*)
                     | arrayLike of (string * string)     (*declaration of the form ID [NUMCONST] //like that of array*)
         
     and scopedTypeSpecifier = staticType of typeSpecifier  (*Of the form static typeSpecifier*)
@@ -41,9 +41,9 @@ datatype program = declL of  declarationList
 
     and typeSpecifier = ret of returnTypeSpecifier        (*one type is not understood properly*)
 
-    and returnTypeSpecifier = integer of int
-                            | boolean of bool 
-                            | character of string
+    and returnTypeSpecifier = integer
+                            | boolean 
+                            | character
 
     (* ========================================= function declaration ================================ *)
     and funDeclaration = functionReturn of (typeSpecifier * string * params * statement)       (* typeSpecifier ID (params) statement  // string is for the ID*)
@@ -88,7 +88,7 @@ datatype program = declL of  declarationList
                         | IF_ELSE of (simpleExpression * statement * statement)   (*if (simpleExpression) statement else statement*)
 
     and iterationStmt = WHILE of (simpleExpression * statement)                                     (*while (simpleExpression) statement*)
-                        | FOR of (expressionStmt * simpleExpression * expression * statement)    (*for (expressionStmt expressionStmt simpleExpression) statement*)
+                        (* | FOR of (expressionStmt * simpleExpression * expression * statement)    for (expressionStmt expressionStmt simpleExpression) statement *)
     
     and returnStmt = returnNoValue                                (*return ;*)                     
                     | returnValue of (expression)                 (*return expression;*)

@@ -76,6 +76,6 @@ CHARCONST = letter;
 "."                                 => (Tokens.DOT (!lineRef , !lineRef));
 "true"                              => (Tokens.TRUE (!lineRef , !lineRef));
 "false"                             => (Tokens.FALSE (!lineRef , !lineRef));
-ID                                  => (Tokens.ID (!lineRef , !lineRef));
+ID                                  => (Tokens.ID (yytext , !lineRef , !lineRef));
 CHARCONST                           => (Tokens.CHARCONST (yytext, !lineRef , !lineRef));
 NUMCONST                          => (Tokens.NUMCONST (yytext, !lineRef , !lineRef));
