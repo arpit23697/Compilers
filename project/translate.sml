@@ -1,6 +1,8 @@
 structure Translate =
 struct
 
-fun compile x = print("Working")
+fun compileProgram x = printColor.print_red("Working")
+
+
 
 end

@@ -1,11 +1,14 @@
 record point
 {
     int x, y;
-}
+} //aadafdj
 record line
 {
     int x, y;
 }
+
+//afdaf;kdasfsdljfad;fkadf
+//fadfag
 int ant(int bat, cat[]; bool dog, elk; int fox)
 {
     int gnu, hog[100];
