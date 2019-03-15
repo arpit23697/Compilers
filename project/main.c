@@ -11,13 +11,11 @@ record line
 //fadfag
 int ant(int bat, cat[]; bool dog, elk; int fox)
 {
-    int gnu, hog[100];
-    int aPoint;
-    int aLine;
+int gnu, hog[100];
+    int aPoint;    int aLine;
     int two[2];
-    aPoint.x = 666;
-    aPoint.y = 667;
-    aLine.x.x = 1;
+aPoint.x = 666;
+    aPoint.y = 667;    aLine.x.x = 1;
     aLine.x.y = 2;
     aLine.y.x = 3;
     aLine.y.y = 4;
