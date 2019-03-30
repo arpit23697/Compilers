@@ -15,16 +15,16 @@ datatype program = declL of  declarationList
     
     and declaration = variableDeclaration of varDeclaration 
                     | functionDeclaration of  funDeclaration
-                    | recordDeclaration of recDeclaration
+                    (* | recordDeclaration of recDeclaration *)
 
     (* ============================== record declaration ================================= *)
 
-    and recDeclaration = recordID of (string * localDeclarations)     (*string is for the ID ; record ID { local Declarations }*)
+    (* and recDeclaration = recordID of (string * localDeclarations)     string is for the ID ; record ID { local Declarations } *)
 
     (* =============================== variable declaration =============================== *)
     and varDeclaration = vDecl of (typeSpecifier * varDeclList) 
 
-    and scopedVarDeclaration = sDecl of (scopedTypeSpecifier * varDeclList )  
+    (* and scopedVarDeclaration = sDecl of (scopedTypeSpecifier * varDeclList )   *)
 
     and varDeclList = vList of (varDeclList * varDeclInitialize)  (*varDeclList is a list of varDeclInitialize*)
                     | vSingleDecl of varDeclInitialize
@@ -36,19 +36,19 @@ datatype program = declL of  declarationList
     and varDeclID = vID of string                          (*this is declaration of the form ID*)
                     | arrayLike of (string * string)     (*declaration of the form ID [NUMCONST] //like that of array*)
         
-    and scopedTypeSpecifier = staticType of typeSpecifier  (*Of the form static typeSpecifier*)
-                            | simpleType of typeSpecifier
+    (* and scopedTypeSpecifier = staticType of typeSpecifier  Of the form static typeSpecifier *)
+                            (* | simpleType of typeSpecifier *)
 
-    and typeSpecifier = ret of returnTypeSpecifier        (*one type is not understood properly*)
+    (* and typeSpecifier = ret of returnTypeSpecifier        one type is not understood properly *)
                         (* | RECTYPE of string  *)
                         
-    and returnTypeSpecifier = integer
+    and typeSpecifier = integer
                             | boolean 
                             | character
 
     (* ========================================= function declaration ================================ *)
-    and funDeclaration = functionReturn of (typeSpecifier * string * params * statement)       (* typeSpecifier ID (params) statement  // string is for the ID*)
-                        | functionVoid of (string * params * statement)           (* string is for the ID ; void ID (params) statement *)
+    and funDeclaration = functionReturn of (typeSpecifier * string * params * compoundStmt)       (* typeSpecifier ID (params) statement  // string is for the ID*)
+                        | functionVoid of (string * params * compoundStmt)           (* string is for the ID ; void ID (params) statement *)
 
     and params = parameterList of paramList 
                 | emptyParameter   (*for the empty parameter*)
@@ -56,10 +56,10 @@ datatype program = declL of  declarationList
     and paramList = pList of (paramList * paramTypeList)           (*paramList is the list of paramTypeList*)
                     | singleParam of (paramTypeList)
     
-    and paramTypeList = parameter of (typeSpecifier * paramIDList) 
+    and paramTypeList = parameter of (typeSpecifier * paramID) 
 
-    and paramIDList = listOfID of (paramIDList * paramID) 
-                    | singleIDParameter of (paramID)
+    (* and paramIDList = listOfID of (paramIDList * paramID)  *)
+                    (* | singleIDParameter of (paramID) *)
 
     and paramID = normalID of string                (*id of the type : ID*)
                  | arrayID of string                (*id of the type : ID[]*)
@@ -76,7 +76,7 @@ datatype program = declL of  declarationList
 
     and compoundStmt = statementWithBrace of (localDeclarations * statementList)       (*{localDeclaration statementList}*)
     
-    and localDeclarations = declIn of (localDeclarations * scopedVarDeclaration)
+    and localDeclarations = declIn of (localDeclarations *varDeclaration)
                             | emptyDeclIn
 
     and statementList = listOfStatements of (statementList * statement)
@@ -134,14 +134,14 @@ datatype program = declL of  declarationList
     and unaryExpression = uExp of (unaryOp * unaryExpression)
                         | noUnary of (factor)
 
-    and unaryOp = STAR | DASH | QUES
+    and unaryOp = DASH 
 
     and factor = mut of (mutable)
                 | immut of (immutable)
 
     and mutable = mID of string 
                 | mArray of (mutable * expression)              (*mutable [expression]*)
-                | mRecord of (mutable * string )                (*mutable.ID*)
+                (* | mRecord of (mutable * string )                mutable.ID *)
 
     and immutable = paranthesis of expression                   (*(expression)*)
                     | c of call

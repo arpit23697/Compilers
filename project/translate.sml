@@ -18,10 +18,10 @@ and printDeclarationList (Ast.declList (x,y)) = (printDeclarationList x ; printD
 
 and printDeclaration (Ast.variableDeclaration (x)) = (printVarDeclaration x)
     | printDeclaration (Ast.functionDeclaration (x)) = (printFunDeclaration x)
-    | printDeclaration (Ast.recordDeclaration (x)) = (printRecordDeclaration x)
+    (* | printDeclaration (Ast.recordDeclaration (x)) = (printRecordDeclaration x) *)
 
 (* ==================================== record declaration ================================= *)
-and printRecordDeclaration (Ast.recordID (x,y)) = ( 
+(* and printRecordDeclaration (Ast.recordID (x,y)) = ( 
                                                     print_red "record ";
                                                      print_default x;
                                                      print_yellow " {\n";
@@ -31,12 +31,12 @@ and printRecordDeclaration (Ast.recordID (x,y)) = (
                                                     indent := !indent - 1 ;
                                                     print_tabs_real ();
                                                     print_yellow "}\n"
-                                                    )
+                                                    ) *)
 
 (* ===================================== variable declaration ================================= *)
 and printVarDeclaration (Ast.vDecl(x,y)) = (print_tabs_real () ; printTypeSpecifier x ; printVarDeclList y ; print ";\n")
 
-and printScopedVarDeclaration (Ast.sDecl (x,y)) = (print_tabs_real(); printScopedTypeSpecifier x ; printVarDeclList y ; print ";\n")
+(* and printScopedVarDeclaration (Ast.sDecl (x,y)) = (print_tabs_real(); printScopedTypeSpecifier x ; printVarDeclList y ; print ";\n") *)
 
 and printVarDeclList (Ast.vList (x,y)) = (printVarDeclList x ; print " , " ; printVarDeclInitialize y)
     | printVarDeclList (Ast.vSingleDecl (x)) = (printVarDeclInitialize x)
@@ -52,14 +52,14 @@ and printVarDeclID (Ast.vID (x)) = (print_default x)
                                             print "]"
                                             )
 
-and printScopedTypeSpecifier (Ast.staticType (x)) = (print_red "static " ; printTypeSpecifier x )
-    | printScopedTypeSpecifier (Ast.simpleType (x)) = (printTypeSpecifier x)
+(* and printScopedTypeSpecifier (Ast.staticType (x)) = (print_red "static " ; printTypeSpecifier x ) *)
+    (* | printScopedTypeSpecifier (Ast.simpleType (x)) = (printTypeSpecifier x) *)
 
-and printTypeSpecifier (Ast.ret (x)) = (printReturnTypeSpecifier x)
+(* and printTypeSpecifier (Ast.ret (x)) = (printReturnTypeSpecifier x) *)
 
-and printReturnTypeSpecifier (Ast.integer) = (print_cyan "int ")
-    | printReturnTypeSpecifier (Ast.boolean) = (print_cyan "bool ")
-    | printReturnTypeSpecifier (Ast.character) = (print_cyan "char ")
+and   printTypeSpecifier (Ast.integer) = (print_cyan "int ")
+    | printTypeSpecifier (Ast.boolean) = (print_cyan "bool ")
+    | printTypeSpecifier (Ast.character) = (print_cyan "char ")
 
 
 (* ===================================== function declaration ============================== *)
@@ -70,7 +70,7 @@ and printFunDeclaration (Ast.functionReturn (x,y,z,w)) = (
                                                             print "( ";
                                                             printParams z;
                                                             print " )";
-                                                            printStatement w
+                                                            printCompoundStmt w
                                                          )
     | printFunDeclaration (Ast.functionVoid (y,z,w)) = (
                                                             print_red "void";
@@ -78,7 +78,7 @@ and printFunDeclaration (Ast.functionReturn (x,y,z,w)) = (
                                                             print "( ";
                                                             printParams z;
                                                             print " )";
-                                                            printStatement w
+                                                            printCompoundStmt w
                                                          )
 
 and printParams (Ast.parameterList (x)) = (printParamList x)
@@ -87,10 +87,10 @@ and printParams (Ast.parameterList (x)) = (printParamList x)
 and printParamList (Ast.pList (x,y))  = (printParamList x ; print ", " ; printParamTypeList y)
     | printParamList (Ast.singleParam (x)) = (printParamTypeList x)
 
-and printParamTypeList (Ast.parameter(x,y)) = (printTypeSpecifier x ; printParamIDList y)
+and printParamTypeList (Ast.parameter(x,y)) = (printTypeSpecifier x ; printParamID y)
 
-and printParamIDList (Ast.listOfID (x ,y))  = (printParamIDList x ; print ", " ; printParamID y)
-    | printParamIDList (Ast.singleIDParameter (x)) = (printParamID x)
+(* and printParamIDList (Ast.listOfID (x ,y))  = (printParamIDList x ; print ", " ; printParamID y) *)
+    (* | printParamIDList (Ast.singleIDParameter (x)) = (printParamID x) *)
 
 and printParamID (Ast.normalID(x))   = (print_default x ; print " ")
     | printParamID (Ast.arrayID (x)) = (print_default x ; print " [] " )
@@ -117,7 +117,7 @@ and printCompoundStmt (Ast.statementWithBrace (x,y)) = (
 
 and printLocalDeclarations (Ast.declIn(x,y)) = (
                                                 printLocalDeclarations x;
-                                                printScopedVarDeclaration y
+                                                printVarDeclaration y
                                                 )
     | printLocalDeclarations (Ast.emptyDeclIn ) = ()
 
@@ -204,9 +204,9 @@ and printMulOp (Ast.MULT) = print_yellow " * "
 and printUnaryExpression (Ast.uExp (x,y)) = (printUnaryOp x; printUnaryExpression y)
     | printUnaryExpression (Ast.noUnary (x)) = (printFactor x)
 
-and printUnaryOp (Ast.STAR) = print_yellow " ** "
-    | printUnaryOp (Ast.DASH) = print_yellow " $$ "
-    | printUnaryOp (Ast.QUES) = print_yellow " ? "
+and printUnaryOp (Ast.DASH) = print_yellow " ~ "
+    (* | printUnaryOp (Ast.DASH) = print_yellow " $$ " *)
+    (* | printUnaryOp (Ast.QUES) = print_yellow " ? " *)
 
 and printFactor (Ast.mut (x)) = (printMutable x)
     | printFactor (Ast.immut (x)) = (printImmutable x)
@@ -214,7 +214,7 @@ and printFactor (Ast.mut (x)) = (printMutable x)
 
 and printMutable (Ast.mID (x)) = (print x)
     | printMutable (Ast.mArray (x,y)) = (printMutable x ; print_yellow "["; printExpression y ; print_yellow "]")
-    | printMutable (Ast.mRecord (x,y)) = (printMutable x ; print_yellow "." ; print y)
+    (* | printMutable (Ast.mRecord (x,y)) = (printMutable x ; print_yellow "." ; print y) *)
 
 and printImmutable (Ast.paranthesis (x)) = (print "( " ; printExpression x; print " )")
     | printImmutable (Ast.c (x)) =         (printCall x) 

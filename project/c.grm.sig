@@ -8,7 +8,6 @@ val FALSE:  'a * 'a -> (svalue,'a) token
 val TRUE:  'a * 'a -> (svalue,'a) token
 val CHARCONST: (string) *  'a * 'a -> (svalue,'a) token
 val NUMCONST: (string) *  'a * 'a -> (svalue,'a) token
-val DOT:  'a * 'a -> (svalue,'a) token
 val STAR:  'a * 'a -> (svalue,'a) token
 val DASH:  'a * 'a -> (svalue,'a) token
 val QUES:  'a * 'a -> (svalue,'a) token

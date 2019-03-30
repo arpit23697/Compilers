@@ -53,7 +53,7 @@
         | QUES
         | DASH 
         | STAR
-        | DOT 
+        (* | DOT  *)
         | NUMCONST of string 
         | CHARCONST  of string 
         | TRUE 
@@ -66,20 +66,20 @@
 %nonterm program of Ast.program
         | declarationList of Ast.declarationList
         | declaration of  Ast.declaration
-        | recDeclaration of Ast.recDeclaration
+        (* | recDeclaration of Ast.recDeclaration *)
         | varDeclaration of Ast.varDeclaration
-        | scopedVarDeclaration of Ast.scopedVarDeclaration
+        (* | scopedVarDeclaration of Ast.scopedVarDeclaration *)
         | varDeclList of Ast.varDeclList
         | varDeclInitialize of Ast.varDeclInitialize
         | varDeclID of Ast.varDeclID
-        | scopedTypeSpecifier of Ast.scopedTypeSpecifier
+        (* | scopedTypeSpecifier of Ast.scopedTypeSpecifier *)
         | typeSpecifier of Ast.typeSpecifier
-        | returnTypeSpecifier of Ast.returnTypeSpecifier
+        (* | returnTypeSpecifier of Ast.returnTypeSpecifier *)
         | funDeclaration of Ast.funDeclaration
         | params of Ast.params
         | paramList of Ast.paramList
         | paramTypeList of Ast.paramTypeList
-        | paramIDList of Ast.paramIDList
+        (* | paramIDList of Ast.paramIDList *)
         | paramID of Ast.paramID
         | statement of Ast.statement
         | compoundStmt of Ast.compoundStmt
@@ -142,15 +142,15 @@ declarationList : declarationList declaration                   ( Ast.declList (
 
 declaration : varDeclaration                                    (Ast.variableDeclaration (varDeclaration) ) 
             | funDeclaration                                    (Ast.functionDeclaration (funDeclaration) )
-            | recDeclaration                                    (Ast.recordDeclaration (recDeclaration) )
+            (* | recDeclaration                                    (Ast.recordDeclaration (recDeclaration) ) *)
 
 (* ============================ record declaration ====================== *)
-recDeclaration : RECORD ID LEFTBRACE localDeclarations RIGHTBRACE   (Ast.recordID (ID , localDeclarations))
+(* recDeclaration : RECORD ID LEFTBRACE localDeclarations RIGHTBRACE   (Ast.recordID (ID , localDeclarations)) *)
 
 (* ============================ variable declaration ===================== *)
 varDeclaration : typeSpecifier varDeclList SEMICOLON                         (Ast.vDecl (typeSpecifier , varDeclList))
 
-scopedVarDeclaration : scopedTypeSpecifier varDeclList  SEMICOLON          (Ast.sDecl (scopedTypeSpecifier , varDeclList) )
+(* scopedVarDeclaration : scopedTypeSpecifier varDeclList  SEMICOLON          (Ast.sDecl (scopedTypeSpecifier , varDeclList) ) *)
 
 varDeclList : varDeclList COMMA varDeclInitialize                   (Ast.vList (varDeclList , varDeclInitialize))
              | varDeclInitialize                                    (Ast.vSingleDecl (varDeclInitialize))
@@ -161,30 +161,30 @@ varDeclInitialize : varDeclID                                       (Ast.declara
 varDeclID : ID                                                     (Ast.vID (ID))
             | ID LEFTBRACKET NUMCONST RIGHTBRACKET                  (Ast.arrayLike (ID , NUMCONST))
 
-scopedTypeSpecifier : STATIC typeSpecifier                          (Ast.staticType (typeSpecifier))
-                    | typeSpecifier                                 (Ast.simpleType (typeSpecifier))
+(* scopedTypeSpecifier : STATIC typeSpecifier                          (Ast.staticType (typeSpecifier)) *)
+                    (* | typeSpecifier                                 (Ast.simpleType (typeSpecifier)) *)
 
-typeSpecifier : returnTypeSpecifier                                 (Ast.ret (returnTypeSpecifier))
+(* typeSpecifier : returnTypeSpecifier                                 (Ast.ret (returnTypeSpecifier)) *)
                 (* | ID                                                 (Ast.RECTYPE (ID)) *)
-returnTypeSpecifier : INT                                           (Ast.integer)
+typeSpecifier : INT                                           (Ast.integer)
                     | BOOL                                          (Ast.boolean)
                     | CHAR                                          (Ast.character)
 
 
 (* ================================== function declaration =========================== *)
-funDeclaration : typeSpecifier ID LPARA params RPARA statement       (Ast.functionReturn (typeSpecifier , ID , params , statement))  
-                | VOID ID LPARA params RPARA statement              (Ast.functionVoid (ID , params , statement))
+funDeclaration : typeSpecifier ID LPARA params RPARA compoundStmt       (Ast.functionReturn (typeSpecifier , ID , params , compoundStmt))  
+                | VOID ID LPARA params RPARA compoundStmt              (Ast.functionVoid (ID , params , compoundStmt))
 
 params : paramList                                                  (Ast.parameterList (paramList))
         |                                                           (Ast.emptyParameter)
 
-paramList : paramList SEMICOLON paramTypeList                       (Ast.pList (paramList , paramTypeList))                   
+paramList : paramList COMMA paramTypeList                       (Ast.pList (paramList , paramTypeList))                   
         | paramTypeList                                             (Ast.singleParam (paramTypeList))
 
-paramTypeList : typeSpecifier paramIDList                           (Ast.parameter(typeSpecifier , paramIDList))
+paramTypeList : typeSpecifier paramID                           (Ast.parameter(typeSpecifier , paramID))
         
-paramIDList : paramIDList COMMA paramID                             (Ast.listOfID (paramIDList , paramID)) 
-            | paramID                                               (Ast.singleIDParameter (paramID))
+(* paramIDList : paramIDList COMMA paramID                             (Ast.listOfID (paramIDList , paramID))  *)
+            (* | paramID                                               (Ast.singleIDParameter (paramID)) *)
 
 paramID : ID                                                        (Ast.normalID (ID))
         | ID LEFTBRACKET RIGHTBRACKET                               (Ast.arrayID (ID))
@@ -200,7 +200,7 @@ statement : expressionStmt                                          (Ast.eStatem
                 
 compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.statementWithBrace (localDeclarations , statementList))
 
-localDeclarations : localDeclarations scopedVarDeclaration          (Ast.declIn (localDeclarations , scopedVarDeclaration) ) 
+localDeclarations : localDeclarations varDeclaration          (Ast.declIn (localDeclarations , varDeclaration) ) 
             |                                                       (Ast.emptyDeclIn)
 
 statementList : statementList statement                             (Ast.listOfStatements (statementList , statement)) 
@@ -258,8 +258,8 @@ term            : term MULT unaryExpression                                (Ast.
                 | unaryExpression                                          (Ast.noMult (unaryExpression))
 
 unaryExpression : DASH unaryExpression                                    (Ast.uExp (Ast.DASH , unaryExpression)) 
-                | STAR unaryExpression                                      (Ast.uExp (Ast.STAR , unaryExpression) )
-                | QUES unaryExpression                                     (Ast.uExp (Ast.QUES , unaryExpression))
+                (* | STAR unaryExpression                                      (Ast.uExp (Ast.STAR , unaryExpression) ) *)
+                (* | QUES unaryExpression                                     (Ast.uExp (Ast.QUES , unaryExpression)) *)
                 | factor                                                   (Ast.noUnary (factor))
 
 factor : immutable                                                         (Ast.immut (immutable))
@@ -267,7 +267,7 @@ factor : immutable                                                         (Ast.
 
 mutable : ID                                          %prec c                     (Ast.mID (ID))
         | mutable LEFTBRACKET expression RIGHTBRACKET                      (Ast.mArray (mutable , expression ))
-        | mutable DOT ID                                                    (Ast.mRecord (mutable,ID))
+        (* | mutable DOT ID                                                    (Ast.mRecord (mutable,ID)) *)
 
 immutable : LPARA expression RPARA                                          (Ast.paranthesis(expression)) 
         | call                                                              (Ast.c (call))
