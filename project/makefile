@@ -8,7 +8,7 @@ all       : source
 clean     : 
 			rm -rf *.lex.sml *.grm.sml *.grm.sig *.grm.desc source
 
-source    : ast.sml printColor.sml translate.sml c.grm c.grm.sml c.lex.sml ec.sml  source.mlb
+source    : ast.sml printColor.sml translate.sml c.grm c.grm.sml c.lex.sml semantic.sml cType.sml ec.sml symbol_tables.sml  source.mlb
 		mlton source.mlb
 
 test : all 

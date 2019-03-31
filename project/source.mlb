@@ -1,5 +1,6 @@
 $(SML_LIB)/basis/basis.mlb
 $(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
+$(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
 
 printColor.sml
 ast.sml
@@ -7,4 +8,7 @@ translate.sml
 c.grm.sig
 c.grm.sml
 c.lex.sml 
+semantic.sml
+cType.sml
 ec.sml
+symbol_tables.sml

@@ -34,5 +34,6 @@ fun print_error (s,i:int,_) = TextIO.output(TextIO.stdErr,
 
 val (program,_) = TigerParser.parse (0,thisLexer,print_error,())
 val executable  = Translate.compileProgram program
+val syntacticAnalysis = Semantic.semanticProgram "arpit"
 
 end

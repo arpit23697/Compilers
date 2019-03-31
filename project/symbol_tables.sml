@@ -71,9 +71,9 @@ struct
 
     fun printAllSymbols () = map printSymbols (HashTable.listItemsi hashtable)         
 
-    fun printInt x = (print (Int.toString x) ; print " ")
+    fun printTypes x = (cType.printTypes x ;  print " ")
     fun printTable s = let 
-                        fun f (x,y)= (print ( Int.toString x) ; print " --> " ; (map printInt y) ; print "\n" ) 
+                        fun f (x,y)= (print ( Int.toString x) ; print " --> " ; (map printTypes y) ; print "\n" ) 
                         in 
                         map f (IntBinaryMap.listItemsi s) 
                         end
@@ -88,20 +88,20 @@ val t = Symbol.printAllSymbols()
 
 
 (* creating the table *)
-val myTable : (int Symbol.refTable) = ref IntBinaryMap.empty
-val temp = (myTable := Symbol.enter ((!myTable) , s1 , 25 ))
-val temp = (myTable := Symbol.enter ((!myTable) , s2 , 30 ))
-val temp = (myTable := Symbol.enter ((!myTable) , s3 , 24 ))
+val myTable : (cType.ty Symbol.refTable) = ref IntBinaryMap.empty
+val temp = (myTable := Symbol.enter ((!myTable) , s1 , cType.INT ))
+val temp = (myTable := Symbol.enter ((!myTable) , s2 , cType.BOOL ))
+val temp = (myTable := Symbol.enter ((!myTable) , s3 , cType.ARRAY (cType.INT) ))
 val t = Symbol.printTable (!myTable)
-
-
-val temp = (myTable := Symbol.enter ((!myTable) , s1 , 52 ))
 (*  *)
+(*  *)
+val temp = (myTable := Symbol.enter ((!myTable) , s1 , cType.BOOL ))
+
 val t = print "=============\n"
 val t = Symbol.printTable (!myTable)
-(*  *)
+
 val t = (myTable :=  Symbol.remove ((!myTable) , s1 ))
-val t = (myTable :=  Symbol.remove ((!myTable) , s1 ))
+(* val t = (myTable :=  Symbol.remove ((!myTable) , s1 )) *)
 val t = print "===========\n"
 val t = Symbol.printTable (!myTable)
 val t = Symbol.printAllSymbols()
