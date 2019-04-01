@@ -2,6 +2,7 @@ signature Tiger_TOKENS =
 sig
 type ('a,'b) token
 type svalue
+val COLONEQUAL:  'a * 'a -> (svalue,'a) token
 val c:  'a * 'a -> (svalue,'a) token
 val iff:  'a * 'a -> (svalue,'a) token
 val FALSE:  'a * 'a -> (svalue,'a) token

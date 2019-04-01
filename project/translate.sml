@@ -30,7 +30,7 @@ and printVarDeclList ([x]) = (printVarDeclInitialize x)
     | printVarDeclList ([]) = ()
 
 and printVarDeclInitialize (Ast.declarationOnlyID (x)) = (printVarDeclID x)
-    | printVarDeclInitialize (Ast.declarationAssignment (x,y)) = (printVarDeclID x ; print_default " : " ; printSimpleExpression y)
+    | printVarDeclInitialize (Ast.declarationAssignment (x,y)) = (printVarDeclID x ; print_default " := " ; printSimpleExpression y)
 
 and printVarDeclID (Ast.vID (x)) = (print_default x)
     | printVarDeclID (Ast.arrayLike (x,y)) = (  
@@ -47,6 +47,7 @@ and   printTypeSpecifier (Ast.integer) = (print_cyan "int ")
 
 (* ===================================== function declaration ============================== *)
 
+(* Each function marks the beginning of the scope and then the end of the scope *)
 and printFunDeclaration (Ast.functionReturn (x,y,z,w)) = (
                                                             printTypeSpecifier x;
                                                             print "" ; print_magneta y ; print " ";
@@ -56,7 +57,7 @@ and printFunDeclaration (Ast.functionReturn (x,y,z,w)) = (
                                                             printCompoundStmt w
                                                          )
     | printFunDeclaration (Ast.functionVoid (y,z,w)) = (
-                                                            print_red "void";
+                                                            print_red "void ";
                                                             print "" ; print_magneta y ; print " ";
                                                             print "( ";
                                                             printParams z;

@@ -2,8 +2,19 @@
 
 //afdaf;kdasfsdljfad;fkadf
 //fadfag
-int ant(int bat, int cat[], bool dog , bool elk , int fox)
+
+
+//all declaration is at the beginning of the function
+int a := 0; 
+int b := 0; 
+int a[100];
+
+
+
+
+int ant(int bat, int cat[], bool dog )
 {
+
 int gnu, hog[100];
     int aPoint;    int aLine;
     int two[2];
@@ -19,6 +30,9 @@ int gnu, hog[100];
         while (dog)
         {
             int hog;
+            int detail ;
+            char c ;
+             bool majeme;
             hog = fox;
             dog = fred( cat , fox++ );
             if (hog > bat)
@@ -33,3 +47,5 @@ int gnu, hog[100];
 int max(int a) { if (a > b)
         return a; else return b;
 }
+
+void arpit (int ad, int c){return 0;}

@@ -59,6 +59,7 @@
         | FALSE
         | iff 
         | c 
+        | COLONEQUAL
 
 
 (* The nonterminals of the language *)
@@ -145,7 +146,7 @@ varDeclList : varDeclInitialize                                        ([varDecl
                                                  
 
 varDeclInitialize : varDeclID                                       (Ast.declarationOnlyID (varDeclID) )
-                | varDeclID COLON simpleExpression                  (Ast.declarationAssignment (varDeclID , simpleExpression))
+                | varDeclID COLONEQUAL simpleExpression                  (Ast.declarationAssignment (varDeclID , simpleExpression))
 
 varDeclID : ID                                                     (Ast.vID (ID))
             | ID LEFTBRACKET NUMCONST RIGHTBRACKET                  (Ast.arrayLike (ID , NUMCONST))

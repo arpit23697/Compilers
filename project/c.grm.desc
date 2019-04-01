@@ -117,9 +117,9 @@ state 9:
 state 10:
 
 	varDeclInitialize : varDeclID .  (reduce by rule 8)
-	varDeclInitialize : varDeclID . COLON simpleExpression 
+	varDeclInitialize : varDeclID . COLONEQUAL simpleExpression 
 
-	COLON	shift 16
+	COLONEQUAL	shift 16
 
 
 	.	reduce by rule 8
@@ -180,7 +180,7 @@ state 15:
 
 state 16:
 
-	varDeclInitialize : varDeclID COLON . simpleExpression 
+	varDeclInitialize : varDeclID COLONEQUAL . simpleExpression 
 
 	ID	shift 41
 	LPARA	shift 40
@@ -397,7 +397,7 @@ state 32:
 
 state 33:
 
-	varDeclInitialize : varDeclID COLON simpleExpression .  (reduce by rule 9)
+	varDeclInitialize : varDeclID COLONEQUAL simpleExpression .  (reduce by rule 9)
 	simpleExpression : simpleExpression . OR andExpression 
 
 	OR	shift 63

@@ -65,7 +65,7 @@ val table=let val actionRows =
 \\160\000\000\000\
 \\161\000\000\000\
 \\162\000\000\000\
-\\163\000\008\000\018\000\000\000\
+\\163\000\055\000\018\000\000\000\
 \\164\000\032\000\065\000\000\000\
 \\165\000\009\000\022\000\000\000\
 \\165\000\009\000\022\000\012\000\021\000\000\000\
@@ -559,13 +559,14 @@ fn (T 0) => "RECORD"
   | (T 51) => "FALSE"
   | (T 52) => "iff"
   | (T 53) => "c"
+  | (T 54) => "COLONEQUAL"
   | _ => "bogus-term"
 local open Header in
 val errtermvalue=
 fn _ => MlyValue.VOID'
 end
 val terms : term list = nil
- $$ (T 53) $$ (T 52) $$ (T 51) $$ (T 50) $$ (T 47) $$ (T 46) $$ (T 45) $$ (T 44) $$ (T 43) $$ (T 42) $$ (T 41) $$ (T 40) $$ (T 39) $$ (T 38) $$ (T 37) $$ (T 36) $$ (T 35) $$ (T 34) $$ (T 33) $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28) $$ (T 27) $$ (T 26) $$ (T 25) $$ (T 24) $$ (T 23) $$ (T 22) $$ (T 21) $$ (T 20) $$ (T 19) $$ (T 18) $$ (T 17) $$ (T 16) $$ (T 15) $$ (T 14) $$ (T 13) $$ (T 12) $$ (T 11) $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7) $$ (T 6) $$ (T 5) $$ (T 4) $$ (T 3) $$ (T 1) $$ (T 0)end
+ $$ (T 54) $$ (T 53) $$ (T 52) $$ (T 51) $$ (T 50) $$ (T 47) $$ (T 46) $$ (T 45) $$ (T 44) $$ (T 43) $$ (T 42) $$ (T 41) $$ (T 40) $$ (T 39) $$ (T 38) $$ (T 37) $$ (T 36) $$ (T 35) $$ (T 34) $$ (T 33) $$ (T 32) $$ (T 31) $$ (T 30) $$ (T 29) $$ (T 28) $$ (T 27) $$ (T 26) $$ (T 25) $$ (T 24) $$ (T 23) $$ (T 22) $$ (T 21) $$ (T 20) $$ (T 19) $$ (T 18) $$ (T 17) $$ (T 16) $$ (T 15) $$ (T 14) $$ (T 13) $$ (T 12) $$ (T 11) $$ (T 10) $$ (T 9) $$ (T 8) $$ (T 7) $$ (T 6) $$ (T 5) $$ (T 4) $$ (T 3) $$ (T 1) $$ (T 0)end
 structure Actions =
 struct 
 exception mlyAction of int
@@ -574,367 +575,367 @@ val actions =
 fn (i392,defaultPos,stack,
     (()):arg) =>
 case (i392,stack)
-of  ( 0, ( ( _, ( MlyValue.declarationList declarationList, declarationList1left, declarationList1right)) :: rest671)) => let val  result = MlyValue.program ((*#line 132.66 "c.grm"*) Ast.declL(declarationList) (*#line 577.1 "c.grm.sml"*)
+of  ( 0, ( ( _, ( MlyValue.declarationList declarationList, declarationList1left, declarationList1right)) :: rest671)) => let val  result = MlyValue.program ((*#line 133.66 "c.grm"*) Ast.declL(declarationList) (*#line 578.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 0, ( result, declarationList1left, declarationList1right), rest671)
 end
-|  ( 1, ( ( _, ( MlyValue.declaration declaration, _, declaration1right)) :: ( _, ( MlyValue.declarationList declarationList, declarationList1left, _)) :: rest671)) => let val  result = MlyValue.declarationList ((*#line 134.66 "c.grm"*) declarationList @ [declaration] (*#line 581.1 "c.grm.sml"*)
+|  ( 1, ( ( _, ( MlyValue.declaration declaration, _, declaration1right)) :: ( _, ( MlyValue.declarationList declarationList, declarationList1left, _)) :: rest671)) => let val  result = MlyValue.declarationList ((*#line 135.66 "c.grm"*) declarationList @ [declaration] (*#line 582.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, declarationList1left, declaration1right), rest671)
 end
-|  ( 2, ( ( _, ( MlyValue.declaration declaration, declaration1left, declaration1right)) :: rest671)) => let val  result = MlyValue.declarationList ((*#line 135.66 "c.grm"*) [declaration] (*#line 585.1 "c.grm.sml"*)
+|  ( 2, ( ( _, ( MlyValue.declaration declaration, declaration1left, declaration1right)) :: rest671)) => let val  result = MlyValue.declarationList ((*#line 136.66 "c.grm"*) [declaration] (*#line 586.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 1, ( result, declaration1left, declaration1right), rest671)
 end
-|  ( 3, ( ( _, ( MlyValue.varDeclaration varDeclaration, varDeclaration1left, varDeclaration1right)) :: rest671)) => let val  result = MlyValue.declaration ((*#line 137.66 "c.grm"*)Ast.variableDeclaration (varDeclaration) (*#line 589.1 "c.grm.sml"*)
+|  ( 3, ( ( _, ( MlyValue.varDeclaration varDeclaration, varDeclaration1left, varDeclaration1right)) :: rest671)) => let val  result = MlyValue.declaration ((*#line 138.66 "c.grm"*)Ast.variableDeclaration (varDeclaration) (*#line 590.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 2, ( result, varDeclaration1left, varDeclaration1right), rest671)
 end
-|  ( 4, ( ( _, ( MlyValue.funDeclaration funDeclaration, funDeclaration1left, funDeclaration1right)) :: rest671)) => let val  result = MlyValue.declaration ((*#line 138.66 "c.grm"*)Ast.functionDeclaration (funDeclaration) (*#line 593.1 "c.grm.sml"*)
+|  ( 4, ( ( _, ( MlyValue.funDeclaration funDeclaration, funDeclaration1left, funDeclaration1right)) :: rest671)) => let val  result = MlyValue.declaration ((*#line 139.66 "c.grm"*)Ast.functionDeclaration (funDeclaration) (*#line 594.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 2, ( result, funDeclaration1left, funDeclaration1right), rest671)
 end
-|  ( 5, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( MlyValue.varDeclList varDeclList, _, _)) :: ( _, ( MlyValue.typeSpecifier typeSpecifier, typeSpecifier1left, _)) :: rest671)) => let val  result = MlyValue.varDeclaration ((*#line 141.79 "c.grm"*)Ast.vDecl (typeSpecifier , varDeclList)(*#line 597.1 "c.grm.sml"*)
+|  ( 5, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( MlyValue.varDeclList varDeclList, _, _)) :: ( _, ( MlyValue.typeSpecifier typeSpecifier, typeSpecifier1left, _)) :: rest671)) => let val  result = MlyValue.varDeclaration ((*#line 142.79 "c.grm"*)Ast.vDecl (typeSpecifier , varDeclList)(*#line 598.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 3, ( result, typeSpecifier1left, SEMICOLON1right), rest671)
 end
-|  ( 6, ( ( _, ( MlyValue.varDeclInitialize varDeclInitialize, varDeclInitialize1left, varDeclInitialize1right)) :: rest671)) => let val  result = MlyValue.varDeclList ((*#line 143.73 "c.grm"*)[varDeclInitialize](*#line 601.1 "c.grm.sml"*)
+|  ( 6, ( ( _, ( MlyValue.varDeclInitialize varDeclInitialize, varDeclInitialize1left, varDeclInitialize1right)) :: rest671)) => let val  result = MlyValue.varDeclList ((*#line 144.73 "c.grm"*)[varDeclInitialize](*#line 602.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 4, ( result, varDeclInitialize1left, varDeclInitialize1right), rest671)
 end
-|  ( 7, ( ( _, ( MlyValue.varDeclInitialize varDeclInitialize, _, varDeclInitialize1right)) :: _ :: ( _, ( MlyValue.varDeclList varDeclList, varDeclList1left, _)) :: rest671)) => let val  result = MlyValue.varDeclList ((*#line 144.74 "c.grm"*) varDeclList @ [varDeclInitialize] (*#line 605.1 "c.grm.sml"*)
+|  ( 7, ( ( _, ( MlyValue.varDeclInitialize varDeclInitialize, _, varDeclInitialize1right)) :: _ :: ( _, ( MlyValue.varDeclList varDeclList, varDeclList1left, _)) :: rest671)) => let val  result = MlyValue.varDeclList ((*#line 145.74 "c.grm"*) varDeclList @ [varDeclInitialize] (*#line 606.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 4, ( result, varDeclList1left, varDeclInitialize1right), rest671)
 end
-|  ( 8, ( ( _, ( MlyValue.varDeclID varDeclID, varDeclID1left, varDeclID1right)) :: rest671)) => let val  result = MlyValue.varDeclInitialize ((*#line 147.70 "c.grm"*)Ast.declarationOnlyID (varDeclID) (*#line 609.1 "c.grm.sml"*)
+|  ( 8, ( ( _, ( MlyValue.varDeclID varDeclID, varDeclID1left, varDeclID1right)) :: rest671)) => let val  result = MlyValue.varDeclInitialize ((*#line 148.70 "c.grm"*)Ast.declarationOnlyID (varDeclID) (*#line 610.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 5, ( result, varDeclID1left, varDeclID1right), rest671)
 end
-|  ( 9, ( ( _, ( MlyValue.simpleExpression simpleExpression, _, simpleExpression1right)) :: _ :: ( _, ( MlyValue.varDeclID varDeclID, varDeclID1left, _)) :: rest671)) => let val  result = MlyValue.varDeclInitialize ((*#line 148.70 "c.grm"*)Ast.declarationAssignment (varDeclID , simpleExpression)(*#line 613.1 "c.grm.sml"*)
+|  ( 9, ( ( _, ( MlyValue.simpleExpression simpleExpression, _, simpleExpression1right)) :: _ :: ( _, ( MlyValue.varDeclID varDeclID, varDeclID1left, _)) :: rest671)) => let val  result = MlyValue.varDeclInitialize ((*#line 149.75 "c.grm"*)Ast.declarationAssignment (varDeclID , simpleExpression)(*#line 614.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 5, ( result, varDeclID1left, simpleExpression1right), rest671)
 end
-|  ( 10, ( ( _, ( MlyValue.ID ID, ID1left, ID1right)) :: rest671)) => let val  result = MlyValue.varDeclID ((*#line 150.69 "c.grm"*)Ast.vID (ID)(*#line 617.1 "c.grm.sml"*)
+|  ( 10, ( ( _, ( MlyValue.ID ID, ID1left, ID1right)) :: rest671)) => let val  result = MlyValue.varDeclID ((*#line 151.69 "c.grm"*)Ast.vID (ID)(*#line 618.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 6, ( result, ID1left, ID1right), rest671)
 end
-|  ( 11, ( ( _, ( _, _, RIGHTBRACKET1right)) :: ( _, ( MlyValue.NUMCONST NUMCONST, _, _)) :: _ :: ( _, ( MlyValue.ID ID, ID1left, _)) :: rest671)) => let val  result = MlyValue.varDeclID ((*#line 151.70 "c.grm"*)Ast.arrayLike (ID , NUMCONST)(*#line 621.1 "c.grm.sml"*)
+|  ( 11, ( ( _, ( _, _, RIGHTBRACKET1right)) :: ( _, ( MlyValue.NUMCONST NUMCONST, _, _)) :: _ :: ( _, ( MlyValue.ID ID, ID1left, _)) :: rest671)) => let val  result = MlyValue.varDeclID ((*#line 152.70 "c.grm"*)Ast.arrayLike (ID , NUMCONST)(*#line 622.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 6, ( result, ID1left, RIGHTBRACKET1right), rest671)
 end
-|  ( 12, ( ( _, ( _, INT1left, INT1right)) :: rest671)) => let val  result = MlyValue.typeSpecifier ((*#line 153.64 "c.grm"*)Ast.integer(*#line 625.1 "c.grm.sml"*)
+|  ( 12, ( ( _, ( _, INT1left, INT1right)) :: rest671)) => let val  result = MlyValue.typeSpecifier ((*#line 154.64 "c.grm"*)Ast.integer(*#line 626.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 7, ( result, INT1left, INT1right), rest671)
 end
-|  ( 13, ( ( _, ( _, BOOL1left, BOOL1right)) :: rest671)) => let val  result = MlyValue.typeSpecifier ((*#line 154.70 "c.grm"*)Ast.boolean(*#line 629.1 "c.grm.sml"*)
+|  ( 13, ( ( _, ( _, BOOL1left, BOOL1right)) :: rest671)) => let val  result = MlyValue.typeSpecifier ((*#line 155.70 "c.grm"*)Ast.boolean(*#line 630.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 7, ( result, BOOL1left, BOOL1right), rest671)
 end
-|  ( 14, ( ( _, ( _, CHAR1left, CHAR1right)) :: rest671)) => let val  result = MlyValue.typeSpecifier ((*#line 155.70 "c.grm"*)Ast.character(*#line 633.1 "c.grm.sml"*)
+|  ( 14, ( ( _, ( _, CHAR1left, CHAR1right)) :: rest671)) => let val  result = MlyValue.typeSpecifier ((*#line 156.70 "c.grm"*)Ast.character(*#line 634.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 7, ( result, CHAR1left, CHAR1right), rest671)
 end
-|  ( 15, ( ( _, ( MlyValue.compoundStmt compoundStmt, _, compoundStmt1right)) :: _ :: ( _, ( MlyValue.params params, _, _)) :: _ :: ( _, ( MlyValue.ID ID, _, _)) :: ( _, ( MlyValue.typeSpecifier typeSpecifier, typeSpecifier1left, _)) :: rest671)) => let val  result = MlyValue.funDeclaration ((*#line 159.74 "c.grm"*)Ast.functionReturn (typeSpecifier , ID , params , compoundStmt)(*#line 637.1 "c.grm.sml"*)
+|  ( 15, ( ( _, ( MlyValue.compoundStmt compoundStmt, _, compoundStmt1right)) :: _ :: ( _, ( MlyValue.params params, _, _)) :: _ :: ( _, ( MlyValue.ID ID, _, _)) :: ( _, ( MlyValue.typeSpecifier typeSpecifier, typeSpecifier1left, _)) :: rest671)) => let val  result = MlyValue.funDeclaration ((*#line 160.74 "c.grm"*)Ast.functionReturn (typeSpecifier , ID , params , compoundStmt)(*#line 638.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 8, ( result, typeSpecifier1left, compoundStmt1right), rest671)
 end
-|  ( 16, ( ( _, ( MlyValue.compoundStmt compoundStmt, _, compoundStmt1right)) :: _ :: ( _, ( MlyValue.params params, _, _)) :: _ :: ( _, ( MlyValue.ID ID, _, _)) :: ( _, ( _, VOID1left, _)) :: rest671)) => let val  result = MlyValue.funDeclaration ((*#line 160.73 "c.grm"*)Ast.functionVoid (ID , params , compoundStmt)(*#line 641.1 "c.grm.sml"*)
+|  ( 16, ( ( _, ( MlyValue.compoundStmt compoundStmt, _, compoundStmt1right)) :: _ :: ( _, ( MlyValue.params params, _, _)) :: _ :: ( _, ( MlyValue.ID ID, _, _)) :: ( _, ( _, VOID1left, _)) :: rest671)) => let val  result = MlyValue.funDeclaration ((*#line 161.73 "c.grm"*)Ast.functionVoid (ID , params , compoundStmt)(*#line 642.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 8, ( result, VOID1left, compoundStmt1right), rest671)
 end
-|  ( 17, ( rest671)) => let val  result = MlyValue.params ((*#line 162.67 "c.grm"*)[](*#line 645.1 "c.grm.sml"*)
+|  ( 17, ( rest671)) => let val  result = MlyValue.params ((*#line 163.67 "c.grm"*)[](*#line 646.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 9, ( result, defaultPos, defaultPos), rest671)
 end
-|  ( 18, ( ( _, ( MlyValue.paramList paramList, paramList1left, paramList1right)) :: rest671)) => let val  result = MlyValue.params ((*#line 163.67 "c.grm"*)paramList(*#line 649.1 "c.grm.sml"*)
+|  ( 18, ( ( _, ( MlyValue.paramList paramList, paramList1left, paramList1right)) :: rest671)) => let val  result = MlyValue.params ((*#line 164.67 "c.grm"*)paramList(*#line 650.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 9, ( result, paramList1left, paramList1right), rest671)
 end
-|  ( 19, ( ( _, ( MlyValue.paramType paramType, paramType1left, paramType1right)) :: rest671)) => let val  result = MlyValue.paramList ((*#line 165.69 "c.grm"*)[paramType](*#line 653.1 "c.grm.sml"*)
+|  ( 19, ( ( _, ( MlyValue.paramType paramType, paramType1left, paramType1right)) :: rest671)) => let val  result = MlyValue.paramList ((*#line 166.69 "c.grm"*)[paramType](*#line 654.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 10, ( result, paramType1left, paramType1right), rest671)
 end
-|  ( 20, ( ( _, ( MlyValue.paramType paramType, _, paramType1right)) :: _ :: ( _, ( MlyValue.paramList paramList, paramList1left, _)) :: rest671)) => let val  result = MlyValue.paramList ((*#line 166.62 "c.grm"*) paramList @ [paramType] (*#line 657.1 "c.grm.sml"*)
+|  ( 20, ( ( _, ( MlyValue.paramType paramType, _, paramType1right)) :: _ :: ( _, ( MlyValue.paramList paramList, paramList1left, _)) :: rest671)) => let val  result = MlyValue.paramList ((*#line 167.62 "c.grm"*) paramList @ [paramType] (*#line 658.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 10, ( result, paramList1left, paramType1right), rest671)
 end
-|  ( 21, ( ( _, ( MlyValue.paramID paramID, _, paramID1right)) :: ( _, ( MlyValue.typeSpecifier typeSpecifier, typeSpecifier1left, _)) :: rest671)) => let val  result = MlyValue.paramType ((*#line 168.62 "c.grm"*)Ast.parameter(typeSpecifier , paramID)(*#line 661.1 "c.grm.sml"*)
+|  ( 21, ( ( _, ( MlyValue.paramID paramID, _, paramID1right)) :: ( _, ( MlyValue.typeSpecifier typeSpecifier, typeSpecifier1left, _)) :: rest671)) => let val  result = MlyValue.paramType ((*#line 169.62 "c.grm"*)Ast.parameter(typeSpecifier , paramID)(*#line 662.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 11, ( result, typeSpecifier1left, paramID1right), rest671)
 end
-|  ( 22, ( ( _, ( MlyValue.ID ID, ID1left, ID1right)) :: rest671)) => let val  result = MlyValue.paramID ((*#line 170.70 "c.grm"*)Ast.normalID (ID)(*#line 665.1 "c.grm.sml"*)
+|  ( 22, ( ( _, ( MlyValue.ID ID, ID1left, ID1right)) :: rest671)) => let val  result = MlyValue.paramID ((*#line 171.70 "c.grm"*)Ast.normalID (ID)(*#line 666.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 12, ( result, ID1left, ID1right), rest671)
 end
-|  ( 23, ( ( _, ( _, _, RIGHTBRACKET1right)) :: _ :: ( _, ( MlyValue.ID ID, ID1left, _)) :: rest671)) => let val  result = MlyValue.paramID ((*#line 171.70 "c.grm"*)Ast.arrayID (ID)(*#line 669.1 "c.grm.sml"*)
+|  ( 23, ( ( _, ( _, _, RIGHTBRACKET1right)) :: _ :: ( _, ( MlyValue.ID ID, ID1left, _)) :: rest671)) => let val  result = MlyValue.paramID ((*#line 172.70 "c.grm"*)Ast.arrayID (ID)(*#line 670.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 12, ( result, ID1left, RIGHTBRACKET1right), rest671)
 end
-|  ( 24, ( ( _, ( MlyValue.expressionStmt expressionStmt, expressionStmt1left, expressionStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 174.70 "c.grm"*)Ast.eStatement (expressionStmt)(*#line 673.1 "c.grm.sml"*)
+|  ( 24, ( ( _, ( MlyValue.expressionStmt expressionStmt, expressionStmt1left, expressionStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 175.70 "c.grm"*)Ast.eStatement (expressionStmt)(*#line 674.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, expressionStmt1left, expressionStmt1right), rest671)
 end
-|  ( 25, ( ( _, ( MlyValue.compoundStmt compoundStmt, compoundStmt1left, compoundStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 175.70 "c.grm"*)Ast.cStatement (compoundStmt)(*#line 677.1 "c.grm.sml"*)
+|  ( 25, ( ( _, ( MlyValue.compoundStmt compoundStmt, compoundStmt1left, compoundStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 176.70 "c.grm"*)Ast.cStatement (compoundStmt)(*#line 678.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, compoundStmt1left, compoundStmt1right), rest671)
 end
-|  ( 26, ( ( _, ( MlyValue.selectionStmt selectionStmt, selectionStmt1left, selectionStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 176.70 "c.grm"*)Ast.sStatement (selectionStmt)(*#line 681.1 "c.grm.sml"*)
+|  ( 26, ( ( _, ( MlyValue.selectionStmt selectionStmt, selectionStmt1left, selectionStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 177.70 "c.grm"*)Ast.sStatement (selectionStmt)(*#line 682.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, selectionStmt1left, selectionStmt1right), rest671)
 end
-|  ( 27, ( ( _, ( MlyValue.iterationStmt iterationStmt, iterationStmt1left, iterationStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 177.70 "c.grm"*)Ast.iStatement (iterationStmt)(*#line 685.1 "c.grm.sml"*)
+|  ( 27, ( ( _, ( MlyValue.iterationStmt iterationStmt, iterationStmt1left, iterationStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 178.70 "c.grm"*)Ast.iStatement (iterationStmt)(*#line 686.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, iterationStmt1left, iterationStmt1right), rest671)
 end
-|  ( 28, ( ( _, ( MlyValue.returnStmt returnStmt, returnStmt1left, returnStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 178.70 "c.grm"*)Ast.rStatement (returnStmt)(*#line 689.1 "c.grm.sml"*)
+|  ( 28, ( ( _, ( MlyValue.returnStmt returnStmt, returnStmt1left, returnStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 179.70 "c.grm"*)Ast.rStatement (returnStmt)(*#line 690.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, returnStmt1left, returnStmt1right), rest671)
 end
-|  ( 29, ( ( _, ( MlyValue.breakStmt breakStmt, breakStmt1left, breakStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 179.70 "c.grm"*)Ast.bStatement (breakStmt)(*#line 693.1 "c.grm.sml"*)
+|  ( 29, ( ( _, ( MlyValue.breakStmt breakStmt, breakStmt1left, breakStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 180.70 "c.grm"*)Ast.bStatement (breakStmt)(*#line 694.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, breakStmt1left, breakStmt1right), rest671)
 end
-|  ( 30, ( ( _, ( MlyValue.continueStmt continueStmt, continueStmt1left, continueStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 180.71 "c.grm"*)Ast.conStatement (continueStmt)(*#line 697.1 "c.grm.sml"*)
+|  ( 30, ( ( _, ( MlyValue.continueStmt continueStmt, continueStmt1left, continueStmt1right)) :: rest671)) => let val  result = MlyValue.statement ((*#line 181.71 "c.grm"*)Ast.conStatement (continueStmt)(*#line 698.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 13, ( result, continueStmt1left, continueStmt1right), rest671)
 end
-|  ( 31, ( ( _, ( _, _, RIGHTBRACE1right)) :: ( _, ( MlyValue.statementList statementList, _, _)) :: ( _, ( MlyValue.localDeclarations localDeclarations, _, _)) :: ( _, ( _, LEFTBRACE1left, _)) :: rest671)) => let val  result = MlyValue.compoundStmt ((*#line 182.72 "c.grm"*)Ast.statementWithBrace (localDeclarations , statementList)(*#line 701.1 "c.grm.sml"*)
+|  ( 31, ( ( _, ( _, _, RIGHTBRACE1right)) :: ( _, ( MlyValue.statementList statementList, _, _)) :: ( _, ( MlyValue.localDeclarations localDeclarations, _, _)) :: ( _, ( _, LEFTBRACE1left, _)) :: rest671)) => let val  result = MlyValue.compoundStmt ((*#line 183.72 "c.grm"*)Ast.statementWithBrace (localDeclarations , statementList)(*#line 702.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 14, ( result, LEFTBRACE1left, RIGHTBRACE1right), rest671)
 end
-|  ( 32, ( ( _, ( MlyValue.varDeclaration varDeclaration, _, varDeclaration1right)) :: ( _, ( MlyValue.localDeclarations localDeclarations, localDeclarations1left, _)) :: rest671)) => let val  result = MlyValue.localDeclarations ((*#line 184.64 "c.grm"*)Ast.declIn (localDeclarations , varDeclaration) (*#line 705.1 "c.grm.sml"*)
+|  ( 32, ( ( _, ( MlyValue.varDeclaration varDeclaration, _, varDeclaration1right)) :: ( _, ( MlyValue.localDeclarations localDeclarations, localDeclarations1left, _)) :: rest671)) => let val  result = MlyValue.localDeclarations ((*#line 185.64 "c.grm"*)Ast.declIn (localDeclarations , varDeclaration) (*#line 706.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 15, ( result, localDeclarations1left, varDeclaration1right), rest671)
 end
-|  ( 33, ( rest671)) => let val  result = MlyValue.localDeclarations ((*#line 185.70 "c.grm"*)Ast.emptyDeclIn(*#line 709.1 "c.grm.sml"*)
+|  ( 33, ( rest671)) => let val  result = MlyValue.localDeclarations ((*#line 186.70 "c.grm"*)Ast.emptyDeclIn(*#line 710.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 15, ( result, defaultPos, defaultPos), rest671)
 end
-|  ( 34, ( rest671)) => let val  result = MlyValue.statementList ((*#line 187.72 "c.grm"*)[] (*#line 713.1 "c.grm.sml"*)
+|  ( 34, ( rest671)) => let val  result = MlyValue.statementList ((*#line 188.72 "c.grm"*)[] (*#line 714.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 16, ( result, defaultPos, defaultPos), rest671)
 end
-|  ( 35, ( ( _, ( MlyValue.statement statement, _, statement1right)) :: ( _, ( MlyValue.statementList statementList, statementList1left, _)) :: rest671)) => let val  result = MlyValue.statementList ((*#line 188.64 "c.grm"*)statementList @ [statement](*#line 717.1 "c.grm.sml"*)
+|  ( 35, ( ( _, ( MlyValue.statement statement, _, statement1right)) :: ( _, ( MlyValue.statementList statementList, statementList1left, _)) :: rest671)) => let val  result = MlyValue.statementList ((*#line 189.64 "c.grm"*)statementList @ [statement](*#line 718.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 16, ( result, statementList1left, statement1right), rest671)
 end
-|  ( 36, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( MlyValue.expression expression, expression1left, _)) :: rest671)) => let val  result = MlyValue.expressionStmt ((*#line 191.70 "c.grm"*)Ast.basicExpression (expression)(*#line 721.1 "c.grm.sml"*)
+|  ( 36, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( MlyValue.expression expression, expression1left, _)) :: rest671)) => let val  result = MlyValue.expressionStmt ((*#line 192.70 "c.grm"*)Ast.basicExpression (expression)(*#line 722.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 17, ( result, expression1left, SEMICOLON1right), rest671)
 end
-|  ( 37, ( ( _, ( _, SEMICOLON1left, SEMICOLON1right)) :: rest671)) => let val  result = MlyValue.expressionStmt ((*#line 192.70 "c.grm"*)Ast.semicolon (*#line 725.1 "c.grm.sml"*)
+|  ( 37, ( ( _, ( _, SEMICOLON1left, SEMICOLON1right)) :: rest671)) => let val  result = MlyValue.expressionStmt ((*#line 193.70 "c.grm"*)Ast.semicolon (*#line 726.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 17, ( result, SEMICOLON1left, SEMICOLON1right), rest671)
 end
-|  ( 38, ( ( _, ( MlyValue.statement statement, _, statement1right)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, _, _)) :: _ :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.selectionStmt ((*#line 194.78 "c.grm"*)Ast.IF (simpleExpression , statement)(*#line 729.1 "c.grm.sml"*)
+|  ( 38, ( ( _, ( MlyValue.statement statement, _, statement1right)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, _, _)) :: _ :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.selectionStmt ((*#line 195.78 "c.grm"*)Ast.IF (simpleExpression , statement)(*#line 730.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 18, ( result, IF1left, statement1right), rest671)
 end
-|  ( 39, ( ( _, ( MlyValue.statement statement2, _, statement2right)) :: _ :: ( _, ( MlyValue.statement statement1, _, _)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, _, _)) :: _ :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.selectionStmt ((*#line 195.74 "c.grm"*)Ast.IF_ELSE (simpleExpression , statement1 , statement2)(*#line 733.1 "c.grm.sml"*)
+|  ( 39, ( ( _, ( MlyValue.statement statement2, _, statement2right)) :: _ :: ( _, ( MlyValue.statement statement1, _, _)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, _, _)) :: _ :: ( _, ( _, IF1left, _)) :: rest671)) => let val  result = MlyValue.selectionStmt ((*#line 196.74 "c.grm"*)Ast.IF_ELSE (simpleExpression , statement1 , statement2)(*#line 734.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 18, ( result, IF1left, statement2right), rest671)
 end
-|  ( 40, ( ( _, ( MlyValue.statement statement, _, statement1right)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, _, _)) :: _ :: ( _, ( _, WHILE1left, _)) :: rest671)) => let val  result = MlyValue.iterationStmt ((*#line 197.71 "c.grm"*)Ast.WHILE(simpleExpression , statement)(*#line 737.1 "c.grm.sml"*)
+|  ( 40, ( ( _, ( MlyValue.statement statement, _, statement1right)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, _, _)) :: _ :: ( _, ( _, WHILE1left, _)) :: rest671)) => let val  result = MlyValue.iterationStmt ((*#line 198.71 "c.grm"*)Ast.WHILE(simpleExpression , statement)(*#line 738.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 19, ( result, WHILE1left, statement1right), rest671)
 end
-|  ( 41, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( _, RETURN1left, _)) :: rest671)) => let val  result = MlyValue.returnStmt ((*#line 199.71 "c.grm"*)Ast.returnNoValue(*#line 741.1 "c.grm.sml"*)
+|  ( 41, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( _, RETURN1left, _)) :: rest671)) => let val  result = MlyValue.returnStmt ((*#line 200.71 "c.grm"*)Ast.returnNoValue(*#line 742.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 20, ( result, RETURN1left, SEMICOLON1right), rest671)
 end
-|  ( 42, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( MlyValue.expression expression, _, _)) :: ( _, ( _, RETURN1left, _)) :: rest671)) => let val  result = MlyValue.returnStmt ((*#line 200.70 "c.grm"*)Ast.returnValue (expression)(*#line 745.1 "c.grm.sml"*)
+|  ( 42, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( MlyValue.expression expression, _, _)) :: ( _, ( _, RETURN1left, _)) :: rest671)) => let val  result = MlyValue.returnStmt ((*#line 201.70 "c.grm"*)Ast.returnValue (expression)(*#line 746.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 20, ( result, RETURN1left, SEMICOLON1right), rest671)
 end
-|  ( 43, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( _, BREAK1left, _)) :: rest671)) => let val  result = MlyValue.breakStmt ((*#line 202.74 "c.grm"*)Ast.BREAK(*#line 749.1 "c.grm.sml"*)
+|  ( 43, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( _, BREAK1left, _)) :: rest671)) => let val  result = MlyValue.breakStmt ((*#line 203.74 "c.grm"*)Ast.BREAK(*#line 750.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 21, ( result, BREAK1left, SEMICOLON1right), rest671)
 end
-|  ( 44, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( _, CONTINUE1left, _)) :: rest671)) => let val  result = MlyValue.continueStmt ((*#line 203.74 "c.grm"*)Ast.CONTINUE(*#line 753.1 "c.grm.sml"*)
+|  ( 44, ( ( _, ( _, _, SEMICOLON1right)) :: ( _, ( _, CONTINUE1left, _)) :: rest671)) => let val  result = MlyValue.continueStmt ((*#line 204.74 "c.grm"*)Ast.CONTINUE(*#line 754.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 22, ( result, CONTINUE1left, SEMICOLON1right), rest671)
 end
-|  ( 45, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 207.70 "c.grm"*)Ast.assign (mutable , expression)(*#line 757.1 "c.grm.sml"*)
+|  ( 45, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 208.70 "c.grm"*)Ast.assign (mutable , expression)(*#line 758.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, expression1right), rest671)
 end
-|  ( 46, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 208.70 "c.grm"*)Ast.assignPlus (mutable , expression)(*#line 761.1 "c.grm.sml"*)
+|  ( 46, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 209.70 "c.grm"*)Ast.assignPlus (mutable , expression)(*#line 762.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, expression1right), rest671)
 end
-|  ( 47, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 209.70 "c.grm"*)Ast.assignMinus (mutable , expression)(*#line 765.1 "c.grm.sml"*)
+|  ( 47, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 210.70 "c.grm"*)Ast.assignMinus (mutable , expression)(*#line 766.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, expression1right), rest671)
 end
-|  ( 48, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 210.70 "c.grm"*)Ast.assignMult (mutable , expression)(*#line 769.1 "c.grm.sml"*)
+|  ( 48, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 211.70 "c.grm"*)Ast.assignMult (mutable , expression)(*#line 770.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, expression1right), rest671)
 end
-|  ( 49, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 211.70 "c.grm"*)Ast.assignDiv (mutable , expression)(*#line 773.1 "c.grm.sml"*)
+|  ( 49, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 212.70 "c.grm"*)Ast.assignDiv (mutable , expression)(*#line 774.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, expression1right), rest671)
 end
-|  ( 50, ( ( _, ( _, _, INC1right)) :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 212.70 "c.grm"*)Ast.increment (mutable)(*#line 777.1 "c.grm.sml"*)
+|  ( 50, ( ( _, ( _, _, INC1right)) :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 213.70 "c.grm"*)Ast.increment (mutable)(*#line 778.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, INC1right), rest671)
 end
-|  ( 51, ( ( _, ( _, _, DEC1right)) :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 213.70 "c.grm"*)Ast.decrement (mutable)(*#line 781.1 "c.grm.sml"*)
+|  ( 51, ( ( _, ( _, _, DEC1right)) :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.expression ((*#line 214.70 "c.grm"*)Ast.decrement (mutable)(*#line 782.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, mutable1left, DEC1right), rest671)
 end
-|  ( 52, ( ( _, ( MlyValue.simpleExpression simpleExpression, simpleExpression1left, simpleExpression1right)) :: rest671)) => let val  result = MlyValue.expression ((*#line 214.70 "c.grm"*)Ast.plainExpression (simpleExpression)(*#line 785.1 "c.grm.sml"*)
+|  ( 52, ( ( _, ( MlyValue.simpleExpression simpleExpression, simpleExpression1left, simpleExpression1right)) :: rest671)) => let val  result = MlyValue.expression ((*#line 215.70 "c.grm"*)Ast.plainExpression (simpleExpression)(*#line 786.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 23, ( result, simpleExpression1left, simpleExpression1right), rest671)
 end
-|  ( 53, ( ( _, ( MlyValue.andExpression andExpression, _, andExpression1right)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, simpleExpression1left, _)) :: rest671)) => let val  result = MlyValue.simpleExpression ((*#line 216.70 "c.grm"*)Ast.or(simpleExpression , andExpression)(*#line 789.1 "c.grm.sml"*)
+|  ( 53, ( ( _, ( MlyValue.andExpression andExpression, _, andExpression1right)) :: _ :: ( _, ( MlyValue.simpleExpression simpleExpression, simpleExpression1left, _)) :: rest671)) => let val  result = MlyValue.simpleExpression ((*#line 217.70 "c.grm"*)Ast.or(simpleExpression , andExpression)(*#line 790.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 24, ( result, simpleExpression1left, andExpression1right), rest671)
 end
-|  ( 54, ( ( _, ( MlyValue.andExpression andExpression, andExpression1left, andExpression1right)) :: rest671)) => let val  result = MlyValue.simpleExpression ((*#line 217.70 "c.grm"*)Ast.noOr (andExpression) (*#line 793.1 "c.grm.sml"*)
+|  ( 54, ( ( _, ( MlyValue.andExpression andExpression, andExpression1left, andExpression1right)) :: rest671)) => let val  result = MlyValue.simpleExpression ((*#line 218.70 "c.grm"*)Ast.noOr (andExpression) (*#line 794.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 24, ( result, andExpression1left, andExpression1right), rest671)
 end
-|  ( 55, ( ( _, ( MlyValue.unaryRelExpression unaryRelExpression, _, unaryRelExpression1right)) :: _ :: ( _, ( MlyValue.andExpression andExpression, andExpression1left, _)) :: rest671)) => let val  result = MlyValue.andExpression ((*#line 219.70 "c.grm"*)Ast.simpleAnd (andExpression , unaryRelExpression)(*#line 797.1 "c.grm.sml"*)
+|  ( 55, ( ( _, ( MlyValue.unaryRelExpression unaryRelExpression, _, unaryRelExpression1right)) :: _ :: ( _, ( MlyValue.andExpression andExpression, andExpression1left, _)) :: rest671)) => let val  result = MlyValue.andExpression ((*#line 220.70 "c.grm"*)Ast.simpleAnd (andExpression , unaryRelExpression)(*#line 798.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 25, ( result, andExpression1left, unaryRelExpression1right), rest671)
 end
-|  ( 56, ( ( _, ( MlyValue.unaryRelExpression unaryRelExpression, unaryRelExpression1left, unaryRelExpression1right)) :: rest671)) => let val  result = MlyValue.andExpression ((*#line 220.70 "c.grm"*)Ast.uExpr (unaryRelExpression)(*#line 801.1 "c.grm.sml"*)
+|  ( 56, ( ( _, ( MlyValue.unaryRelExpression unaryRelExpression, unaryRelExpression1left, unaryRelExpression1right)) :: rest671)) => let val  result = MlyValue.andExpression ((*#line 221.70 "c.grm"*)Ast.uExpr (unaryRelExpression)(*#line 802.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 25, ( result, unaryRelExpression1left, unaryRelExpression1right), rest671)
 end
-|  ( 57, ( ( _, ( MlyValue.unaryRelExpression unaryRelExpression, _, unaryRelExpression1right)) :: ( _, ( _, NOT1left, _)) :: rest671)) => let val  result = MlyValue.unaryRelExpression ((*#line 222.70 "c.grm"*)Ast.not (unaryRelExpression)(*#line 805.1 "c.grm.sml"*)
+|  ( 57, ( ( _, ( MlyValue.unaryRelExpression unaryRelExpression, _, unaryRelExpression1right)) :: ( _, ( _, NOT1left, _)) :: rest671)) => let val  result = MlyValue.unaryRelExpression ((*#line 223.70 "c.grm"*)Ast.not (unaryRelExpression)(*#line 806.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 26, ( result, NOT1left, unaryRelExpression1right), rest671)
 end
-|  ( 58, ( ( _, ( MlyValue.relExpression relExpression, relExpression1left, relExpression1right)) :: rest671)) => let val  result = MlyValue.unaryRelExpression ((*#line 223.71 "c.grm"*)Ast.rExpr (relExpression)(*#line 809.1 "c.grm.sml"*)
+|  ( 58, ( ( _, ( MlyValue.relExpression relExpression, relExpression1left, relExpression1right)) :: rest671)) => let val  result = MlyValue.unaryRelExpression ((*#line 224.71 "c.grm"*)Ast.rExpr (relExpression)(*#line 810.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 26, ( result, relExpression1left, relExpression1right), rest671)
 end
-|  ( 59, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 225.78 "c.grm"*)Ast.relExp (sumExpression , Ast.LTE , sumExpression )(*#line 813.1 "c.grm.sml"*)
+|  ( 59, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 226.78 "c.grm"*)Ast.relExp (sumExpression , Ast.LTE , sumExpression )(*#line 814.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression2right), rest671)
 end
-|  ( 60, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 226.79 "c.grm"*)Ast.relExp (sumExpression , Ast.LT , sumExpression )(*#line 817.1 "c.grm.sml"*)
+|  ( 60, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 227.79 "c.grm"*)Ast.relExp (sumExpression , Ast.LT , sumExpression )(*#line 818.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression2right), rest671)
 end
-|  ( 61, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 227.78 "c.grm"*)Ast.relExp (sumExpression , Ast.GTE , sumExpression )(*#line 821.1 "c.grm.sml"*)
+|  ( 61, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 228.78 "c.grm"*)Ast.relExp (sumExpression , Ast.GTE , sumExpression )(*#line 822.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression2right), rest671)
 end
-|  ( 62, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 228.78 "c.grm"*)Ast.relExp (sumExpression , Ast.GT , sumExpression )(*#line 825.1 "c.grm.sml"*)
+|  ( 62, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 229.78 "c.grm"*)Ast.relExp (sumExpression , Ast.GT , sumExpression )(*#line 826.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression2right), rest671)
 end
-|  ( 63, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 229.78 "c.grm"*)Ast.relExp (sumExpression , Ast.EQ , sumExpression )(*#line 829.1 "c.grm.sml"*)
+|  ( 63, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 230.78 "c.grm"*)Ast.relExp (sumExpression , Ast.EQ , sumExpression )(*#line 830.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression2right), rest671)
 end
-|  ( 64, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 230.78 "c.grm"*)Ast.relExp (sumExpression , Ast.NEQ , sumExpression )(*#line 833.1 "c.grm.sml"*)
+|  ( 64, ( ( _, ( _, _, sumExpression2right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 231.78 "c.grm"*)Ast.relExp (sumExpression , Ast.NEQ , sumExpression )(*#line 834.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression2right), rest671)
 end
-|  ( 65, ( ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, sumExpression1right)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 231.79 "c.grm"*)Ast.noRel (sumExpression)(*#line 837.1 "c.grm.sml"*)
+|  ( 65, ( ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, sumExpression1right)) :: rest671)) => let val  result = MlyValue.relExpression ((*#line 232.79 "c.grm"*)Ast.noRel (sumExpression)(*#line 838.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 27, ( result, sumExpression1left, sumExpression1right), rest671)
 end
-|  ( 66, ( ( _, ( MlyValue.term term, _, term1right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.sumExpression ((*#line 233.77 "c.grm"*)Ast.sumExp (sumExpression , Ast.PLUS , term)(*#line 841.1 "c.grm.sml"*)
+|  ( 66, ( ( _, ( MlyValue.term term, _, term1right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.sumExpression ((*#line 234.77 "c.grm"*)Ast.sumExp (sumExpression , Ast.PLUS , term)(*#line 842.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 28, ( result, sumExpression1left, term1right), rest671)
 end
-|  ( 67, ( ( _, ( MlyValue.term term, _, term1right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.sumExpression ((*#line 234.78 "c.grm"*)Ast.sumExp (sumExpression , Ast.MINUS , term)(*#line 845.1 "c.grm.sml"*)
+|  ( 67, ( ( _, ( MlyValue.term term, _, term1right)) :: _ :: ( _, ( MlyValue.sumExpression sumExpression, sumExpression1left, _)) :: rest671)) => let val  result = MlyValue.sumExpression ((*#line 235.78 "c.grm"*)Ast.sumExp (sumExpression , Ast.MINUS , term)(*#line 846.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 28, ( result, sumExpression1left, term1right), rest671)
 end
-|  ( 68, ( ( _, ( MlyValue.term term, term1left, term1right)) :: rest671)) => let val  result = MlyValue.sumExpression ((*#line 235.78 "c.grm"*)Ast.noSum (term)(*#line 849.1 "c.grm.sml"*)
+|  ( 68, ( ( _, ( MlyValue.term term, term1left, term1right)) :: rest671)) => let val  result = MlyValue.sumExpression ((*#line 236.78 "c.grm"*)Ast.noSum (term)(*#line 850.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 28, ( result, term1left, term1right), rest671)
 end
-|  ( 69, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: _ :: ( _, ( MlyValue.term term, term1left, _)) :: rest671)) => let val  result = MlyValue.term ((*#line 237.77 "c.grm"*)Ast.multExp (term , Ast.MULT , unaryExpression)(*#line 853.1 "c.grm.sml"*)
+|  ( 69, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: _ :: ( _, ( MlyValue.term term, term1left, _)) :: rest671)) => let val  result = MlyValue.term ((*#line 238.77 "c.grm"*)Ast.multExp (term , Ast.MULT , unaryExpression)(*#line 854.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 29, ( result, term1left, unaryExpression1right), rest671)
 end
-|  ( 70, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: _ :: ( _, ( MlyValue.term term, term1left, _)) :: rest671)) => let val  result = MlyValue.term ((*#line 238.77 "c.grm"*)Ast.multExp (term , Ast.DIV , unaryExpression)(*#line 857.1 "c.grm.sml"*)
+|  ( 70, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: _ :: ( _, ( MlyValue.term term, term1left, _)) :: rest671)) => let val  result = MlyValue.term ((*#line 239.77 "c.grm"*)Ast.multExp (term , Ast.DIV , unaryExpression)(*#line 858.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 29, ( result, term1left, unaryExpression1right), rest671)
 end
-|  ( 71, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: _ :: ( _, ( MlyValue.term term, term1left, _)) :: rest671)) => let val  result = MlyValue.term ((*#line 239.77 "c.grm"*)Ast.multExp (term , Ast.MOD , unaryExpression)(*#line 861.1 "c.grm.sml"*)
+|  ( 71, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: _ :: ( _, ( MlyValue.term term, term1left, _)) :: rest671)) => let val  result = MlyValue.term ((*#line 240.77 "c.grm"*)Ast.multExp (term , Ast.MOD , unaryExpression)(*#line 862.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 29, ( result, term1left, unaryExpression1right), rest671)
 end
-|  ( 72, ( ( _, ( MlyValue.unaryExpression unaryExpression, unaryExpression1left, unaryExpression1right)) :: rest671)) => let val  result = MlyValue.term ((*#line 240.77 "c.grm"*)Ast.noMult (unaryExpression)(*#line 865.1 "c.grm.sml"*)
+|  ( 72, ( ( _, ( MlyValue.unaryExpression unaryExpression, unaryExpression1left, unaryExpression1right)) :: rest671)) => let val  result = MlyValue.term ((*#line 241.77 "c.grm"*)Ast.noMult (unaryExpression)(*#line 866.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 29, ( result, unaryExpression1left, unaryExpression1right), rest671)
 end
-|  ( 73, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: ( _, ( _, DASH1left, _)) :: rest671)) => let val  result = MlyValue.unaryExpression ((*#line 242.76 "c.grm"*)Ast.uExp (Ast.DASH , unaryExpression)(*#line 869.1 "c.grm.sml"*)
+|  ( 73, ( ( _, ( MlyValue.unaryExpression unaryExpression, _, unaryExpression1right)) :: ( _, ( _, DASH1left, _)) :: rest671)) => let val  result = MlyValue.unaryExpression ((*#line 243.76 "c.grm"*)Ast.uExp (Ast.DASH , unaryExpression)(*#line 870.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 30, ( result, DASH1left, unaryExpression1right), rest671)
 end
-|  ( 74, ( ( _, ( MlyValue.factor factor, factor1left, factor1right)) :: rest671)) => let val  result = MlyValue.unaryExpression ((*#line 243.77 "c.grm"*)Ast.noUnary (factor)(*#line 873.1 "c.grm.sml"*)
+|  ( 74, ( ( _, ( MlyValue.factor factor, factor1left, factor1right)) :: rest671)) => let val  result = MlyValue.unaryExpression ((*#line 244.77 "c.grm"*)Ast.noUnary (factor)(*#line 874.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 30, ( result, factor1left, factor1right), rest671)
 end
-|  ( 75, ( ( _, ( MlyValue.immutable immutable, immutable1left, immutable1right)) :: rest671)) => let val  result = MlyValue.factor ((*#line 245.77 "c.grm"*)Ast.immut (immutable)(*#line 877.1 "c.grm.sml"*)
+|  ( 75, ( ( _, ( MlyValue.immutable immutable, immutable1left, immutable1right)) :: rest671)) => let val  result = MlyValue.factor ((*#line 246.77 "c.grm"*)Ast.immut (immutable)(*#line 878.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 31, ( result, immutable1left, immutable1right), rest671)
 end
-|  ( 76, ( ( _, ( MlyValue.mutable mutable, mutable1left, mutable1right)) :: rest671)) => let val  result = MlyValue.factor ((*#line 246.77 "c.grm"*)Ast.mut (mutable)(*#line 881.1 "c.grm.sml"*)
+|  ( 76, ( ( _, ( MlyValue.mutable mutable, mutable1left, mutable1right)) :: rest671)) => let val  result = MlyValue.factor ((*#line 247.77 "c.grm"*)Ast.mut (mutable)(*#line 882.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 31, ( result, mutable1left, mutable1right), rest671)
 end
-|  ( 77, ( ( _, ( MlyValue.ID ID, ID1left, ID1right)) :: rest671)) => let val  result = MlyValue.mutable ((*#line 248.84 "c.grm"*)Ast.mID (ID)(*#line 885.1 "c.grm.sml"*)
+|  ( 77, ( ( _, ( MlyValue.ID ID, ID1left, ID1right)) :: rest671)) => let val  result = MlyValue.mutable ((*#line 249.84 "c.grm"*)Ast.mID (ID)(*#line 886.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 32, ( result, ID1left, ID1right), rest671)
 end
-|  ( 78, ( ( _, ( _, _, RIGHTBRACKET1right)) :: ( _, ( MlyValue.expression expression, _, _)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.mutable ((*#line 249.77 "c.grm"*)Ast.mArray (mutable , expression )(*#line 889.1 "c.grm.sml"*)
+|  ( 78, ( ( _, ( _, _, RIGHTBRACKET1right)) :: ( _, ( MlyValue.expression expression, _, _)) :: _ :: ( _, ( MlyValue.mutable mutable, mutable1left, _)) :: rest671)) => let val  result = MlyValue.mutable ((*#line 250.77 "c.grm"*)Ast.mArray (mutable , expression )(*#line 890.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 32, ( result, mutable1left, RIGHTBRACKET1right), rest671)
 end
-|  ( 79, ( ( _, ( _, _, RPARA1right)) :: ( _, ( MlyValue.expression expression, _, _)) :: ( _, ( _, LPARA1left, _)) :: rest671)) => let val  result = MlyValue.immutable ((*#line 252.78 "c.grm"*)Ast.paranthesis(expression)(*#line 893.1 "c.grm.sml"*)
+|  ( 79, ( ( _, ( _, _, RPARA1right)) :: ( _, ( MlyValue.expression expression, _, _)) :: ( _, ( _, LPARA1left, _)) :: rest671)) => let val  result = MlyValue.immutable ((*#line 253.78 "c.grm"*)Ast.paranthesis(expression)(*#line 894.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 33, ( result, LPARA1left, RPARA1right), rest671)
 end
-|  ( 80, ( ( _, ( MlyValue.call call, call1left, call1right)) :: rest671)) => let val  result = MlyValue.immutable ((*#line 253.78 "c.grm"*)Ast.c (call)(*#line 897.1 "c.grm.sml"*)
+|  ( 80, ( ( _, ( MlyValue.call call, call1left, call1right)) :: rest671)) => let val  result = MlyValue.immutable ((*#line 254.78 "c.grm"*)Ast.c (call)(*#line 898.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 33, ( result, call1left, call1right), rest671)
 end
-|  ( 81, ( ( _, ( MlyValue.constant constant, constant1left, constant1right)) :: rest671)) => let val  result = MlyValue.immutable ((*#line 254.78 "c.grm"*)Ast.const (constant)(*#line 901.1 "c.grm.sml"*)
+|  ( 81, ( ( _, ( MlyValue.constant constant, constant1left, constant1right)) :: rest671)) => let val  result = MlyValue.immutable ((*#line 255.78 "c.grm"*)Ast.const (constant)(*#line 902.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 33, ( result, constant1left, constant1right), rest671)
 end
-|  ( 82, ( ( _, ( _, _, RPARA1right)) :: ( _, ( MlyValue.args args, _, _)) :: _ :: ( _, ( MlyValue.ID ID, ID1left, _)) :: rest671)) => let val  result = MlyValue.call ((*#line 256.78 "c.grm"*)Ast.callArgs (ID , args)(*#line 905.1 "c.grm.sml"*)
+|  ( 82, ( ( _, ( _, _, RPARA1right)) :: ( _, ( MlyValue.args args, _, _)) :: _ :: ( _, ( MlyValue.ID ID, ID1left, _)) :: rest671)) => let val  result = MlyValue.call ((*#line 257.78 "c.grm"*)Ast.callArgs (ID , args)(*#line 906.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 34, ( result, ID1left, RPARA1right), rest671)
 end
-|  ( 83, ( rest671)) => let val  result = MlyValue.args ((*#line 258.82 "c.grm"*)[](*#line 909.1 "c.grm.sml"*)
+|  ( 83, ( rest671)) => let val  result = MlyValue.args ((*#line 259.82 "c.grm"*)[](*#line 910.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 36, ( result, defaultPos, defaultPos), rest671)
 end
-|  ( 84, ( ( _, ( MlyValue.argList argList, argList1left, argList1right)) :: rest671)) => let val  result = MlyValue.args ((*#line 259.82 "c.grm"*)argList(*#line 913.1 "c.grm.sml"*)
+|  ( 84, ( ( _, ( MlyValue.argList argList, argList1left, argList1right)) :: rest671)) => let val  result = MlyValue.args ((*#line 260.82 "c.grm"*)argList(*#line 914.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 36, ( result, argList1left, argList1right), rest671)
 end
-|  ( 85, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.argList argList, argList1left, _)) :: rest671)) => let val  result = MlyValue.argList ((*#line 261.84 "c.grm"*)argList @ [expression](*#line 917.1 "c.grm.sml"*)
+|  ( 85, ( ( _, ( MlyValue.expression expression, _, expression1right)) :: _ :: ( _, ( MlyValue.argList argList, argList1left, _)) :: rest671)) => let val  result = MlyValue.argList ((*#line 262.84 "c.grm"*)argList @ [expression](*#line 918.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 35, ( result, argList1left, expression1right), rest671)
 end
-|  ( 86, ( ( _, ( MlyValue.expression expression, expression1left, expression1right)) :: rest671)) => let val  result = MlyValue.argList ((*#line 262.82 "c.grm"*)[expression](*#line 921.1 "c.grm.sml"*)
+|  ( 86, ( ( _, ( MlyValue.expression expression, expression1left, expression1right)) :: rest671)) => let val  result = MlyValue.argList ((*#line 263.82 "c.grm"*)[expression](*#line 922.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 35, ( result, expression1left, expression1right), rest671)
 end
-|  ( 87, ( ( _, ( MlyValue.NUMCONST NUMCONST, NUMCONST1left, NUMCONST1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 264.82 "c.grm"*)Ast.number(NUMCONST)(*#line 925.1 "c.grm.sml"*)
+|  ( 87, ( ( _, ( MlyValue.NUMCONST NUMCONST, NUMCONST1left, NUMCONST1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 265.82 "c.grm"*)Ast.number(NUMCONST)(*#line 926.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 37, ( result, NUMCONST1left, NUMCONST1right), rest671)
 end
-|  ( 88, ( ( _, ( MlyValue.CHARCONST CHARCONST, CHARCONST1left, CHARCONST1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 265.82 "c.grm"*)Ast.charConst (CHARCONST)(*#line 929.1 "c.grm.sml"*)
+|  ( 88, ( ( _, ( MlyValue.CHARCONST CHARCONST, CHARCONST1left, CHARCONST1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 266.82 "c.grm"*)Ast.charConst (CHARCONST)(*#line 930.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 37, ( result, CHARCONST1left, CHARCONST1right), rest671)
 end
-|  ( 89, ( ( _, ( _, TRUE1left, TRUE1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 266.82 "c.grm"*)Ast.trueValue(*#line 933.1 "c.grm.sml"*)
+|  ( 89, ( ( _, ( _, TRUE1left, TRUE1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 267.82 "c.grm"*)Ast.trueValue(*#line 934.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 37, ( result, TRUE1left, TRUE1right), rest671)
 end
-|  ( 90, ( ( _, ( _, FALSE1left, FALSE1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 267.82 "c.grm"*)Ast.falseValue(*#line 937.1 "c.grm.sml"*)
+|  ( 90, ( ( _, ( _, FALSE1left, FALSE1right)) :: rest671)) => let val  result = MlyValue.constant ((*#line 268.82 "c.grm"*)Ast.falseValue(*#line 938.1 "c.grm.sml"*)
 )
  in ( LrTable.NT 37, ( result, FALSE1left, FALSE1right), rest671)
 end
@@ -1004,5 +1005,6 @@ fun TRUE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 50,(ParserData.MlyValue.VOI
 fun FALSE (p1,p2) = Token.TOKEN (ParserData.LrTable.T 51,(ParserData.MlyValue.VOID',p1,p2))
 fun iff (p1,p2) = Token.TOKEN (ParserData.LrTable.T 52,(ParserData.MlyValue.VOID',p1,p2))
 fun c (p1,p2) = Token.TOKEN (ParserData.LrTable.T 53,(ParserData.MlyValue.VOID',p1,p2))
+fun COLONEQUAL (p1,p2) = Token.TOKEN (ParserData.LrTable.T 54,(ParserData.MlyValue.VOID',p1,p2))
 end
 end

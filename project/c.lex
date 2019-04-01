@@ -28,6 +28,7 @@ ws    = [\ \t];
 <INITIAL>"}"                                 => (Tokens.RIGHTBRACE (!lineRef , !lineRef));
 <INITIAL>","                                 => (Tokens.COMMA (!lineRef , !lineRef));
 <INITIAL>";"                                 => (Tokens.SEMICOLON (!lineRef , !lineRef));
+<INITIAL>":="                                 => (Tokens.COLONEQUAL (!lineRef , !lineRef));
 <INITIAL>":"                                 => (Tokens.COLON (!lineRef , !lineRef));
 <INITIAL>"["                                 => (Tokens.LEFTBRACKET (!lineRef , !lineRef));
 <INITIAL>"]"                                 => (Tokens.RIGHTBRACKET (!lineRef , !lineRef));
