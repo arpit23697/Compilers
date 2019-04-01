@@ -62,12 +62,19 @@ struct
                                                     )
                                                     )
 
+    (* Takes the table and the symbol as the input and then return type of the symbol in the most
+    recent scope *)
     fun look(t: 'a table, (s,n): symbol) = let 
                                             val x = IntBinaryMap.lookup(t,n)
                                             in
                                             List.hd (x)
                                             end
 
+    (* Takes the table and the symbol as the input and returns true or false depending on wether the symbol is in 
+    the table *)
+    fun inTable (t:'a table , (s,n):symbol) = IntBinaryMap.inDomain (t , n)
+
+    (* Takes the table , symbol and stack as the input and then removes the symbol; returns the table and the stack *)
     fun remove (t : 'a table , (s,n): symbol , st:symbolStackType) = 
                                                 if IntBinaryMap.inDomain(t , n) = true 
                                                 then
@@ -94,6 +101,7 @@ struct
                                                     (t , st)
 
     (* for the scoping *)
+    (* Takes the table and the stack as the input; then returns the stack and the table after the beginning of the scope *)
     fun beginScope (t : 'a table , st : symbolStackType) = 
                                                         let 
                                                         val newStack = Stack.push (markup , st)
@@ -102,6 +110,7 @@ struct
                                                         end
 
     (* pop till the marker is reached *)
+    (* Takes the table and the stack as the input and returns the stack and the table after the end of the scope *)
     fun endScope (t : 'a table , st : symbolStackType) = if ( value(Stack.top ( st ) ) <> value(markup) )
                       then
                       let 
@@ -137,7 +146,7 @@ struct
     fun printStack (s) = map printSymbols (Stack.listItems s )
 
 end
-
+(* 
 (* This is to take the symbol and print it *)
 val s1 : Symbol.symbol = Symbol.symbol ("a")
 val s2 : Symbol.symbol = Symbol.symbol ("b")
@@ -184,6 +193,8 @@ val temp = print "============== After first scope ===============\n"
 val temp = (print "symbols  " ; Symbol.printAllSymbols() )
 val temp = (print "Table  " ; Symbol.printTable ((!myTable)) ; print "\n")
 val temp = (print "Stack  "; Symbol.printStack ((!mySymbolStack)) ; print "\n")
+
+val temp = print (Bool.toString (Symbol.inTable ((!myTable) , s1)) )
 (* Starting other scope *)
 val temp = let 
            val (x , y) =  Symbol.beginScope( (!myTable) , (!mySymbolStack) ) 
@@ -231,3 +242,4 @@ val temp = print "============== End of second scope ===============\n"
 val temp = (print "symbols  " ; Symbol.printAllSymbols() )
 val temp = (print "Table  " ; Symbol.printTable ((!myTable)) ; print "\n")
 val temp = (print "Stack  "; Symbol.printStack ((!mySymbolStack)) ; print "\n")
+val temp = print (Bool.toString (Symbol.inTable ((!myTable) , s1)) ) *)
