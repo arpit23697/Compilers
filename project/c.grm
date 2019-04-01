@@ -72,6 +72,7 @@
         | typeSpecifier of Ast.typeSpecifier
         | funDeclaration of Ast.funDeclaration
         | params of Ast.paramType list
+        | paramList of Ast.paramType list
         | paramType of Ast.paramType
         | paramID of Ast.paramID
         | statement of Ast.statement
@@ -96,6 +97,7 @@
         | mutable of Ast.mutable
         | immutable of Ast.immutable
         | call of Ast.call
+        | argList of Ast.expression list
         | args of Ast.expression list
         | constant of Ast.constant
     
@@ -157,9 +159,11 @@ typeSpecifier : INT                                           (Ast.integer)
 funDeclaration : typeSpecifier ID LPARA params RPARA compoundStmt       (Ast.functionReturn (typeSpecifier , ID , params , compoundStmt))  
                 | VOID ID LPARA params RPARA compoundStmt              (Ast.functionVoid (ID , params , compoundStmt))
 
-params : paramType                                              ([paramType])                                                            
-        |params COMMA  paramType                         ( params @ [paramType] )
-        |                                                           ( [] )
+params :                                                         ([])
+        | paramList                                              (paramList)
+
+paramList : paramType                                              ([paramType])                                                            
+        |paramList COMMA  paramType                         ( paramList @ [paramType] )
 
 paramType : typeSpecifier paramID                           (Ast.parameter(typeSpecifier , paramID))
 
@@ -251,10 +255,12 @@ immutable : LPARA expression RPARA                                          (Ast
 
 call : ID LPARA args RPARA                                                  (Ast.callArgs (ID , args))
 
-args :                                                                     ([])
-     | expression                                                           ([expression])                                    
-     | args COMMA expression                                                (args @ [expression])  
-        
+args :                                                                          ([])
+        | argList                                                               (argList)
+
+argList:  argList COMMA expression                                                (argList @ [expression])  
+        |  expression                                                           ([expression]) 
+
 constant : NUMCONST                                                             (Ast.number(NUMCONST))
         | CHARCONST                                                             (Ast.charConst (CHARCONST))
         | TRUE                                                                  (Ast.trueValue)
