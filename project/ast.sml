@@ -1,33 +1,12 @@
 structure Ast = struct 
-(* Put the keywords in the upper case letter *)
-(* These are the keywords
-record
 
-
- *)
-
-
-
-datatype program = declL of  declarationList
-    
-    and declarationList =  declList of (declarationList * declaration)   (*This is simply a list of declarations*)
-                        | singleDecl of declaration
-    
+datatype program = declL of  declaration list
+        
     and declaration = variableDeclaration of varDeclaration 
                     | functionDeclaration of  funDeclaration
-                    (* | recordDeclaration of recDeclaration *)
-
-    (* ============================== record declaration ================================= *)
-
-    (* and recDeclaration = recordID of (string * localDeclarations)     string is for the ID ; record ID { local Declarations } *)
-
+  
     (* =============================== variable declaration =============================== *)
-    and varDeclaration = vDecl of (typeSpecifier * varDeclList) 
-
-    (* and scopedVarDeclaration = sDecl of (scopedTypeSpecifier * varDeclList )   *)
-
-    and varDeclList = vList of (varDeclList * varDeclInitialize)  (*varDeclList is a list of varDeclInitialize*)
-                    | vSingleDecl of varDeclInitialize
+    and varDeclaration = vDecl of (typeSpecifier * (varDeclInitialize list) ) 
 
     and varDeclInitialize = declarationOnlyID of varDeclID
                         | declarationAssignment of (varDeclID * simpleExpression)    (*Of the form valDeclID : simpleExpression*)
@@ -35,31 +14,16 @@ datatype program = declL of  declarationList
 
     and varDeclID = vID of string                          (*this is declaration of the form ID*)
                     | arrayLike of (string * string)     (*declaration of the form ID [NUMCONST] //like that of array*)
-        
-    (* and scopedTypeSpecifier = staticType of typeSpecifier  Of the form static typeSpecifier *)
-                            (* | simpleType of typeSpecifier *)
 
-    (* and typeSpecifier = ret of returnTypeSpecifier        one type is not understood properly *)
-                        (* | RECTYPE of string  *)
-                        
     and typeSpecifier = integer
                             | boolean 
                             | character
 
     (* ========================================= function declaration ================================ *)
-    and funDeclaration = functionReturn of (typeSpecifier * string * params * compoundStmt)       (* typeSpecifier ID (params) statement  // string is for the ID*)
-                        | functionVoid of (string * params * compoundStmt)           (* string is for the ID ; void ID (params) statement *)
+    and funDeclaration = functionReturn of (typeSpecifier * string * paramType list * compoundStmt)       (* typeSpecifier ID (params) statement  // string is for the ID*)
+                        | functionVoid of (string * paramType list * compoundStmt)           (* string is for the ID ; void ID (params) statement *)
 
-    and params = parameterList of paramList 
-                | emptyParameter   (*for the empty parameter*)
-    
-    and paramList = pList of (paramList * paramTypeList)           (*paramList is the list of paramTypeList*)
-                    | singleParam of (paramTypeList)
-    
-    and paramTypeList = parameter of (typeSpecifier * paramID) 
-
-    (* and paramIDList = listOfID of (paramIDList * paramID)  *)
-                    (* | singleIDParameter of (paramID) *)
+    and paramType = parameter of (typeSpecifier * paramID) 
 
     and paramID = normalID of string                (*id of the type : ID*)
                  | arrayID of string                (*id of the type : ID[]*)
@@ -74,13 +38,10 @@ datatype program = declL of  declarationList
                     | bStatement of breakStmt
                     | conStatement of continueStmt
 
-    and compoundStmt = statementWithBrace of (localDeclarations * statementList)       (*{localDeclaration statementList}*)
+    and compoundStmt = statementWithBrace of (localDeclarations * statement list)       (*{localDeclaration statementList}*)
     
     and localDeclarations = declIn of (localDeclarations *varDeclaration)
                             | emptyDeclIn
-
-    and statementList = listOfStatements of (statementList * statement)
-                        | emptyListStatement 
 
     and expressionStmt = basicExpression of (expression)            (*for the type -- expression ;*) 
                         | semicolon                                 (*statement of the form ;*)
@@ -147,18 +108,11 @@ datatype program = declL of  declarationList
                     | c of call
                     | const of constant 
 
-    and call = callArgs of (string * args)                      (*of the form ID (args)*)
-
-    and args = aList of argList
-                | emptyArg
-
-    and argList = aaList of (argList * expression)
-                | oneArg of (expression)
+    and call = callArgs of (string * expression list)                      (*of the form ID (args)*)
 
     and constant = number of string
                     | charConst of string 
                     | trueValue
                     | falseValue
- 
- 
+
 end

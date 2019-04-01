@@ -53,7 +53,6 @@
         | QUES
         | DASH 
         | STAR
-        (* | DOT  *)
         | NUMCONST of string 
         | CHARCONST  of string 
         | TRUE 
@@ -64,27 +63,21 @@
 
 (* The nonterminals of the language *)
 %nonterm program of Ast.program
-        | declarationList of Ast.declarationList
-        | declaration of  Ast.declaration
-        (* | recDeclaration of Ast.recDeclaration *)
+        | declarationList of Ast.declaration list
+        | declaration of  Ast.declaration 
         | varDeclaration of Ast.varDeclaration
-        (* | scopedVarDeclaration of Ast.scopedVarDeclaration *)
-        | varDeclList of Ast.varDeclList
+        | varDeclList of Ast.varDeclInitialize list
         | varDeclInitialize of Ast.varDeclInitialize
         | varDeclID of Ast.varDeclID
-        (* | scopedTypeSpecifier of Ast.scopedTypeSpecifier *)
         | typeSpecifier of Ast.typeSpecifier
-        (* | returnTypeSpecifier of Ast.returnTypeSpecifier *)
         | funDeclaration of Ast.funDeclaration
-        | params of Ast.params
-        | paramList of Ast.paramList
-        | paramTypeList of Ast.paramTypeList
-        (* | paramIDList of Ast.paramIDList *)
+        | params of Ast.paramType list
+        | paramType of Ast.paramType
         | paramID of Ast.paramID
         | statement of Ast.statement
         | compoundStmt of Ast.compoundStmt
         | localDeclarations of Ast.localDeclarations
-        | statementList of Ast.statementList
+        | statementList of Ast.statement list
         | expressionStmt of Ast.expressionStmt
         | selectionStmt of Ast.selectionStmt
         | iterationStmt of Ast.iterationStmt
@@ -103,8 +96,7 @@
         | mutable of Ast.mutable
         | immutable of Ast.immutable
         | call of Ast.call
-        | args of Ast.args
-        | argList of Ast.argList
+        | args of Ast.expression list
         | constant of Ast.constant
     
 
@@ -137,23 +129,18 @@
 (* =============================== Grammar ================================*)
 program : declarationList                                       ( Ast.declL(declarationList) )
 
-declarationList : declarationList declaration                   ( Ast.declList (declarationList , declaration) )
-                | declaration                                   ( Ast.singleDecl (declaration) )
+declarationList : declarationList declaration                   ( declarationList @ [declaration] )
+                | declaration                                   ( [declaration] )
 
 declaration : varDeclaration                                    (Ast.variableDeclaration (varDeclaration) ) 
             | funDeclaration                                    (Ast.functionDeclaration (funDeclaration) )
-            (* | recDeclaration                                    (Ast.recordDeclaration (recDeclaration) ) *)
-
-(* ============================ record declaration ====================== *)
-(* recDeclaration : RECORD ID LEFTBRACE localDeclarations RIGHTBRACE   (Ast.recordID (ID , localDeclarations)) *)
 
 (* ============================ variable declaration ===================== *)
 varDeclaration : typeSpecifier varDeclList SEMICOLON                         (Ast.vDecl (typeSpecifier , varDeclList))
 
-(* scopedVarDeclaration : scopedTypeSpecifier varDeclList  SEMICOLON          (Ast.sDecl (scopedTypeSpecifier , varDeclList) ) *)
-
-varDeclList : varDeclList COMMA varDeclInitialize                   (Ast.vList (varDeclList , varDeclInitialize))
-             | varDeclInitialize                                    (Ast.vSingleDecl (varDeclInitialize))
+varDeclList : varDeclInitialize                                        ([varDeclInitialize])
+              |   varDeclList COMMA varDeclInitialize                   ( varDeclList @ [varDeclInitialize] )
+                                                 
 
 varDeclInitialize : varDeclID                                       (Ast.declarationOnlyID (varDeclID) )
                 | varDeclID COLON simpleExpression                  (Ast.declarationAssignment (varDeclID , simpleExpression))
@@ -161,11 +148,6 @@ varDeclInitialize : varDeclID                                       (Ast.declara
 varDeclID : ID                                                     (Ast.vID (ID))
             | ID LEFTBRACKET NUMCONST RIGHTBRACKET                  (Ast.arrayLike (ID , NUMCONST))
 
-(* scopedTypeSpecifier : STATIC typeSpecifier                          (Ast.staticType (typeSpecifier)) *)
-                    (* | typeSpecifier                                 (Ast.simpleType (typeSpecifier)) *)
-
-(* typeSpecifier : returnTypeSpecifier                                 (Ast.ret (returnTypeSpecifier)) *)
-                (* | ID                                                 (Ast.RECTYPE (ID)) *)
 typeSpecifier : INT                                           (Ast.integer)
                     | BOOL                                          (Ast.boolean)
                     | CHAR                                          (Ast.character)
@@ -175,16 +157,11 @@ typeSpecifier : INT                                           (Ast.integer)
 funDeclaration : typeSpecifier ID LPARA params RPARA compoundStmt       (Ast.functionReturn (typeSpecifier , ID , params , compoundStmt))  
                 | VOID ID LPARA params RPARA compoundStmt              (Ast.functionVoid (ID , params , compoundStmt))
 
-params : paramList                                                  (Ast.parameterList (paramList))
-        |                                                           (Ast.emptyParameter)
+params : paramType                                              ([paramType])                                                            
+        |params COMMA  paramType                         ( params @ [paramType] )
+        |                                                           ( [] )
 
-paramList : paramList COMMA paramTypeList                       (Ast.pList (paramList , paramTypeList))                   
-        | paramTypeList                                             (Ast.singleParam (paramTypeList))
-
-paramTypeList : typeSpecifier paramID                           (Ast.parameter(typeSpecifier , paramID))
-        
-(* paramIDList : paramIDList COMMA paramID                             (Ast.listOfID (paramIDList , paramID))  *)
-            (* | paramID                                               (Ast.singleIDParameter (paramID)) *)
+paramType : typeSpecifier paramID                           (Ast.parameter(typeSpecifier , paramID))
 
 paramID : ID                                                        (Ast.normalID (ID))
         | ID LEFTBRACKET RIGHTBRACKET                               (Ast.arrayID (ID))
@@ -203,8 +180,9 @@ compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.state
 localDeclarations : localDeclarations varDeclaration          (Ast.declIn (localDeclarations , varDeclaration) ) 
             |                                                       (Ast.emptyDeclIn)
 
-statementList : statementList statement                             (Ast.listOfStatements (statementList , statement)) 
-            |                                                       (Ast.emptyListStatement)
+statementList :                                                       ([] )
+        | statementList statement                             (statementList @ [statement]) 
+            
 
 expressionStmt : expression SEMICOLON                               (Ast.basicExpression (expression))
              | SEMICOLON                                            (Ast.semicolon )
@@ -258,8 +236,6 @@ term            : term MULT unaryExpression                                (Ast.
                 | unaryExpression                                          (Ast.noMult (unaryExpression))
 
 unaryExpression : DASH unaryExpression                                    (Ast.uExp (Ast.DASH , unaryExpression)) 
-                (* | STAR unaryExpression                                      (Ast.uExp (Ast.STAR , unaryExpression) ) *)
-                (* | QUES unaryExpression                                     (Ast.uExp (Ast.QUES , unaryExpression)) *)
                 | factor                                                   (Ast.noUnary (factor))
 
 factor : immutable                                                         (Ast.immut (immutable))
@@ -275,12 +251,10 @@ immutable : LPARA expression RPARA                                          (Ast
 
 call : ID LPARA args RPARA                                                  (Ast.callArgs (ID , args))
 
-args : argList                                                              (Ast.aList (argList))
-        |                                                                    (Ast.emptyArg)
-
-argList : argList COMMA expression                                            (Ast.aaList(argList , expression))
-        | expression                                                            (Ast.oneArg (expression))
-
+args :                                                                     ([])
+     | expression                                                           ([expression])                                    
+     | args COMMA expression                                                (args @ [expression])  
+        
 constant : NUMCONST                                                             (Ast.number(NUMCONST))
         | CHARCONST                                                             (Ast.charConst (CHARCONST))
         | TRUE                                                                  (Ast.trueValue)

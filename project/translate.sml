@@ -13,33 +13,21 @@ fun print_tabs_real () = (n := !indent ; print_tabs () )
 (* =============================== main program ======================================= *)
 fun compileProgram (Ast.declL(x)) = printDeclarationList x
 
-and printDeclarationList (Ast.declList (x,y)) = (printDeclarationList x ; printDeclaration y)
-    | printDeclarationList (Ast.singleDecl(x)) = (printDeclaration x)
+and  printDeclarationList ([x]) = (printDeclaration x)
+    | printDeclarationList (x :: y) = (printDeclaration x ; printDeclarationList y)
+    | printDeclarationList ([]) = ()
 
 and printDeclaration (Ast.variableDeclaration (x)) = (printVarDeclaration x)
     | printDeclaration (Ast.functionDeclaration (x)) = (printFunDeclaration x)
-    (* | printDeclaration (Ast.recordDeclaration (x)) = (printRecordDeclaration x) *)
-
-(* ==================================== record declaration ================================= *)
-(* and printRecordDeclaration (Ast.recordID (x,y)) = ( 
-                                                    print_red "record ";
-                                                     print_default x;
-                                                     print_yellow " {\n";
-                                                     indent := !indent + 1;
-                                                    print_tabs_real();
-                                                    printLocalDeclarations y;
-                                                    indent := !indent - 1 ;
-                                                    print_tabs_real ();
-                                                    print_yellow "}\n"
-                                                    ) *)
 
 (* ===================================== variable declaration ================================= *)
 and printVarDeclaration (Ast.vDecl(x,y)) = (print_tabs_real () ; printTypeSpecifier x ; printVarDeclList y ; print ";\n")
 
 (* and printScopedVarDeclaration (Ast.sDecl (x,y)) = (print_tabs_real(); printScopedTypeSpecifier x ; printVarDeclList y ; print ";\n") *)
 
-and printVarDeclList (Ast.vList (x,y)) = (printVarDeclList x ; print " , " ; printVarDeclInitialize y)
-    | printVarDeclList (Ast.vSingleDecl (x)) = (printVarDeclInitialize x)
+and printVarDeclList ([x]) = (printVarDeclInitialize x)
+    | printVarDeclList ( x :: y ) = (printVarDeclInitialize x ; print " , " ; printVarDeclList y)
+    | printVarDeclList ([]) = ()
 
 and printVarDeclInitialize (Ast.declarationOnlyID (x)) = (printVarDeclID x)
     | printVarDeclInitialize (Ast.declarationAssignment (x,y)) = (printVarDeclID x ; print_default " : " ; printSimpleExpression y)
@@ -51,11 +39,6 @@ and printVarDeclID (Ast.vID (x)) = (print_default x)
                                             print_default y;
                                             print "]"
                                             )
-
-(* and printScopedTypeSpecifier (Ast.staticType (x)) = (print_red "static " ; printTypeSpecifier x ) *)
-    (* | printScopedTypeSpecifier (Ast.simpleType (x)) = (printTypeSpecifier x) *)
-
-(* and printTypeSpecifier (Ast.ret (x)) = (printReturnTypeSpecifier x) *)
 
 and   printTypeSpecifier (Ast.integer) = (print_cyan "int ")
     | printTypeSpecifier (Ast.boolean) = (print_cyan "bool ")
@@ -81,16 +64,11 @@ and printFunDeclaration (Ast.functionReturn (x,y,z,w)) = (
                                                             printCompoundStmt w
                                                          )
 
-and printParams (Ast.parameterList (x)) = (printParamList x)
-    | printParams (Ast.emptyParameter) = ()
+and printParams ( [x] ) = (printParamType x)
+    | printParams (x :: xs) = (printParamType x ; print " , " ; printParams xs)
+    | printParams ([]) = ()
 
-and printParamList (Ast.pList (x,y))  = (printParamList x ; print ", " ; printParamTypeList y)
-    | printParamList (Ast.singleParam (x)) = (printParamTypeList x)
-
-and printParamTypeList (Ast.parameter(x,y)) = (printTypeSpecifier x ; printParamID y)
-
-(* and printParamIDList (Ast.listOfID (x ,y))  = (printParamIDList x ; print ", " ; printParamID y) *)
-    (* | printParamIDList (Ast.singleIDParameter (x)) = (printParamID x) *)
+and printParamType (Ast.parameter(x,y)) = (printTypeSpecifier x ; printParamID y)
 
 and printParamID (Ast.normalID(x))   = (print_default x ; print " ")
     | printParamID (Ast.arrayID (x)) = (print_default x ; print " [] " )
@@ -121,8 +99,9 @@ and printLocalDeclarations (Ast.declIn(x,y)) = (
                                                 )
     | printLocalDeclarations (Ast.emptyDeclIn ) = ()
 
-and printStatementList (Ast.listOfStatements (x,y)) = (printStatementList x ; printStatement y)
-    | printStatementList (Ast.emptyListStatement) = ()
+and  printStatementList ( [] ) = ()
+    |printStatementList ( x :: y ) = (printStatement x ; printStatementList y)
+    
 
 and printExpressionStmt (Ast.basicExpression (x)) = (printExpression x ; print ";\n") 
     | printExpressionStmt (Ast.semicolon) = (print ";\n")
@@ -205,8 +184,6 @@ and printUnaryExpression (Ast.uExp (x,y)) = (printUnaryOp x; printUnaryExpressio
     | printUnaryExpression (Ast.noUnary (x)) = (printFactor x)
 
 and printUnaryOp (Ast.DASH) = print_yellow " ~ "
-    (* | printUnaryOp (Ast.DASH) = print_yellow " $$ " *)
-    (* | printUnaryOp (Ast.QUES) = print_yellow " ? " *)
 
 and printFactor (Ast.mut (x)) = (printMutable x)
     | printFactor (Ast.immut (x)) = (printImmutable x)
@@ -214,7 +191,6 @@ and printFactor (Ast.mut (x)) = (printMutable x)
 
 and printMutable (Ast.mID (x)) = (print x)
     | printMutable (Ast.mArray (x,y)) = (printMutable x ; print_yellow "["; printExpression y ; print_yellow "]")
-    (* | printMutable (Ast.mRecord (x,y)) = (printMutable x ; print_yellow "." ; print y) *)
 
 and printImmutable (Ast.paranthesis (x)) = (print "( " ; printExpression x; print " )")
     | printImmutable (Ast.c (x)) =         (printCall x) 
@@ -222,11 +198,10 @@ and printImmutable (Ast.paranthesis (x)) = (print "( " ; printExpression x; prin
 
 and printCall (Ast.callArgs (x , y)) = (print x ; print " (" ; printArgs y ; print " )")
 
-and printArgs (Ast.aList (x)) = (printArgList x)
-    | printArgs (Ast.emptyArg) = ()
+and printArgs ([x]) = (printExpression x )
+    | printArgs (x :: xs) = (printExpression x ; print "," ; printArgs xs)
+    | printArgs ([]) = ()
 
-and printArgList (Ast.aaList (x,y)) = (printArgList x ; print ", " ; printExpression y)
-    | printArgList (Ast.oneArg (x)) = (printExpression x) 
 
 and printConstant (Ast.number (x)) = (print_green x)
     | printConstant (Ast.charConst (x)) = (print x)

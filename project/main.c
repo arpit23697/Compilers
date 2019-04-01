@@ -20,7 +20,7 @@ int gnu, hog[100];
         {
             int hog;
             hog = fox;
-            dog = fred(fox++, cat) > 666;
+            dog = fred( cat , fox++);
             if (hog > bat)
                 break;
             else if (fox != 0)
