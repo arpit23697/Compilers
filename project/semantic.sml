@@ -328,38 +328,167 @@ and semanticContinueStmt (Ast.CONTINUE) = (print "continue ;\n")
     | semanticExpression (Ast.increment (x)) = (semanticMutable x ; print_yellow "++ ")
     | semanticExpression (Ast.decrement (x)) = (semanticMutable x ; print_yellow "--") 
     | semanticExpression (Ast.plainExpression (x)) = (semanticSimpleExpression x) *)
-and semanticExpression x = (typeExpression x ;  print "Simple expression")
-and semanticSimpleExpression x = ( typeSimpleExpression x ; print "This is simple expression")
+and semanticExpression x = (typeExpression x ;  Translate.printExpression x )
+and semanticSimpleExpression x = ( typeSimpleExpression x ; Translate.printSimpleExpression x )
 (* This section is related to the simple expression and returns the type of the simple expression *)
-and   typeExpression (Ast.assign (x, y)) = (typeExpression y)
-    | typeExpression (Ast.assignPlus (x, y)) = (typeExpression y)
-    | typeExpression (Ast.assignMinus (x, y)) = (typeExpression y)
-    | typeExpression (Ast.assignMult (x, y)) = (typeExpression y)
-    | typeExpression (Ast.assignDiv (x, y)) = (typeExpression y)
-    | typeExpression (Ast.increment (x)) = (cType.INT)
-    | typeExpression (Ast.decrement (x)) = ( cType.INT ) 
+and   typeExpression (Ast.assign (x, y)) =  let 
+                                            val leftType =  typeMutable x;
+                                            val rightType = typeExpression y;
+                                            in 
+                                            if (leftType <> rightType)
+                                            then
+                                                (print_red "Left and right hand side not matching\n" ; raise SEMANTICERROR)
+                                            else
+                                                (rightType)
+                                            end 
+
+    | typeExpression (Ast.assignPlus (x, y)) = let 
+                                            val leftType =  typeMutable x;
+                                            val rightType = typeExpression y;
+                                            in 
+                                            if (leftType = rightType andalso leftType = cType.INT )
+                                            then
+                                                (rightType)
+                                            else
+                                                (print_red "Left and right hand side not matching or (not integer)\n" ; raise SEMANTICERROR)
+                                            end
+    | typeExpression (Ast.assignMinus (x, y) ) = let 
+                                            val leftType =  typeMutable x;
+                                            val rightType = typeExpression y;
+                                            in 
+                                            if (leftType = rightType andalso leftType = cType.INT )
+                                            then
+                                                (rightType)
+                                            else
+                                                (print_red "Left and right hand side not matching or (not integer)\n" ; raise SEMANTICERROR)
+                                            end
+    | typeExpression (Ast.assignMult (x, y)) = let 
+                                            val leftType =  typeMutable x;
+                                            val rightType = typeExpression y;
+                                            in 
+                                            if (leftType = rightType andalso leftType = cType.INT )
+                                            then
+                                                (rightType)
+                                            else
+                                                (print_red "Left and right hand side not matching or (not integer)\n" ; raise SEMANTICERROR)
+                                            end
+    | typeExpression (Ast.assignDiv (x, y)) = let 
+                                            val leftType =  typeMutable x;
+                                            val rightType = typeExpression y;
+                                            in 
+                                            if (leftType = rightType andalso leftType = cType.INT )
+                                            then
+                                                (rightType)
+                                            else
+                                                (print_red "Left and right hand side not matching or (not integer)\n" ; raise SEMANTICERROR)
+                                            end
+    | typeExpression (Ast.increment (x)) = let 
+                                          val leftType  = typeMutable x;
+                                          in 
+                                            if (leftType = cType.INT)
+                                            then
+                                                (leftType)
+                                            else 
+                                                (print_red "Incrementing value not integer\n" ; raise SEMANTICERROR)
+                                          end
+    | typeExpression (Ast.decrement (x)) = let 
+                                          val leftType  = typeMutable x;
+                                          in 
+                                            if (leftType = cType.INT)
+                                            then
+                                                (leftType)
+                                            else 
+                                                (print_red "Decrementing value not integer\n" ; raise SEMANTICERROR)
+                                          end 
     | typeExpression (Ast.plainExpression (x)) = ( typeSimpleExpression x)
 
-and typeSimpleExpression (Ast.or(x,y)) = cType.BOOL
+and typeSimpleExpression (Ast.or(x,y)) = let 
+                                        val leftType = typeSimpleExpression x
+                                        val rightType = typeAndExpression y
+                                        in 
+                                        if (leftType = rightType andalso leftType = cType.BOOL)
+                                        then
+                                        (leftType)
+                                        else
+                                        (print_red "Expression not of boolean type\n" ; raise SEMANTICERROR)
+                                        end
     | typeSimpleExpression (Ast.noOr(x)) = typeAndExpression x
 
-and typeAndExpression (Ast.simpleAnd (x,y)) = cType.BOOL
+and typeAndExpression (Ast.simpleAnd (x,y)) = let 
+                                        val leftType = typeAndExpression x
+                                        val rightType = typeUnaryRelExpression y
+                                        in 
+                                        if (leftType = rightType andalso leftType = cType.BOOL)
+                                        then
+                                        (leftType)
+                                        else
+                                        (print_red "Expression not of boolean type\n" ; raise SEMANTICERROR)
+                                        end
     | typeAndExpression (Ast.uExpr(x)) = (typeUnaryRelExpression x)
 
-and typeUnaryRelExpression (Ast.not(x)) = cType.BOOL
+and typeUnaryRelExpression (Ast.not(x)) = let 
+                                        val leftType = typeUnaryRelExpression x
+                                        in 
+                                        if (leftType = cType.BOOL)
+                                        then
+                                        (leftType)
+                                        else
+                                        (print_red "Expression not of boolean type\n" ; raise SEMANTICERROR)
+                                        end
     | typeUnaryRelExpression (Ast.rExpr(x)) = typeRelExpression x
 
-
-and typeRelExpression (Ast.relExp (x,y,z)) = cType.BOOL
+(* For comparison type of both the entities must be same and none should be equal to boolean 
+true > 2  is not valid
+*)
+and typeRelExpression (Ast.relExp (x,y,z)) = let 
+                                        val leftType = typeSumExpression x
+                                        val rightType = typeSumExpression z
+                                        (* val temp = Translate.printRelop y *)
+                                        in 
+                                        if (leftType = rightType andalso leftType <> cType.BOOL)
+                                        then
+                                        (cType.BOOL)
+                                        else
+                                        (print_red "Expression type not compatible for comparison\n" ; raise SEMANTICERROR)
+                                        end
     | typeRelExpression (Ast.noRel (x)) = ( typeSumExpression x )
 
-and typeSumExpression (Ast.sumExp (x,y,z)) = cType.INT
+(* Addition and subtraction only for integer values *)
+and typeSumExpression (Ast.sumExp (x,y,z)) = let 
+                                        val leftType = typeSumExpression x
+                                        val rightType = typeTerm z
+                                        (* val temp = Translate.printRelop y *)
+                                        in 
+                                        if (leftType = rightType andalso leftType = cType.INT)
+                                        then
+                                        (cType.INT)
+                                        else
+                                        (print_red "Expression type not compatible for addition\n" ; raise SEMANTICERROR)
+                                        end
     | typeSumExpression (Ast.noSum (x)) = (typeTerm x)
 
-and typeTerm (Ast.multExp (x,y,z)) = ( cType.INT )
+and typeTerm (Ast.multExp (x,y,z)) = let 
+                                        val leftType = typeTerm x
+                                        val rightType = typeUnaryExpression z
+                                        (* val temp = Translate.printRelop y *)
+                                        in 
+                                        if (leftType = rightType andalso leftType = cType.INT)
+                                        then
+                                        (cType.INT)
+                                        else
+                                        (print_red "Expression type not compatible for multipication\n" ; raise SEMANTICERROR)
+                                        end
     | typeTerm (Ast.noMult (x)) = (typeUnaryExpression x)
 
-and typeUnaryExpression (Ast.uExp (x,y)) = ( cType.INT )
+and typeUnaryExpression (Ast.uExp (x,y)) = let 
+                                        val leftType = typeUnaryExpression y
+                                        in 
+                                        if (leftType = cType.INT orelse leftType = cType.BOOL)
+                                        then
+                                        (leftType)
+                                        else
+                                        (print_red "Expression type not compatible for negation\n" ; raise SEMANTICERROR)
+                                        end
     | typeUnaryExpression (Ast.noUnary (x)) = ( typeFactor x )
 
 
@@ -371,21 +500,44 @@ and typeMutable (Ast.mID (x)):cType.ty = if inTable(x) = true
                                 then 
                                 (look(x))
                                 else
-                                (print ("Undeclared identifier : "^x ^" ") ; raise SEMANTICERROR)
+                                (print_red ("Undeclared identifier : "^x ^" ") ; raise SEMANTICERROR)
 
-    | typeMutable (Ast.mArray (x,y)) = ( case (typeMutable x)
-                                    of (cType.ARRAY(cType.INT)) => cType.INT
-                                    | (cType.ARRAY(cType.BOOL)) => cType.BOOL
-                                    | (cType.ARRAY(cType.CHAR)) => cType.CHAR
-                                    | x => x
-                                    )
+    | typeMutable (Ast.mArray (x,y)) =  let 
+                                        val t = typeExpression y 
+                                        in 
+                                     if (t = cType.INT)
+                                     then       
+                                        ( case (typeMutable x)
+                                        of (cType.ARRAY(cType.INT)) => cType.INT
+                                        | (cType.ARRAY(cType.BOOL)) => cType.BOOL
+                                        | (cType.ARRAY(cType.CHAR)) => cType.CHAR
+                                        | x => x
+                                        )
+                                    else
+                                    (print_red ("non compatible expression for indexing\n") ; raise SEMANTICERROR)
+                                        end
+    
 
 
+(* We have to check for the call *)
 and typeImmutable (Ast.paranthesis (x)) = ( typeExpression x )
-    | typeImmutable (Ast.c (x)) =         (typeCall x) 
-    | typeImmutable (Ast.const (x)) = (typeConstant x)
+    | typeImmutable (Ast.c (x)) =         ( typeCall x) 
+    | typeImmutable (Ast.const (x)) = ( typeConstant x)
 
-and typeCall (Ast.callArgs (x , y)) = ( getFunctionReturnType (look(x)) )
+and typeCall (Ast.callArgs (x , y)) = if inTable(x) = true 
+                                            then
+                                            let 
+                                                val typeList  = getFunctionArgTypeList ( look(x) )
+                                                val retType:cType.ty = getFunctionReturnType (look(x))                                            
+                                            in
+                                                if (checkCall(typeList , y) = true)
+                                                then
+                                                (retType )
+                                                else
+                                                (print_red ("Error in calling the function (Invalid arguments): " ^ x) ; raise SEMANTICERROR )
+                                            end
+                                            else
+                                                (print_red ("No Such function : " ^ x) ; raise SEMANTICERROR )
 
 (* and printArgs ([x]) = (printExpression x ) *)
     (* | printArgs (x :: xs) = (printExpression x ; print "," ; printArgs xs) *)
@@ -542,7 +694,7 @@ and checkTypeExpression (t  , x) = if (t = x)
                                 else 
                                 false
 
-and checkCall (t::tx , x::xs) = checkTypeExpression(  t ,(semanticExpression x) ) andalso checkCall(tx,xs)
+and checkCall (t::tx , x::xs) = checkTypeExpression(  t ,(typeExpression x) ) andalso checkCall(tx,xs)
     | checkCall ([] , [] ) = true
     | checkCall( _ , _ ) = false
 

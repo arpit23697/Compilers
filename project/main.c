@@ -12,19 +12,25 @@ int a[100];
 
 
 
-int ant(int bat, int cat[], bool dog )
+int ant(int bat, bool cat[], bool dog , int elk)
 {
 
 int gnu, hog[100];
     int aPoint;    int aLine;
     int two[2];
+    int a;
+    char c,d;
+    int fox;
+    bool ad;
     two[0] = 42;
     two[1] = 43;
-
-    ar = ar2;
-
-    gnu = hog[2] = 3 * ~cat; 
-    if (dog && elk || bat > cat[3])
+    c = "z";
+    aPoint = 2 + elk;
+    ad = true || false;
+    ad = ! (bat == elk);
+    cat[2] = ~true;
+    gnu = hog[2] = 3 * ~elk;
+    if (!(bat == elk))
         dog = !dog;
     else
         fox++;
@@ -45,11 +51,14 @@ int gnu, hog[100];
                 fox += 7;
         }
     }
-    return (fox + bat * cat[bat]) / ~fox;
+    return (fox + bat * hog[bat]) / ~fox;
 }
 
-int max(int a) { if (a > b)
-        return a; else return b;
+int max(int a,int b) { if (a > b)
+        return a; 
+
 }
 
-void arpit (int ad, int c){return 0;}
+void arpit (int ad, int c){
+    max (ad ,c);
+    return 0;}

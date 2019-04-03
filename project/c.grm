@@ -223,12 +223,12 @@ andExpression : andExpression AND unaryRelExpression                (Ast.simpleA
 unaryRelExpression : NOT unaryRelExpression                         (Ast.not (unaryRelExpression))
                 | relExpression                                      (Ast.rExpr (relExpression))
 
-relExpression : sumExpression LESSEQUAL sumExpression                       (Ast.relExp (sumExpression , Ast.LTE , sumExpression ))    
-                | sumExpression LESS sumExpression                           (Ast.relExp (sumExpression , Ast.LT , sumExpression ))
-                | sumExpression GREATER sumExpression                       (Ast.relExp (sumExpression , Ast.GTE , sumExpression ))
-                | sumExpression GREATEREQUAL sumExpression                  (Ast.relExp (sumExpression , Ast.GT , sumExpression ))
-                | sumExpression EQUALEQUAL sumExpression                    (Ast.relExp (sumExpression , Ast.EQ , sumExpression ))
-                | sumExpression NOTEQUAL sumExpression                      (Ast.relExp (sumExpression , Ast.NEQ , sumExpression ))
+relExpression : sumExpression LESSEQUAL sumExpression                       (Ast.relExp (sumExpression1 , Ast.LTE , sumExpression2 ))    
+                | sumExpression LESS sumExpression                           (Ast.relExp (sumExpression1 , Ast.LT , sumExpression2 ))
+                | sumExpression GREATER sumExpression                       (Ast.relExp (sumExpression1 , Ast.GTE , sumExpression2 ))
+                | sumExpression GREATEREQUAL sumExpression                  (Ast.relExp (sumExpression1 , Ast.GT , sumExpression2 ))
+                | sumExpression EQUALEQUAL sumExpression                    (Ast.relExp (sumExpression1 , Ast.EQ , sumExpression2 ))
+                | sumExpression NOTEQUAL sumExpression                      (Ast.relExp (sumExpression1 , Ast.NEQ , sumExpression2 ))
                 | sumExpression                                              (Ast.noRel (sumExpression))
 
 sumExpression : sumExpression PLUS term                                    (Ast.sumExp (sumExpression , Ast.PLUS , term)) 
