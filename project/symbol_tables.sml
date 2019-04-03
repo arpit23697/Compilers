@@ -67,7 +67,7 @@ struct
     fun look(t: 'a table, (s,n): symbol) = let 
                                             val x = IntBinaryMap.lookup(t,n)
                                             in
-                                            List.hd (x)
+                                            List.hd(x)
                                             end
 
     (* Takes the table and the symbol as the input and returns true or false depending on wether the symbol is in 

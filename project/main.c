@@ -20,6 +20,9 @@ int gnu, hog[100];
     int two[2];
     two[0] = 42;
     two[1] = 43;
+
+    ar = ar2;
+
     gnu = hog[2] = 3 * ~cat; 
     if (dog && elk || bat > cat[3])
         dog = !dog;
@@ -29,12 +32,13 @@ int gnu, hog[100];
     {
         while (dog)
         {
+            int fox;
             int hog;
             int detail ;
             char c ;
-             bool majeme;
+            bool majeme;
             hog = fox;
-            dog = fred( cat , fox++ );
+            // dog = fred( cat , fox++ );
             if (hog > bat)
                 break;
             else if (fox != 0)
