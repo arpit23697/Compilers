@@ -43,14 +43,16 @@ int gnu, hog[100];
             int detail ;
             char c ;
             bool majeme;
+            // majeme = 2;
             hog = fox;
             // dog = fred( cat , fox++ );
             if (hog > bat)
                 break;
             else if (fox != 0)
                 fox += 7;
-        }
+        } 
     }
+    
     return a;
     return (fox + bat * hog[bat]) / ~fox;
 }

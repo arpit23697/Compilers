@@ -94,7 +94,9 @@ structure Semantic = struct
     (* Each of the function returns the type *)
 
     (* ========================== doing the semantic analysis *)
-    fun semanticProgram (Ast.declL(x)) = (print "===================this is program==================\n" ; semanticDeclarationList x  )
+    fun semanticProgram (Ast.declL(x)) = (print_red "=================== This is semantic Analysis ==================\n" ; 
+                                        semanticDeclarationList x;
+                                        print_red "====================== Compiled successfully ======================\n"  )
 
     and semanticDeclarationList ([x] ) = semanticDeclaration x
         | semanticDeclarationList (x::y) = (semanticDeclaration x ; semanticDeclarationList y)
@@ -105,7 +107,7 @@ structure Semantic = struct
     | semanticDeclaration (Ast.functionDeclaration (x)) = (
                                                             (* beginScope(); *)
                                                             semanticFunDeclaration x;
-                                                            printDetails()
+                                                            print "\n"
                                                             (* endScope() *)
                                                         )
 
@@ -188,7 +190,7 @@ and semanticFunDeclaration (Ast.functionReturn (x,y,z,w)) =
                                                             in 
                                                             (
                                                             
-                                                            print_red "void";
+                                                            print_red "void ";
                                                             print "" ; print_magneta y ; print " ";
                                                             print "( ";
                                                             
@@ -343,15 +345,7 @@ and semanticBreakStmt (Ast.BREAK) = (print "break ;\n")
 and semanticContinueStmt (Ast.CONTINUE) = (print "continue ;\n")
  
 (* ================================ this is expression ===================================== *)
-(* This part will also include the type checking *)
-(* and semanticExpression (Ast.assign (x, y)) = (semanticMutable x ; print_yellow " = " ; semanticExpression y)
-    | semanticExpression (Ast.assignPlus (x, y)) = (semanticMutable x ; print_yellow " += " ; semanticExpression y)
-    | semanticExpression (Ast.assignMinus (x, y)) = (semanticMutable x ; print_yellow " -= " ; semanticExpression y)
-    | semanticExpression (Ast.assignMult (x, y)) = (semanticMutable x ; print_yellow " *= " ; semanticExpression y)
-    | semanticExpression (Ast.assignDiv (x, y)) = (semanticMutable x ; print_yellow " /= " ; semanticExpression y)
-    | semanticExpression (Ast.increment (x)) = (semanticMutable x ; print_yellow "++ ")
-    | semanticExpression (Ast.decrement (x)) = (semanticMutable x ; print_yellow "--") 
-    | semanticExpression (Ast.plainExpression (x)) = (semanticSimpleExpression x) *)
+
 and semanticExpression x = (typeExpression x ;  Translate.printExpression x )
 and semanticSimpleExpression x = ( typeSimpleExpression x ; Translate.printSimpleExpression x )
 (* This section is related to the simple expression and returns the type of the simple expression *)
@@ -573,145 +567,6 @@ and  typeConstant (Ast.number (x)) = ( cType.INT )
     | typeConstant (Ast.trueValue ) = (cType.BOOL)
     | typeConstant (Ast.falseValue ) = ( cType.BOOL )
 
-(* and semanticSimpleExpression x= print "This is simple expression" *)
-                            (* let 
-                            val t1 = semanticSimpleExpression x ; 
-                            val t2 = print_yellow " || " ;
-                            val t3 = semanticAndExpression y;
-                            in
-                            (cType.BOOL)
-                             end
-    | semanticSimpleExpression (Ast.noOr(x))= (cType.INT) *)
-
-(* and semanticAndExpression (Ast.simpleAnd (x , y)) = 
-                            let  
-                            val t1 = semanticAndExpression x ; 
-                            val t2 = print_yellow " && " ;
-                            val t3 = semanticUnaryRelExpression y
-                            in
-                            cType.BOOL
-                            end
-    | semanticAndExpression (Ast.uExpr (x)) = (semanticUnaryRelExpression x)
-
-and semanticUnaryRelExpression (Ast.not (x)) = (
-                            print_yellow " !" ;
-                            semanticUnaryRelExpression x;
-                            cType.BOOL )
-    | semanticUnaryRelExpression (Ast.rExpr (x)) = (semanticRelExpression x)
-
-and semanticRelExpression (Ast.relExp (x,y,z)) = (
-                                semanticSumExpression x ;
-                                semanticRelop y;
-                                semanticSumExpression z;
-                                cType.BOOL 
-                                )
-    | semanticRelExpression (Ast.noRel (x)) = (semanticSumExpression x)
-
-and semanticRelop (Ast.LTE) = print_yellow " <= "
-    | semanticRelop (Ast.LT) = print_yellow " < "
-    | semanticRelop (Ast.GTE) = print_yellow " >= "
-    | semanticRelop (Ast.GT) = print_yellow " > "
-    | semanticRelop (Ast.EQ) = print_yellow " == "
-    | semanticRelop (Ast.NEQ) = print_yellow " != "
-
-and semanticSumExpression (Ast.sumExp (x,y,z)) = (
-                                        semanticSumExpression x ; 
-                                        semanticSumOp y;
-                                         semanticTerm z;
-                                         cType.INT )
-    | semanticSumExpression (Ast.noSum (x)) = (semanticTerm x)
-
-and semanticSumOp (Ast.PLUS) = print_yellow " + "
-    | semanticSumOp (Ast.MINUS) = print_yellow " - "
-
-and semanticTerm (Ast.multExp (x,y,z)) = 
-                                    (semanticTerm x ;
-                                     semanticMulOp y;
-                                    semanticUnaryExpression z;
-                                    cType.INT )
-    | semanticTerm (Ast.noMult (x)) = (semanticUnaryExpression x)
-
-and semanticMulOp (Ast.MULT) = print_yellow " * "
-    | semanticMulOp (Ast.DIV) = print_yellow " / "
-    | semanticMulOp (Ast.MOD) = print_yellow " % "
-
-and semanticUnaryExpression (Ast.uExp (x,y)) = (
-                                    semanticUnaryOp x;
-                                     semanticUnaryExpression y;
-                                     cType.INT)
-    | semanticUnaryExpression (Ast.noUnary (x)) = (semanticFactor x)
-
-and semanticUnaryOp (Ast.DASH) = print_yellow " ~ "
-
-and semanticFactor (Ast.mut (x)) = (semanticMutable x )
-    | semanticFactor (Ast.immut (x)) = (semanticImmutable x) *)
-
-and semanticFactor x = (cType.INT)
-and semanticUnaryExpression x = (cType.INT)
-and semanticUnaryRelExpression x = (cType.INT)
-and semanticSumExpression x = (cType.INT)
-and semanticRelExpression x = (cType.INT)
-and semanticAndExpression x = (cType.INT)
-and semanticMutable x = (cType.INT)
-and semanticImmutable x = (cType.INT)
-and semanticCall x = (cType.INT)
-and semanticArgs x = (cType.INT)
-and semanticConstant x = (cType.INT)
-(* and semanticMutable (Ast.mID (x)) = if inTable(x) = true
-                                    then
-                                    (    
-                                    print x;
-                                    look(x)
-                                    )
-                                    else
-                                    (print_red "Error : undeclared identifier " ; cType.INT)
-
-
-    | semanticMutable (Ast.mArray (x,y)) = 
-                                    let
-                                    val t = semanticMutable x
-                                    in
-                                        (print_yellow "["; semanticExpression y ; print_yellow "]" ; t)
-                                    end
-
-and semanticImmutable (Ast.paranthesis (x)) = 
-                                                let 
-                                                val t = "( "
-                                                val t = semanticExpression x
-                                                in
-                                                 (print " )" ; t)
-                                                end
-    | semanticImmutable (Ast.c (x)) =         (semanticCall x) 
-    | semanticImmutable (Ast.const (x)) = (semanticConstant x)
-
-and semanticCall (Ast.callArgs (x , y)) =   if inTable(x) = true 
-                                            then
-                                            let 
-                                                val typeList  = getFunctionArgTypeList ( look(x) )
-                                                val retType:cType.ty = getFunctionReturnType (look(x))                                            
-                                            in
-                                                if (checkCall(typeList , y) = true)
-                                                then
-                                                (
-                                                print x ; print " (" ; semanticArgs y ; print " )";
-                                                retType
-                                                )
-                                                else
-                                                (print "Error in calling the function : "; cType.INT )
-                                            end
-                                            else
-                                                (print "No Such function : "; cType.INT)
-and semanticArgs ([x]) = (semanticExpression x )
-    | semanticArgs (x :: xs) = (semanticExpression x ; print "," ; semanticArgs xs)
-    | semanticArgs ([]) = ()
-
-
-and semanticConstant (Ast.number (x)) = (print_green x ; cType.INT)
-    | semanticConstant (Ast.charConst (x)) = (print x ; cType.CHAR)
-    | semanticConstant (Ast.trueValue ) = (print "true" ; cType.BOOL)
-    | semanticConstant (Ast.falseValue ) = (print "false" ; cType.BOOL) *)
-
-(* Takes the type and the expression and check wether valid or not *)
 and checkTypeExpression (t  , x) = if (t = x) 
                                 then
                                 true

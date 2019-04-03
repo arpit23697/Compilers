@@ -33,7 +33,7 @@ fun print_error (s,i:int,_) = TextIO.output(TextIO.stdErr,
 (* The portion of the code that does the actual compiling *)
 
 val (program,_) = TigerParser.parse (0,thisLexer,print_error,())
-val executable  = Translate.compileProgram program
+(* val executable  = Translate.compileProgram program *)
 val syntacticAnalysis = Semantic.semanticProgram program
 
 end
