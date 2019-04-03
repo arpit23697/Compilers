@@ -24,19 +24,19 @@ int gnu, hog[100];
     bool ad;
     two[0] = 42;
     two[1] = 43;
-    c = "z";
+    two[2] = 23;
     aPoint = 2 + elk;
     ad = true || false;
     ad = ! (bat == elk);
     cat[2] = ~true;
     gnu = hog[2] = 3 * ~elk;
-    if (!(bat == elk))
+    if (2 > 3)
         dog = !dog;
     else
         fox++;
-    if (bat <= fox)
+    if (bat == fox )
     {
-        while (dog)
+        while (cat[2])
         {
             int fox;
             int hog;
@@ -51,6 +51,7 @@ int gnu, hog[100];
                 fox += 7;
         }
     }
+
     return (fox + bat * hog[bat]) / ~fox;
 }
 

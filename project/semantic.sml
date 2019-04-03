@@ -277,7 +277,12 @@ and  semanticStatementList ( [] ) = ()
 and semanticExpressionStmt (Ast.basicExpression (x)) = (semanticExpression x ; print ";\n") 
     | semanticExpressionStmt (Ast.semicolon) = (print ";\n")
 
-and semanticSelectionStmt (Ast.IF (x,y)) = (
+and semanticSelectionStmt (Ast.IF (x,y)) = let 
+                                            val t = typeSimpleExpression x
+                                            in
+                                            if (t = cType.BOOL)
+                                            then
+                                            (
                                             beginScope();
                                             print_red "if ";
                                             print_yellow "(";
@@ -285,8 +290,17 @@ and semanticSelectionStmt (Ast.IF (x,y)) = (
                                             print_yellow " )";
                                             semanticStatement y;
                                             endScope()
-                                        )
-    | semanticSelectionStmt (Ast.IF_ELSE (x,y,z)) = (
+                                            )
+                                            else 
+                                            (print_red "Condition not of boolean type\n" ; raise SEMANTICERROR)
+                                            end
+
+    | semanticSelectionStmt (Ast.IF_ELSE (x,y,z)) = let 
+                                                    val t = typeSimpleExpression x
+                                                    in 
+                                                    if (t = cType.BOOL)
+                                                    then
+                                                    (
                                                     beginScope();
                                                         print_red "if ";
                                                         print_yellow "( ";
@@ -295,14 +309,21 @@ and semanticSelectionStmt (Ast.IF (x,y)) = (
                                                         semanticStatement y;
                                                         print_tabs_real();
                                                     endScope();
-
                                                     beginScope();
                                                         print_red "else";
                                                         semanticStatement z;
                                                     endScope()
-                                                )
+                                                    )
+                                                    else
+                                                     (print_red "Condition not of boolean type\n" ; raise SEMANTICERROR)    
+                                                    end 
 
-and semanticIterationStmt (Ast.WHILE (x,y)) = (
+and semanticIterationStmt (Ast.WHILE (x,y)) = let 
+                                                val t = typeSimpleExpression x
+                                                in
+                                                if (t = cType.BOOL)
+                                                then
+                                                (
                                                 beginScope();
                                                 print_red "while ";
                                                 print_yellow "( ";
@@ -310,7 +331,10 @@ and semanticIterationStmt (Ast.WHILE (x,y)) = (
                                                 print_yellow " )";
                                                 semanticStatement y;
                                                 endScope()
-                                           )
+                                                )
+                                                else 
+                                                 (print_red "Condition not of boolean type\n" ; raise SEMANTICERROR)
+                                                 end
 
 and semanticReturnStmt (Ast.returnNoValue ) = (print_tabs_real () ; print_red " return " ; print_yellow ";\n")
     | semanticReturnStmt (Ast.returnValue (x)) = (print_tabs_real(); print_red " return " ; semanticExpression x ; print_yellow ";\n" )
