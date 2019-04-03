@@ -58,10 +58,11 @@ int gnu, hog[100];
 }
 
 int max(int a,int b) { if (a > b)
-        return a; 
+        return 0; 
 
 }
 
 void arpit (int ad, int c){
     max (ad ,c);
-    return 0;}
+    return ;
+    }

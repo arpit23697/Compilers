@@ -65,6 +65,8 @@ structure Semantic = struct
                         printStack()
                         )
 
+    (* ===================== for the initialised variables ====================*)
+
 
     (* Testing helper functions *)
     (* val temp  = beginScope()
@@ -338,8 +340,27 @@ and semanticIterationStmt (Ast.WHILE (x,y)) = let
                                                  (print_red "Condition not of boolean type\n" ; raise SEMANTICERROR)
                                                  end
 
-and semanticReturnStmt (Ast.returnNoValue ) = (print_tabs_real () ; print_red " return " ; print_yellow ";\n")
-    | semanticReturnStmt (Ast.returnValue (x)) = (print_tabs_real(); print_red " return " ; semanticExpression x ; print_yellow ";\n" )
+and semanticReturnStmt (Ast.returnNoValue ) = let 
+                                              val t =  getMostRecentFunctionType()
+                                              
+                                            in 
+                                                if (t = cType.VOID )
+                                                then 
+                                                (print_tabs_real () ; print_red " return " ; print_yellow ";\n")
+                                                else 
+                                                (print_red "Return type not matching\n" ; raise SEMANTICERROR)
+                                            end  
+    | semanticReturnStmt (Ast.returnValue (x)) = let 
+                                              val t =  getMostRecentFunctionType()
+                                              val t2 = typeExpression x
+                                            in 
+                                                if (t = t2)
+                                                then 
+                                                (print_tabs_real(); print_red " return " ; semanticExpression x ; print_yellow ";\n" )
+                                                else 
+                                                (print_red "Return type not matching\n" ; raise SEMANTICERROR)
+                                            end
+    
 
 and semanticBreakStmt (Ast.BREAK) = (print "break ;\n") 
 and semanticContinueStmt (Ast.CONTINUE) = (print "continue ;\n")
@@ -582,6 +603,34 @@ and getFunctionArgTypeList (cType.FUNC(x,y)) = x
 and getFunctionReturnType (cType.FUNC(x,y)) = y
     | getFunctionReturnType x = x
 
+and  getMostRecentFunctionType () = let 
+                                        val symbolList = Stack.listItems (!mySymbolStack) 
+                                            fun f (x::xs) =
+                                                        let 
+                                                            val (s, t) = x 
+                                                            (* val temp = print s *)
+                                                            
+                                                        in 
+
+                                                        if (s <> "$$")
+                                                        then   
+                                                    
+                                                            if (isFunctionType ( look(s) ) = true)
+                                                            then 
+                                                               (getFunctionReturnType ( look (s)))
+                                                            else
+                                                                (f (xs))
+                                                            
+                                                        else 
+                                                            (f (xs))
+                                                        end
+
+                                             | f (_) = (print_red "No function type" ; raise SEMANTICERROR)
+                                        in 
+                                            ( f symbolList)
+                                        end 
+    and isFunctionType (cType.FUNC(x,y)) = true 
+        | isFunctionType (_) = false
 end
 
 
