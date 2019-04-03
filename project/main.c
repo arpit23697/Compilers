@@ -51,7 +51,7 @@ int gnu, hog[100];
                 fox += 7;
         }
     }
-
+    return a;
     return (fox + bat * hog[bat]) / ~fox;
 }
 
