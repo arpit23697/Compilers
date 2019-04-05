@@ -36,7 +36,7 @@ val (program,_) = TigerParser.parse (0,thisLexer,print_error,())
 (* val executable  = Translate.compileProgram program *)
 val syntacticAnalysis = Semantic.semanticProgram program
 
-
+val temp = printColor.print_yellow "JS file generated\n"
 val temp = codeGen.compileProgram program
-
+(* val temp = printColor.print_yellow "JS file generated\n" *)
 end

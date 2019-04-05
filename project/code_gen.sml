@@ -2,7 +2,7 @@ structure codeGen = struct
 
     (* Opening the file *)
     val fd = TextIO.openOut "out.js"    
-    fun printS x= TextIO.output( fd,x )
+    fun printS x= ( TextIO.output( fd,x ))
     
 
     val indent = ref 0
@@ -10,7 +10,7 @@ structure codeGen = struct
     fun print_tabs () = if !n = 0 then ( printS("")) else (n := !n - 1 ; printS ("\t") ; print_tabs ());
     fun print_tabs_real () = (n := !indent ; print_tabs () )
     (* =============================== main program ======================================= *)
-fun compileProgram (Ast.declL(y,z,x)) = (  printDeclarationList x)
+fun compileProgram (Ast.declL(y,z,x)) = (  printDeclarationList x ; printS "var s = main();")
 
 and  printDeclarationList ([x]) = (printDeclaration x)
     | printDeclarationList (x :: y) = (printDeclaration x ; printDeclarationList y)
@@ -105,6 +105,7 @@ and printSelectionStmt (Ast.IF (x,y)) = (
                                             printS "(";
                                             printSimpleExpression x;
                                             printS " )";
+                                            printS "\n";
                                             printStatement y
                                         )
     | printSelectionStmt (Ast.IF_ELSE (x,y,z)) = (
@@ -112,8 +113,11 @@ and printSelectionStmt (Ast.IF (x,y)) = (
                                                     printS "( ";
                                                     printSimpleExpression x;
                                                     printS " )";
+                                                    printS "\n";
                                                     printStatement y;
+                                                    print_tabs_real();
                                                     printS "else";
+                                                    print "\n";
                                                     printStatement z
                                                 )
 and printIterationStmt (Ast.WHILE (x,y)) = (
@@ -200,8 +204,34 @@ and printArgs ([x]) = (printExpression x )
     | printArgs ([]) = ()
 
 and printConstant (Ast.number (x)) = (printS x)
-    | printConstant (Ast.charConst (x)) = (printS x)
+    | printConstant (Ast.charConst (x)) =  printS x
     | printConstant (Ast.trueValue ) = (printS "true")
     | printConstant (Ast.falseValue ) = (printS "false")
+
+(* Takes the string and convert new line into break *)
+(* and tempFunc #"\n" = "<br>"
+    | tempFunc #"\"" = "\""
+    | tempFunc #"\\" = "\"
+    | tempFunc x = Char.toString (x)
+
+and hasNewline x = String.translate tempFunc x *)
+
+(* and hasNewline x = let 
+                    val t = String.explode(x)
+                    val t2 = List.tl t
+                    fun g [x] = []
+                        | g (x::xs) = x :: g xs
+                        | g [] = []
+
+                    val t3 = g t2 
+                    fun f [] = []
+                        | f (y::xs) = if (Char.compare (y , #"\n") = EQUAL)
+                                        then 
+                                        ([#"<", #"b", #"r", #">"] @ f xs)
+                                        else 
+                                        ( [y] @ f xs)
+                    in 
+                        ( "\"" ^ String.implode (f t3) ^ "\"" )
+                    end *)
 
 end

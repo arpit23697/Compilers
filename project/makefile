@@ -12,4 +12,4 @@ source    :stack.sml ast.sml printColor.sml translate.sml code_gen.sml c.grm c.g
 		mlton source.mlb
 
 test : all 
-	 ${CURDIR}/source trial.cpp
+	 ${CURDIR}/source test2.cpp

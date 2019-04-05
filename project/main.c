@@ -46,12 +46,11 @@ int gnu, hog[100];
     {
         while (cat[2])
         {
-            int fox = 0;
-            int hog;
+            // int fox =
             bool detail =true ;
             string c ;
             bool majeme;
-            // majeme = 2;
+            majeme = 2;
             hog = fox;
             // dog = fred( cat , fox++ );
             if (!detail)
