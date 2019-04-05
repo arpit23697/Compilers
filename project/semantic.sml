@@ -200,9 +200,9 @@ and semanticVarDeclID (t, Ast.vID (x) , i) = ( (case t of
     | semanticVarDeclID (t, Ast.arrayLike (x,y) , i) = (
                                             
                                             (case t of 
-                                             Ast.integer => enter(x , cType.ARRAY(cType.INT ) , true)  
-                                            | Ast.boolean => enter (x , cType.ARRAY(cType.BOOL) , true )
-                                            | Ast.character => enter (x, cType.ARRAY(cType.CHAR) , true)
+                                             Ast.integer => enter(x , cType.ARRAY(cType.INT ) , i)  
+                                            | Ast.boolean => enter (x , cType.ARRAY(cType.BOOL) , i )
+                                            | Ast.character => enter (x, cType.ARRAY(cType.CHAR) , i)
                                             );
 
                                             print_default x;

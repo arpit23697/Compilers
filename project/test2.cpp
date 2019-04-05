@@ -20,6 +20,7 @@ int main ()
     int n = 100;
 
     n = 1;
+    // cout << a ;
     while (i < n)
     {
         a[i] = i;
