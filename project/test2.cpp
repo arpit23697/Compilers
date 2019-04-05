@@ -19,7 +19,7 @@ int main ()
     int i =0;
     int n = 100;
 
-    n[0] = 1;
+    n = 1;
     while (i < n)
     {
         a[i] = i;

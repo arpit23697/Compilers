@@ -658,6 +658,7 @@ and typeMutable (Ast.mID (x)):cType.ty = if inTable(x) = true
 
     | typeMutable (Ast.mArray (x,y)) =  let 
                                         val t = typeExpression y 
+                        
                                         in 
                                      if (t = cType.INT)
                                      then       
@@ -665,7 +666,7 @@ and typeMutable (Ast.mID (x)):cType.ty = if inTable(x) = true
                                         of (cType.ARRAY(cType.INT)) => cType.INT
                                         | (cType.ARRAY(cType.BOOL)) => cType.BOOL
                                         | (cType.ARRAY(cType.CHAR)) => cType.CHAR
-                                        | x => x
+                                        | x => (print_red "Type not of array type" ; raise SEMANTICERROR)
                                         )
                                     else
                                     (print_red ("non compatible expression for indexing\n") ; raise SEMANTICERROR)

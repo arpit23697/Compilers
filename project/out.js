@@ -11,7 +11,7 @@ function main (  ){
 	var a = new Array(100);
 	var i = 0;
 	var n = 100;
-	n[0] = 1;
+	n = 1;
 	while ( i < n )	{
 		a[i] = i;
 		i += 1;
