@@ -7,6 +7,7 @@ symbol_tables.sml
 printColor.sml
 ast.sml
 translate.sml
+code_gen.sml
 c.grm.sig
 c.grm.sml
 c.lex.sml 

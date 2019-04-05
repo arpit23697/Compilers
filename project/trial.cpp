@@ -6,10 +6,17 @@ using namespace std;
 
 int main()
 {
-    int i =0;
+    int i =1;
+    string b[100];
+    
+    string a = "arpit" ;
+    b[0] = "arpit";
+
     cout << true;
+    
     while (i < 100)
     {
+        cout << a;
         cout << i << "\n";
         i += 1;
     }
@@ -24,7 +31,7 @@ int ant(int bat, bool cat[], bool dog, int elk)
 {
 
     int gnu, hog[100];
-    int aPoint = 0;
+    int aPoint = 0 , lp = 0;
     int aLine;
     int two[2];
     // int a :=0 ;

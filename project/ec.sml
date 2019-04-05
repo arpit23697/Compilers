@@ -36,4 +36,7 @@ val (program,_) = TigerParser.parse (0,thisLexer,print_error,())
 (* val executable  = Translate.compileProgram program *)
 val syntacticAnalysis = Semantic.semanticProgram program
 
+
+val temp = codeGen.compileProgram program
+
 end
