@@ -16,7 +16,8 @@ function main (  ){
 		a[i] = i;
 		i += 1;
 		}
-	document.write( sum (a,n ));
+	document.write( "Sum is ",sum (a,n ));
+	document.write( " Feeling so good ");
 	 return 0;
 	}
 var s = main();

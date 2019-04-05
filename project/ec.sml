@@ -38,5 +38,7 @@ val syntacticAnalysis = Semantic.semanticProgram program
 
 val temp = printColor.print_yellow "JS file generated\n"
 val temp = codeGen.compileProgram program
+val temp = TextIO.closeOut (codeGen.fd)
+val temp = OS.Process.system "google-chrome main.html"
 (* val temp = printColor.print_yellow "JS file generated\n" *)
 end

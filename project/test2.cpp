@@ -26,6 +26,7 @@ int main ()
         a[i] = i;
         i += 1;
     }
-    cout << sum(a,n);
+    cout <<"Sum is " <<sum(a,n);
+    cout << " Feeling so good " ;
     return 0;
 }
