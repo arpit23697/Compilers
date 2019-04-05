@@ -1,24 +1,44 @@
 
 state 0:
 
-	program : . declarationList 
+	program : . HEADER HEADERn declarationList 
 
-	INT	shift 9
-	BOOL	shift 8
-	CHAR	shift 7
-	VOID	shift 6
+	HEADER	shift 1
 
-	program	goto 152
-	declarationList	goto 5
-	declaration	goto 4
-	varDeclaration	goto 3
-	typeSpecifier	goto 2
-	funDeclaration	goto 1
+	program	goto 164
 
 	.	error
 
 
 state 1:
+
+	program : HEADER . HEADERn declarationList 
+
+	HEADERn	shift 2
+
+
+	.	error
+
+
+state 2:
+
+	program : HEADER HEADERn . declarationList 
+
+	INT	shift 11
+	BOOL	shift 10
+	CHAR	shift 9
+	VOID	shift 8
+
+	declarationList	goto 7
+	declaration	goto 6
+	varDeclaration	goto 5
+	typeSpecifier	goto 4
+	funDeclaration	goto 3
+
+	.	error
+
+
+state 3:
 
 	declaration : funDeclaration .  (reduce by rule 4)
 
@@ -27,21 +47,21 @@ state 1:
 	.	reduce by rule 4
 
 
-state 2:
+state 4:
 
 	varDeclaration : typeSpecifier . varDeclList SEMICOLON 
 	funDeclaration : typeSpecifier . ID LPARA params RPARA compoundStmt 
 
-	ID	shift 13
+	ID	shift 15
 
-	varDeclList	goto 12
-	varDeclInitialize	goto 11
-	varDeclID	goto 10
+	varDeclList	goto 14
+	varDeclInitialize	goto 13
+	varDeclID	goto 12
 
 	.	error
 
 
-state 3:
+state 5:
 
 	declaration : varDeclaration .  (reduce by rule 3)
 
@@ -50,7 +70,7 @@ state 3:
 	.	reduce by rule 3
 
 
-state 4:
+state 6:
 
 	declarationList : declaration .  (reduce by rule 2)
 
@@ -59,35 +79,35 @@ state 4:
 	.	reduce by rule 2
 
 
-state 5:
+state 7:
 
-	program : declarationList .  (reduce by rule 0)
+	program : HEADER HEADERn declarationList .  (reduce by rule 0)
 	declarationList : declarationList . declaration 
 
-	INT	shift 9
-	BOOL	shift 8
-	CHAR	shift 7
-	VOID	shift 6
+	INT	shift 11
+	BOOL	shift 10
+	CHAR	shift 9
+	VOID	shift 8
 
-	declaration	goto 14
-	varDeclaration	goto 3
-	typeSpecifier	goto 2
-	funDeclaration	goto 1
+	declaration	goto 16
+	varDeclaration	goto 5
+	typeSpecifier	goto 4
+	funDeclaration	goto 3
 
 	.	reduce by rule 0
 
 
-state 6:
+state 8:
 
 	funDeclaration : VOID . ID LPARA params RPARA compoundStmt 
 
-	ID	shift 15
+	ID	shift 17
 
 
 	.	error
 
 
-state 7:
+state 9:
 
 	typeSpecifier : CHAR .  (reduce by rule 14)
 
@@ -96,7 +116,7 @@ state 7:
 	.	reduce by rule 14
 
 
-state 8:
+state 10:
 
 	typeSpecifier : BOOL .  (reduce by rule 13)
 
@@ -105,7 +125,7 @@ state 8:
 	.	reduce by rule 13
 
 
-state 9:
+state 11:
 
 	typeSpecifier : INT .  (reduce by rule 12)
 
@@ -114,18 +134,18 @@ state 9:
 	.	reduce by rule 12
 
 
-state 10:
+state 12:
 
 	varDeclInitialize : varDeclID .  (reduce by rule 8)
-	varDeclInitialize : varDeclID . COLONEQUAL simpleExpression 
+	varDeclInitialize : varDeclID . EQUAL simpleExpression 
 
-	COLONEQUAL	shift 16
+	EQUAL	shift 18
 
 
 	.	reduce by rule 8
 
 
-state 11:
+state 13:
 
 	varDeclList : varDeclInitialize .  (reduce by rule 6)
 
@@ -134,32 +154,32 @@ state 11:
 	.	reduce by rule 6
 
 
-state 12:
+state 14:
 
 	varDeclaration : typeSpecifier varDeclList . SEMICOLON 
 	varDeclList : varDeclList . COMMA varDeclInitialize 
 
-	COMMA	shift 18
-	SEMICOLON	shift 17
+	COMMA	shift 20
+	SEMICOLON	shift 19
 
 
 	.	error
 
 
-state 13:
+state 15:
 
 	varDeclID : ID .  (reduce by rule 10)
 	varDeclID : ID . LEFTBRACKET NUMCONST RIGHTBRACKET 
 	funDeclaration : typeSpecifier ID . LPARA params RPARA compoundStmt 
 
-	LEFTBRACKET	shift 20
-	LPARA	shift 19
+	LEFTBRACKET	shift 22
+	LPARA	shift 21
 
 
 	.	reduce by rule 10
 
 
-state 14:
+state 16:
 
 	declarationList : declarationList declaration .  (reduce by rule 1)
 
@@ -168,46 +188,46 @@ state 14:
 	.	reduce by rule 1
 
 
-state 15:
+state 17:
 
 	funDeclaration : VOID ID . LPARA params RPARA compoundStmt 
 
-	LPARA	shift 21
+	LPARA	shift 23
 
 
 	.	error
 
 
-state 16:
+state 18:
 
-	varDeclInitialize : varDeclID COLONEQUAL . simpleExpression 
+	varDeclInitialize : varDeclID EQUAL . simpleExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	simpleExpression	goto 33
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	simpleExpression	goto 35
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
-state 17:
+state 19:
 
 	varDeclaration : typeSpecifier varDeclList SEMICOLON .  (reduce by rule 5)
 
@@ -216,132 +236,132 @@ state 17:
 	.	reduce by rule 5
 
 
-state 18:
+state 20:
 
 	varDeclList : varDeclList COMMA . varDeclInitialize 
 
-	ID	shift 43
+	ID	shift 45
 
-	varDeclInitialize	goto 42
-	varDeclID	goto 10
-
-	.	error
-
-
-state 19:
-
-	funDeclaration : typeSpecifier ID LPARA . params RPARA compoundStmt 
-
-	INT	shift 9
-	BOOL	shift 8
-	CHAR	shift 7
-
-	typeSpecifier	goto 47
-	params	goto 46
-	paramList	goto 45
-	paramType	goto 44
-
-	.	reduce by rule 17
-
-
-state 20:
-
-	varDeclID : ID LEFTBRACKET . NUMCONST RIGHTBRACKET 
-
-	NUMCONST	shift 48
-
+	varDeclInitialize	goto 44
+	varDeclID	goto 12
 
 	.	error
 
 
 state 21:
 
-	funDeclaration : VOID ID LPARA . params RPARA compoundStmt 
+	funDeclaration : typeSpecifier ID LPARA . params RPARA compoundStmt 
 
-	INT	shift 9
-	BOOL	shift 8
-	CHAR	shift 7
+	INT	shift 11
+	BOOL	shift 10
+	CHAR	shift 9
 
-	typeSpecifier	goto 47
-	params	goto 49
-	paramList	goto 45
-	paramType	goto 44
+	typeSpecifier	goto 49
+	params	goto 48
+	paramList	goto 47
+	paramType	goto 46
 
 	.	reduce by rule 17
 
 
 state 22:
 
-	immutable : constant .  (reduce by rule 81)
+	varDeclID : ID LEFTBRACKET . NUMCONST RIGHTBRACKET 
+
+	NUMCONST	shift 50
 
 
-
-	.	reduce by rule 81
+	.	error
 
 
 state 23:
 
-	immutable : call .  (reduce by rule 80)
+	funDeclaration : VOID ID LPARA . params RPARA compoundStmt 
+
+	INT	shift 11
+	BOOL	shift 10
+	CHAR	shift 9
+
+	typeSpecifier	goto 49
+	params	goto 51
+	paramList	goto 47
+	paramType	goto 46
+
+	.	reduce by rule 17
+
+
+state 24:
+
+	immutable : constant .  (reduce by rule 86)
+
+
+
+	.	reduce by rule 86
+
+
+state 25:
+
+	immutable : call .  (reduce by rule 85)
+
+
+
+	.	reduce by rule 85
+
+
+state 26:
+
+	factor : immutable .  (reduce by rule 80)
 
 
 
 	.	reduce by rule 80
 
 
-state 24:
-
-	factor : immutable .  (reduce by rule 75)
-
-
-
-	.	reduce by rule 75
-
-
-state 25:
-
-	factor : mutable .  (reduce by rule 76)
-	mutable : mutable . LEFTBRACKET expression RIGHTBRACKET 
-
-	LEFTBRACKET	shift 50
-
-
-	.	reduce by rule 76
-
-
-state 26:
-
-	unaryExpression : factor .  (reduce by rule 74)
-
-
-
-	.	reduce by rule 74
-
-
 state 27:
 
-	term : unaryExpression .  (reduce by rule 72)
+	factor : mutable .  (reduce by rule 81)
+	mutable : mutable . LEFTBRACKET expression RIGHTBRACKET 
+
+	LEFTBRACKET	shift 52
 
 
-
-	.	reduce by rule 72
+	.	reduce by rule 81
 
 
 state 28:
 
-	sumExpression : term .  (reduce by rule 68)
+	unaryExpression : factor .  (reduce by rule 79)
+
+
+
+	.	reduce by rule 79
+
+
+state 29:
+
+	term : unaryExpression .  (reduce by rule 77)
+
+
+
+	.	reduce by rule 77
+
+
+state 30:
+
+	sumExpression : term .  (reduce by rule 73)
 	term : term . MULT unaryExpression 
 	term : term . DIV unaryExpression 
 	term : term . MOD unaryExpression 
 
-	MULT	shift 53
-	DIV	shift 52
-	MOD	shift 51
+	MULT	shift 55
+	DIV	shift 54
+	MOD	shift 53
 
 
-	.	reduce by rule 68
+	.	reduce by rule 73
 
 
-state 29:
+state 31:
 
 	relExpression : sumExpression . LESSEQUAL sumExpression 
 	relExpression : sumExpression . LESS sumExpression 
@@ -349,190 +369,190 @@ state 29:
 	relExpression : sumExpression . GREATEREQUAL sumExpression 
 	relExpression : sumExpression . EQUALEQUAL sumExpression 
 	relExpression : sumExpression . NOTEQUAL sumExpression 
-	relExpression : sumExpression .  (reduce by rule 65)
+	relExpression : sumExpression .  (reduce by rule 70)
 	sumExpression : sumExpression . PLUS term 
 	sumExpression : sumExpression . MINUS term 
 
-	LESSEQUAL	shift 61
-	LESS	shift 60
-	GREATER	shift 59
-	GREATEREQUAL	shift 58
-	EQUALEQUAL	shift 57
-	NOTEQUAL	shift 56
-	PLUS	shift 55
-	MINUS	shift 54
+	LESSEQUAL	shift 63
+	LESS	shift 62
+	GREATER	shift 61
+	GREATEREQUAL	shift 60
+	EQUALEQUAL	shift 59
+	NOTEQUAL	shift 58
+	PLUS	shift 57
+	MINUS	shift 56
 
 
-	.	reduce by rule 65
-
-
-state 30:
-
-	unaryRelExpression : relExpression .  (reduce by rule 58)
-
-
-
-	.	reduce by rule 58
-
-
-state 31:
-
-	andExpression : unaryRelExpression .  (reduce by rule 56)
-
-
-
-	.	reduce by rule 56
+	.	reduce by rule 70
 
 
 state 32:
 
-	simpleExpression : andExpression .  (reduce by rule 54)
-	andExpression : andExpression . AND unaryRelExpression 
-
-	AND	shift 62
+	unaryRelExpression : relExpression .  (reduce by rule 63)
 
 
-	.	reduce by rule 54
+
+	.	reduce by rule 63
 
 
 state 33:
 
-	varDeclInitialize : varDeclID COLONEQUAL simpleExpression .  (reduce by rule 9)
+	andExpression : unaryRelExpression .  (reduce by rule 61)
+
+
+
+	.	reduce by rule 61
+
+
+state 34:
+
+	simpleExpression : andExpression .  (reduce by rule 59)
+	andExpression : andExpression . AND unaryRelExpression 
+
+	AND	shift 64
+
+
+	.	reduce by rule 59
+
+
+state 35:
+
+	varDeclInitialize : varDeclID EQUAL simpleExpression .  (reduce by rule 9)
 	simpleExpression : simpleExpression . OR andExpression 
 
-	OR	shift 63
+	OR	shift 65
 
 
 	.	reduce by rule 9
 
 
-state 34:
-
-	constant : FALSE .  (reduce by rule 90)
-
-
-
-	.	reduce by rule 90
-
-
-state 35:
-
-	constant : TRUE .  (reduce by rule 89)
-
-
-
-	.	reduce by rule 89
-
-
 state 36:
 
-	constant : CHARCONST .  (reduce by rule 88)
+	constant : FALSE .  (reduce by rule 95)
 
 
 
-	.	reduce by rule 88
+	.	reduce by rule 95
 
 
 state 37:
 
-	constant : NUMCONST .  (reduce by rule 87)
+	constant : TRUE .  (reduce by rule 94)
 
 
 
-	.	reduce by rule 87
+	.	reduce by rule 94
 
 
 state 38:
 
-	unaryExpression : DASH . unaryExpression 
+	constant : CHARCONST .  (reduce by rule 93)
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
 
-	unaryExpression	goto 64
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
-	.	error
+	.	reduce by rule 93
 
 
 state 39:
 
-	unaryRelExpression : NOT . unaryRelExpression 
+	constant : NUMCONST .  (reduce by rule 92)
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
 
-	unaryRelExpression	goto 65
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
-	.	error
+	.	reduce by rule 92
 
 
 state 40:
 
-	immutable : LPARA . expression RPARA 
+	unaryExpression : MINUS . unaryExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	expression	goto 68
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	unaryExpression	goto 66
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 41:
 
-	mutable : ID .  (reduce by rule 77)
-	call : ID . LPARA args RPARA 
+	unaryRelExpression : NOT . unaryRelExpression 
 
-	LPARA	shift 69
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
+	unaryRelExpression	goto 67
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
-	.	reduce by rule 77
+	.	error
 
 
 state 42:
+
+	immutable : LPARA . expression RPARA 
+
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	expression	goto 70
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 43:
+
+	mutable : ID .  (reduce by rule 82)
+	call : ID . LPARA args RPARA 
+
+	LPARA	shift 71
+
+
+	.	reduce by rule 82
+
+
+state 44:
 
 	varDeclList : varDeclList COMMA varDeclInitialize .  (reduce by rule 7)
 
@@ -541,18 +561,18 @@ state 42:
 	.	reduce by rule 7
 
 
-state 43:
+state 45:
 
 	varDeclID : ID .  (reduce by rule 10)
 	varDeclID : ID . LEFTBRACKET NUMCONST RIGHTBRACKET 
 
-	LEFTBRACKET	shift 20
+	LEFTBRACKET	shift 22
 
 
 	.	reduce by rule 10
 
 
-state 44:
+state 46:
 
 	paramList : paramType .  (reduce by rule 19)
 
@@ -561,43 +581,22 @@ state 44:
 	.	reduce by rule 19
 
 
-state 45:
+state 47:
 
 	params : paramList .  (reduce by rule 18)
 	paramList : paramList . COMMA paramType 
 
-	COMMA	shift 70
+	COMMA	shift 72
 
 
 	.	reduce by rule 18
 
 
-state 46:
+state 48:
 
 	funDeclaration : typeSpecifier ID LPARA params . RPARA compoundStmt 
 
-	RPARA	shift 71
-
-
-	.	error
-
-
-state 47:
-
-	paramType : typeSpecifier . paramID 
-
-	ID	shift 73
-
-	paramID	goto 72
-
-	.	error
-
-
-state 48:
-
-	varDeclID : ID LEFTBRACKET NUMCONST . RIGHTBRACKET 
-
-	RIGHTBRACKET	shift 74
+	RPARA	shift 73
 
 
 	.	error
@@ -605,374 +604,395 @@ state 48:
 
 state 49:
 
-	funDeclaration : VOID ID LPARA params . RPARA compoundStmt 
+	paramType : typeSpecifier . paramID 
 
-	RPARA	shift 75
+	ID	shift 75
 
+	paramID	goto 74
 
 	.	error
 
 
 state 50:
 
-	mutable : mutable LEFTBRACKET . expression RIGHTBRACKET 
+	varDeclID : ID LEFTBRACKET NUMCONST . RIGHTBRACKET 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	RIGHTBRACKET	shift 76
 
-	expression	goto 76
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
 	.	error
 
 
 state 51:
 
-	term : term MOD . unaryExpression 
+	funDeclaration : VOID ID LPARA params . RPARA compoundStmt 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	RPARA	shift 77
 
-	unaryExpression	goto 77
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
 	.	error
 
 
 state 52:
 
-	term : term DIV . unaryExpression 
+	mutable : mutable LEFTBRACKET . expression RIGHTBRACKET 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	unaryExpression	goto 78
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	expression	goto 78
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 53:
 
-	term : term MULT . unaryExpression 
+	term : term MOD . unaryExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	unaryExpression	goto 79
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 54:
 
-	sumExpression : sumExpression MINUS . term 
+	term : term DIV . unaryExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	term	goto 80
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	unaryExpression	goto 80
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 55:
 
-	sumExpression : sumExpression PLUS . term 
+	term : term MULT . unaryExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	term	goto 81
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	unaryExpression	goto 81
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 56:
 
-	relExpression : sumExpression NOTEQUAL . sumExpression 
+	sumExpression : sumExpression MINUS . term 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	sumExpression	goto 82
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	term	goto 82
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 57:
 
-	relExpression : sumExpression EQUALEQUAL . sumExpression 
+	sumExpression : sumExpression PLUS . term 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	sumExpression	goto 83
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	term	goto 83
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 58:
 
-	relExpression : sumExpression GREATEREQUAL . sumExpression 
+	relExpression : sumExpression NOTEQUAL . sumExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	sumExpression	goto 84
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 59:
 
-	relExpression : sumExpression GREATER . sumExpression 
+	relExpression : sumExpression EQUALEQUAL . sumExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	sumExpression	goto 85
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 60:
 
-	relExpression : sumExpression LESS . sumExpression 
+	relExpression : sumExpression GREATEREQUAL . sumExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	sumExpression	goto 86
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 61:
 
-	relExpression : sumExpression LESSEQUAL . sumExpression 
+	relExpression : sumExpression GREATER . sumExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	sumExpression	goto 87
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 62:
 
-	andExpression : andExpression AND . unaryRelExpression 
+	relExpression : sumExpression LESS . sumExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	unaryRelExpression	goto 88
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	sumExpression	goto 88
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 63:
 
-	simpleExpression : simpleExpression OR . andExpression 
+	relExpression : sumExpression LESSEQUAL . sumExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	andExpression	goto 89
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	sumExpression	goto 89
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 64:
 
-	unaryExpression : DASH unaryExpression .  (reduce by rule 73)
+	andExpression : andExpression AND . unaryRelExpression 
 
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
+	unaryRelExpression	goto 90
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
-	.	reduce by rule 73
+	.	error
 
 
 state 65:
 
-	unaryRelExpression : NOT unaryRelExpression .  (reduce by rule 57)
+	simpleExpression : simpleExpression OR . andExpression 
 
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
+	andExpression	goto 91
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
-	.	reduce by rule 57
+	.	error
 
 
 state 66:
+
+	unaryExpression : MINUS unaryExpression .  (reduce by rule 78)
+
+
+
+	.	reduce by rule 78
+
+
+state 67:
+
+	unaryRelExpression : NOT unaryRelExpression .  (reduce by rule 62)
+
+
+
+	.	reduce by rule 62
+
+
+state 68:
 
 	expression : mutable . EQUAL expression 
 	expression : mutable . PLUSEQUAL expression 
@@ -981,101 +1001,101 @@ state 66:
 	expression : mutable . DIVEQUAL expression 
 	expression : mutable . INC 
 	expression : mutable . DEC 
-	factor : mutable .  (reduce by rule 76)
+	factor : mutable .  (reduce by rule 81)
 	mutable : mutable . LEFTBRACKET expression RIGHTBRACKET 
 
-	LEFTBRACKET	shift 50
-	EQUAL	shift 96
-	PLUSEQUAL	shift 95
-	MINUSEQUAL	shift 94
-	MULTEQUAL	shift 93
-	DIVEQUAL	shift 92
-	INC	shift 91
-	DEC	shift 90
+	LEFTBRACKET	shift 52
+	EQUAL	shift 98
+	PLUSEQUAL	shift 97
+	MINUSEQUAL	shift 96
+	MULTEQUAL	shift 95
+	DIVEQUAL	shift 94
+	INC	shift 93
+	DEC	shift 92
 
 
-	.	reduce by rule 76
-
-
-state 67:
-
-	expression : simpleExpression .  (reduce by rule 52)
-	simpleExpression : simpleExpression . OR andExpression 
-
-	OR	shift 63
-
-
-	.	reduce by rule 52
-
-
-state 68:
-
-	immutable : LPARA expression . RPARA 
-
-	RPARA	shift 97
-
-
-	.	error
+	.	reduce by rule 81
 
 
 state 69:
 
-	call : ID LPARA . args RPARA 
+	expression : simpleExpression .  (reduce by rule 57)
+	simpleExpression : simpleExpression . OR andExpression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	OR	shift 65
 
-	expression	goto 100
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	argList	goto 99
-	args	goto 98
-	constant	goto 22
 
-	.	reduce by rule 83
+	.	reduce by rule 57
 
 
 state 70:
 
-	paramList : paramList COMMA . paramType 
+	immutable : LPARA expression . RPARA 
 
-	INT	shift 9
-	BOOL	shift 8
-	CHAR	shift 7
+	RPARA	shift 99
 
-	typeSpecifier	goto 47
-	paramType	goto 101
 
 	.	error
 
 
 state 71:
 
-	funDeclaration : typeSpecifier ID LPARA params RPARA . compoundStmt 
+	call : ID LPARA . args RPARA 
 
-	LEFTBRACE	shift 103
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
-	compoundStmt	goto 102
+	expression	goto 102
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	argList	goto 101
+	args	goto 100
+	constant	goto 24
+
+	.	reduce by rule 88
+
+
+state 72:
+
+	paramList : paramList COMMA . paramType 
+
+	INT	shift 11
+	BOOL	shift 10
+	CHAR	shift 9
+
+	typeSpecifier	goto 49
+	paramType	goto 103
 
 	.	error
 
 
-state 72:
+state 73:
+
+	funDeclaration : typeSpecifier ID LPARA params RPARA . compoundStmt 
+
+	LEFTBRACE	shift 105
+
+	compoundStmt	goto 104
+
+	.	error
+
+
+state 74:
 
 	paramType : typeSpecifier paramID .  (reduce by rule 21)
 
@@ -1084,18 +1104,18 @@ state 72:
 	.	reduce by rule 21
 
 
-state 73:
+state 75:
 
 	paramID : ID .  (reduce by rule 22)
 	paramID : ID . LEFTBRACKET RIGHTBRACKET 
 
-	LEFTBRACKET	shift 104
+	LEFTBRACKET	shift 106
 
 
 	.	reduce by rule 22
 
 
-state 74:
+state 76:
 
 	varDeclID : ID LEFTBRACKET NUMCONST RIGHTBRACKET .  (reduce by rule 11)
 
@@ -1104,375 +1124,354 @@ state 74:
 	.	reduce by rule 11
 
 
-state 75:
+state 77:
 
 	funDeclaration : VOID ID LPARA params RPARA . compoundStmt 
 
-	LEFTBRACE	shift 103
+	LEFTBRACE	shift 105
 
-	compoundStmt	goto 105
+	compoundStmt	goto 107
 
 	.	error
 
 
-state 76:
+state 78:
 
 	mutable : mutable LEFTBRACKET expression . RIGHTBRACKET 
 
-	RIGHTBRACKET	shift 106
+	RIGHTBRACKET	shift 108
 
 
 	.	error
 
 
-state 77:
+state 79:
 
-	term : term MOD unaryExpression .  (reduce by rule 71)
+	term : term MOD unaryExpression .  (reduce by rule 76)
 
+
+
+	.	reduce by rule 76
+
+
+state 80:
+
+	term : term DIV unaryExpression .  (reduce by rule 75)
+
+
+
+	.	reduce by rule 75
+
+
+state 81:
+
+	term : term MULT unaryExpression .  (reduce by rule 74)
+
+
+
+	.	reduce by rule 74
+
+
+state 82:
+
+	sumExpression : sumExpression MINUS term .  (reduce by rule 72)
+	term : term . MULT unaryExpression 
+	term : term . DIV unaryExpression 
+	term : term . MOD unaryExpression 
+
+	MULT	shift 55
+	DIV	shift 54
+	MOD	shift 53
+
+
+	.	reduce by rule 72
+
+
+state 83:
+
+	sumExpression : sumExpression PLUS term .  (reduce by rule 71)
+	term : term . MULT unaryExpression 
+	term : term . DIV unaryExpression 
+	term : term . MOD unaryExpression 
+
+	MULT	shift 55
+	DIV	shift 54
+	MOD	shift 53
 
 
 	.	reduce by rule 71
 
 
-state 78:
+state 84:
 
-	term : term DIV unaryExpression .  (reduce by rule 70)
+	relExpression : sumExpression NOTEQUAL sumExpression .  (reduce by rule 69)
+	sumExpression : sumExpression . PLUS term 
+	sumExpression : sumExpression . MINUS term 
 
-
-
-	.	reduce by rule 70
-
-
-state 79:
-
-	term : term MULT unaryExpression .  (reduce by rule 69)
-
+	PLUS	shift 57
+	MINUS	shift 56
 
 
 	.	reduce by rule 69
 
 
-state 80:
+state 85:
 
-	sumExpression : sumExpression MINUS term .  (reduce by rule 67)
-	term : term . MULT unaryExpression 
-	term : term . DIV unaryExpression 
-	term : term . MOD unaryExpression 
+	relExpression : sumExpression EQUALEQUAL sumExpression .  (reduce by rule 68)
+	sumExpression : sumExpression . PLUS term 
+	sumExpression : sumExpression . MINUS term 
 
-	MULT	shift 53
-	DIV	shift 52
-	MOD	shift 51
+	PLUS	shift 57
+	MINUS	shift 56
+
+
+	.	reduce by rule 68
+
+
+state 86:
+
+	relExpression : sumExpression GREATEREQUAL sumExpression .  (reduce by rule 67)
+	sumExpression : sumExpression . PLUS term 
+	sumExpression : sumExpression . MINUS term 
+
+	PLUS	shift 57
+	MINUS	shift 56
 
 
 	.	reduce by rule 67
 
 
-state 81:
+state 87:
 
-	sumExpression : sumExpression PLUS term .  (reduce by rule 66)
-	term : term . MULT unaryExpression 
-	term : term . DIV unaryExpression 
-	term : term . MOD unaryExpression 
+	relExpression : sumExpression GREATER sumExpression .  (reduce by rule 66)
+	sumExpression : sumExpression . PLUS term 
+	sumExpression : sumExpression . MINUS term 
 
-	MULT	shift 53
-	DIV	shift 52
-	MOD	shift 51
+	PLUS	shift 57
+	MINUS	shift 56
 
 
 	.	reduce by rule 66
 
 
-state 82:
+state 88:
 
-	relExpression : sumExpression NOTEQUAL sumExpression .  (reduce by rule 64)
+	relExpression : sumExpression LESS sumExpression .  (reduce by rule 65)
 	sumExpression : sumExpression . PLUS term 
 	sumExpression : sumExpression . MINUS term 
 
-	PLUS	shift 55
-	MINUS	shift 54
+	PLUS	shift 57
+	MINUS	shift 56
+
+
+	.	reduce by rule 65
+
+
+state 89:
+
+	relExpression : sumExpression LESSEQUAL sumExpression .  (reduce by rule 64)
+	sumExpression : sumExpression . PLUS term 
+	sumExpression : sumExpression . MINUS term 
+
+	PLUS	shift 57
+	MINUS	shift 56
 
 
 	.	reduce by rule 64
 
 
-state 83:
+state 90:
 
-	relExpression : sumExpression EQUALEQUAL sumExpression .  (reduce by rule 63)
-	sumExpression : sumExpression . PLUS term 
-	sumExpression : sumExpression . MINUS term 
+	andExpression : andExpression AND unaryRelExpression .  (reduce by rule 60)
 
-	PLUS	shift 55
-	MINUS	shift 54
-
-
-	.	reduce by rule 63
-
-
-state 84:
-
-	relExpression : sumExpression GREATEREQUAL sumExpression .  (reduce by rule 62)
-	sumExpression : sumExpression . PLUS term 
-	sumExpression : sumExpression . MINUS term 
-
-	PLUS	shift 55
-	MINUS	shift 54
-
-
-	.	reduce by rule 62
-
-
-state 85:
-
-	relExpression : sumExpression GREATER sumExpression .  (reduce by rule 61)
-	sumExpression : sumExpression . PLUS term 
-	sumExpression : sumExpression . MINUS term 
-
-	PLUS	shift 55
-	MINUS	shift 54
-
-
-	.	reduce by rule 61
-
-
-state 86:
-
-	relExpression : sumExpression LESS sumExpression .  (reduce by rule 60)
-	sumExpression : sumExpression . PLUS term 
-	sumExpression : sumExpression . MINUS term 
-
-	PLUS	shift 55
-	MINUS	shift 54
 
 
 	.	reduce by rule 60
 
 
-state 87:
+state 91:
 
-	relExpression : sumExpression LESSEQUAL sumExpression .  (reduce by rule 59)
-	sumExpression : sumExpression . PLUS term 
-	sumExpression : sumExpression . MINUS term 
+	simpleExpression : simpleExpression OR andExpression .  (reduce by rule 58)
+	andExpression : andExpression . AND unaryRelExpression 
 
-	PLUS	shift 55
-	MINUS	shift 54
+	AND	shift 64
 
 
-	.	reduce by rule 59
+	.	reduce by rule 58
 
 
-state 88:
+state 92:
 
-	andExpression : andExpression AND unaryRelExpression .  (reduce by rule 55)
+	expression : mutable DEC .  (reduce by rule 56)
+
+
+
+	.	reduce by rule 56
+
+
+state 93:
+
+	expression : mutable INC .  (reduce by rule 55)
 
 
 
 	.	reduce by rule 55
 
 
-state 89:
-
-	simpleExpression : simpleExpression OR andExpression .  (reduce by rule 53)
-	andExpression : andExpression . AND unaryRelExpression 
-
-	AND	shift 62
-
-
-	.	reduce by rule 53
-
-
-state 90:
-
-	expression : mutable DEC .  (reduce by rule 51)
-
-
-
-	.	reduce by rule 51
-
-
-state 91:
-
-	expression : mutable INC .  (reduce by rule 50)
-
-
-
-	.	reduce by rule 50
-
-
-state 92:
+state 94:
 
 	expression : mutable DIVEQUAL . expression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	expression	goto 107
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
-state 93:
-
-	expression : mutable MULTEQUAL . expression 
-
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	expression	goto 108
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
-state 94:
-
-	expression : mutable MINUSEQUAL . expression 
-
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	expression	goto 109
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 95:
 
-	expression : mutable PLUSEQUAL . expression 
+	expression : mutable MULTEQUAL . expression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	expression	goto 110
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 96:
 
-	expression : mutable EQUAL . expression 
+	expression : mutable MINUSEQUAL . expression 
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
 	expression	goto 111
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 97:
 
-	immutable : LPARA expression RPARA .  (reduce by rule 79)
+	expression : mutable PLUSEQUAL . expression 
 
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
+	expression	goto 112
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
-	.	reduce by rule 79
+	.	error
 
 
 state 98:
 
-	call : ID LPARA args . RPARA 
+	expression : mutable EQUAL . expression 
 
-	RPARA	shift 112
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
 
+	expression	goto 113
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
 
 	.	error
 
 
 state 99:
 
-	argList : argList . COMMA expression 
-	args : argList .  (reduce by rule 84)
+	immutable : LPARA expression RPARA .  (reduce by rule 84)
 
-	COMMA	shift 113
 
 
 	.	reduce by rule 84
@@ -1480,14 +1479,35 @@ state 99:
 
 state 100:
 
-	argList : expression .  (reduce by rule 86)
+	call : ID LPARA args . RPARA 
+
+	RPARA	shift 114
 
 
-
-	.	reduce by rule 86
+	.	error
 
 
 state 101:
+
+	argList : argList . COMMA expression 
+	args : argList .  (reduce by rule 89)
+
+	COMMA	shift 115
+
+
+	.	reduce by rule 89
+
+
+state 102:
+
+	argList : expression .  (reduce by rule 91)
+
+
+
+	.	reduce by rule 91
+
+
+state 103:
 
 	paramList : paramList COMMA paramType .  (reduce by rule 20)
 
@@ -1496,7 +1516,7 @@ state 101:
 	.	reduce by rule 20
 
 
-state 102:
+state 104:
 
 	funDeclaration : typeSpecifier ID LPARA params RPARA compoundStmt .  (reduce by rule 15)
 
@@ -1505,27 +1525,27 @@ state 102:
 	.	reduce by rule 15
 
 
-state 103:
+state 105:
 
 	compoundStmt : LEFTBRACE . localDeclarations statementList RIGHTBRACE 
 
 
-	localDeclarations	goto 114
+	localDeclarations	goto 116
 
-	.	reduce by rule 33
+	.	reduce by rule 34
 
 
-state 104:
+state 106:
 
 	paramID : ID LEFTBRACKET . RIGHTBRACKET 
 
-	RIGHTBRACKET	shift 115
+	RIGHTBRACKET	shift 117
 
 
 	.	error
 
 
-state 105:
+state 107:
 
 	funDeclaration : VOID ID LPARA params RPARA compoundStmt .  (reduce by rule 16)
 
@@ -1534,116 +1554,116 @@ state 105:
 	.	reduce by rule 16
 
 
-state 106:
-
-	mutable : mutable LEFTBRACKET expression RIGHTBRACKET .  (reduce by rule 78)
-
-
-
-	.	reduce by rule 78
-
-
-state 107:
-
-	expression : mutable DIVEQUAL expression .  (reduce by rule 49)
-
-
-
-	.	reduce by rule 49
-
-
 state 108:
 
-	expression : mutable MULTEQUAL expression .  (reduce by rule 48)
+	mutable : mutable LEFTBRACKET expression RIGHTBRACKET .  (reduce by rule 83)
 
 
 
-	.	reduce by rule 48
+	.	reduce by rule 83
 
 
 state 109:
 
-	expression : mutable MINUSEQUAL expression .  (reduce by rule 47)
+	expression : mutable DIVEQUAL expression .  (reduce by rule 54)
 
 
 
-	.	reduce by rule 47
+	.	reduce by rule 54
 
 
 state 110:
 
-	expression : mutable PLUSEQUAL expression .  (reduce by rule 46)
+	expression : mutable MULTEQUAL expression .  (reduce by rule 53)
 
 
 
-	.	reduce by rule 46
+	.	reduce by rule 53
 
 
 state 111:
 
-	expression : mutable EQUAL expression .  (reduce by rule 45)
+	expression : mutable MINUSEQUAL expression .  (reduce by rule 52)
 
 
 
-	.	reduce by rule 45
+	.	reduce by rule 52
 
 
 state 112:
 
-	call : ID LPARA args RPARA .  (reduce by rule 82)
+	expression : mutable PLUSEQUAL expression .  (reduce by rule 51)
 
 
 
-	.	reduce by rule 82
+	.	reduce by rule 51
 
 
 state 113:
 
-	argList : argList COMMA . expression 
+	expression : mutable EQUAL expression .  (reduce by rule 50)
 
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
 
-	expression	goto 116
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
-	.	error
+	.	reduce by rule 50
 
 
 state 114:
 
-	compoundStmt : LEFTBRACE localDeclarations . statementList RIGHTBRACE 
-	localDeclarations : localDeclarations . varDeclaration 
+	call : ID LPARA args RPARA .  (reduce by rule 87)
 
-	INT	shift 9
-	BOOL	shift 8
-	CHAR	shift 7
 
-	varDeclaration	goto 119
-	typeSpecifier	goto 118
-	statementList	goto 117
 
-	.	reduce by rule 34
+	.	reduce by rule 87
 
 
 state 115:
+
+	argList : argList COMMA . expression 
+
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	expression	goto 118
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 116:
+
+	compoundStmt : LEFTBRACE localDeclarations . statementList RIGHTBRACE 
+	localDeclarations : localDeclarations . varDeclaration 
+
+	INT	shift 11
+	BOOL	shift 10
+	CHAR	shift 9
+
+	varDeclaration	goto 121
+	typeSpecifier	goto 120
+	statementList	goto 119
+
+	.	reduce by rule 35
+
+
+state 117:
 
 	paramID : ID LEFTBRACKET RIGHTBRACKET .  (reduce by rule 23)
 
@@ -1652,95 +1672,117 @@ state 115:
 	.	reduce by rule 23
 
 
-state 116:
-
-	argList : argList COMMA expression .  (reduce by rule 85)
-
-
-
-	.	reduce by rule 85
-
-
-state 117:
-
-	compoundStmt : LEFTBRACE localDeclarations statementList . RIGHTBRACE 
-	statementList : statementList . statement 
-
-	ID	shift 41
-	LEFTBRACE	shift 103
-	RIGHTBRACE	shift 135
-	SEMICOLON	shift 134
-	LPARA	shift 40
-	IF	shift 133
-	WHILE	shift 132
-	RETURN	shift 131
-	BREAK	shift 130
-	CONTINUE	shift 129
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	statement	goto 128
-	compoundStmt	goto 127
-	expressionStmt	goto 126
-	selectionStmt	goto 125
-	iterationStmt	goto 124
-	returnStmt	goto 123
-	breakStmt	goto 122
-	continueStmt	goto 121
-	expression	goto 120
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
 state 118:
 
-	varDeclaration : typeSpecifier . varDeclList SEMICOLON 
+	argList : argList COMMA expression .  (reduce by rule 90)
 
-	ID	shift 43
 
-	varDeclList	goto 12
-	varDeclInitialize	goto 11
-	varDeclID	goto 10
 
-	.	error
+	.	reduce by rule 90
 
 
 state 119:
 
-	localDeclarations : localDeclarations varDeclaration .  (reduce by rule 32)
+	compoundStmt : LEFTBRACE localDeclarations statementList . RIGHTBRACE 
+	statementList : statementList . statement 
 
+	ID	shift 43
+	LEFTBRACE	shift 105
+	RIGHTBRACE	shift 140
+	SEMICOLON	shift 139
+	LPARA	shift 42
+	IF	shift 138
+	WHILE	shift 137
+	RETURN	shift 136
+	BREAK	shift 135
+	CONTINUE	shift 134
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+	COUT	shift 133
 
+	statement	goto 132
+	compoundStmt	goto 131
+	expressionStmt	goto 130
+	selectionStmt	goto 129
+	iterationStmt	goto 128
+	returnStmt	goto 127
+	breakStmt	goto 126
+	continueStmt	goto 125
+	expression	goto 124
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+	printStmt	goto 123
+	singlePrintStmt	goto 122
 
-	.	reduce by rule 32
+	.	error
 
 
 state 120:
 
-	expressionStmt : expression . SEMICOLON 
+	varDeclaration : typeSpecifier . varDeclList SEMICOLON 
 
-	SEMICOLON	shift 136
+	ID	shift 45
 
+	varDeclList	goto 14
+	varDeclInitialize	goto 13
+	varDeclID	goto 12
 
 	.	error
 
 
 state 121:
+
+	localDeclarations : localDeclarations varDeclaration .  (reduce by rule 33)
+
+
+
+	.	reduce by rule 33
+
+
+state 122:
+
+	printStmt : singlePrintStmt . SEMICOLON 
+
+	SEMICOLON	shift 141
+
+
+	.	error
+
+
+state 123:
+
+	statement : printStmt .  (reduce by rule 31)
+
+
+
+	.	reduce by rule 31
+
+
+state 124:
+
+	expressionStmt : expression . SEMICOLON 
+
+	SEMICOLON	shift 142
+
+
+	.	error
+
+
+state 125:
 
 	statement : continueStmt .  (reduce by rule 30)
 
@@ -1749,7 +1791,7 @@ state 121:
 	.	reduce by rule 30
 
 
-state 122:
+state 126:
 
 	statement : breakStmt .  (reduce by rule 29)
 
@@ -1758,7 +1800,7 @@ state 122:
 	.	reduce by rule 29
 
 
-state 123:
+state 127:
 
 	statement : returnStmt .  (reduce by rule 28)
 
@@ -1767,7 +1809,7 @@ state 123:
 	.	reduce by rule 28
 
 
-state 124:
+state 128:
 
 	statement : iterationStmt .  (reduce by rule 27)
 
@@ -1776,7 +1818,7 @@ state 124:
 	.	reduce by rule 27
 
 
-state 125:
+state 129:
 
 	statement : selectionStmt .  (reduce by rule 26)
 
@@ -1785,7 +1827,7 @@ state 125:
 	.	reduce by rule 26
 
 
-state 126:
+state 130:
 
 	statement : expressionStmt .  (reduce by rule 24)
 
@@ -1794,7 +1836,7 @@ state 126:
 	.	reduce by rule 24
 
 
-state 127:
+state 131:
 
 	statement : compoundStmt .  (reduce by rule 25)
 
@@ -1803,83 +1845,20 @@ state 127:
 	.	reduce by rule 25
 
 
-state 128:
-
-	statementList : statementList statement .  (reduce by rule 35)
-
-
-
-	.	reduce by rule 35
-
-
-state 129:
-
-	continueStmt : CONTINUE . SEMICOLON 
-
-	SEMICOLON	shift 137
-
-
-	.	error
-
-
-state 130:
-
-	breakStmt : BREAK . SEMICOLON 
-
-	SEMICOLON	shift 138
-
-
-	.	error
-
-
-state 131:
-
-	returnStmt : RETURN . SEMICOLON 
-	returnStmt : RETURN . expression SEMICOLON 
-
-	ID	shift 41
-	SEMICOLON	shift 140
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	expression	goto 139
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
 state 132:
 
-	iterationStmt : WHILE . LPARA simpleExpression RPARA statement 
-
-	LPARA	shift 141
+	statementList : statementList statement .  (reduce by rule 36)
 
 
-	.	error
+
+	.	reduce by rule 36
 
 
 state 133:
 
-	selectionStmt : IF . LPARA simpleExpression RPARA statement 
-	selectionStmt : IF . LPARA simpleExpression RPARA statement ELSE statement 
+	singlePrintStmt : COUT . LLBRACKET simpleExpression printStmtHelp 
 
-	LPARA	shift 142
+	LLBRACKET	shift 143
 
 
 	.	error
@@ -1887,327 +1866,520 @@ state 133:
 
 state 134:
 
-	expressionStmt : SEMICOLON .  (reduce by rule 37)
+	continueStmt : CONTINUE . SEMICOLON 
+
+	SEMICOLON	shift 144
+
+
+	.	error
+
+
+state 135:
+
+	breakStmt : BREAK . SEMICOLON 
+
+	SEMICOLON	shift 145
+
+
+	.	error
+
+
+state 136:
+
+	returnStmt : RETURN . SEMICOLON 
+	returnStmt : RETURN . expression SEMICOLON 
+
+	ID	shift 43
+	SEMICOLON	shift 147
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	expression	goto 146
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 137:
+
+	iterationStmt : WHILE . LPARA simpleExpression RPARA statement 
+
+	LPARA	shift 148
+
+
+	.	error
+
+
+state 138:
+
+	selectionStmt : IF . LPARA simpleExpression RPARA statement 
+	selectionStmt : IF . LPARA simpleExpression RPARA statement ELSE statement 
+
+	LPARA	shift 149
+
+
+	.	error
+
+
+state 139:
+
+	expressionStmt : SEMICOLON .  (reduce by rule 38)
+
+
+
+	.	reduce by rule 38
+
+
+state 140:
+
+	compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE .  (reduce by rule 32)
+
+
+
+	.	reduce by rule 32
+
+
+state 141:
+
+	printStmt : singlePrintStmt SEMICOLON .  (reduce by rule 49)
+
+
+
+	.	reduce by rule 49
+
+
+state 142:
+
+	expressionStmt : expression SEMICOLON .  (reduce by rule 37)
 
 
 
 	.	reduce by rule 37
 
 
-state 135:
+state 143:
 
-	compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE .  (reduce by rule 31)
+	singlePrintStmt : COUT LLBRACKET . simpleExpression printStmtHelp 
+
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	simpleExpression	goto 150
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 144:
+
+	continueStmt : CONTINUE SEMICOLON .  (reduce by rule 45)
 
 
 
-	.	reduce by rule 31
+	.	reduce by rule 45
 
 
-state 136:
+state 145:
 
-	expressionStmt : expression SEMICOLON .  (reduce by rule 36)
-
-
-
-	.	reduce by rule 36
-
-
-state 137:
-
-	continueStmt : CONTINUE SEMICOLON .  (reduce by rule 44)
+	breakStmt : BREAK SEMICOLON .  (reduce by rule 44)
 
 
 
 	.	reduce by rule 44
 
 
-state 138:
-
-	breakStmt : BREAK SEMICOLON .  (reduce by rule 43)
-
-
-
-	.	reduce by rule 43
-
-
-state 139:
+state 146:
 
 	returnStmt : RETURN expression . SEMICOLON 
 
-	SEMICOLON	shift 143
+	SEMICOLON	shift 151
 
-
-	.	error
-
-
-state 140:
-
-	returnStmt : RETURN SEMICOLON .  (reduce by rule 41)
-
-
-
-	.	reduce by rule 41
-
-
-state 141:
-
-	iterationStmt : WHILE LPARA . simpleExpression RPARA statement 
-
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	simpleExpression	goto 144
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
-state 142:
-
-	selectionStmt : IF LPARA . simpleExpression RPARA statement 
-	selectionStmt : IF LPARA . simpleExpression RPARA statement ELSE statement 
-
-	ID	shift 41
-	LPARA	shift 40
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	simpleExpression	goto 145
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 25
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
-state 143:
-
-	returnStmt : RETURN expression SEMICOLON .  (reduce by rule 42)
-
-
-
-	.	reduce by rule 42
-
-
-state 144:
-
-	iterationStmt : WHILE LPARA simpleExpression . RPARA statement 
-	simpleExpression : simpleExpression . OR andExpression 
-
-	RPARA	shift 146
-	OR	shift 63
-
-
-	.	error
-
-
-state 145:
-
-	selectionStmt : IF LPARA simpleExpression . RPARA statement 
-	selectionStmt : IF LPARA simpleExpression . RPARA statement ELSE statement 
-	simpleExpression : simpleExpression . OR andExpression 
-
-	RPARA	shift 147
-	OR	shift 63
-
-
-	.	error
-
-
-state 146:
-
-	iterationStmt : WHILE LPARA simpleExpression RPARA . statement 
-
-	ID	shift 41
-	LEFTBRACE	shift 103
-	SEMICOLON	shift 134
-	LPARA	shift 40
-	IF	shift 133
-	WHILE	shift 132
-	RETURN	shift 131
-	BREAK	shift 130
-	CONTINUE	shift 129
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	statement	goto 148
-	compoundStmt	goto 127
-	expressionStmt	goto 126
-	selectionStmt	goto 125
-	iterationStmt	goto 124
-	returnStmt	goto 123
-	breakStmt	goto 122
-	continueStmt	goto 121
-	expression	goto 120
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
 	.	error
 
 
 state 147:
 
-	selectionStmt : IF LPARA simpleExpression RPARA . statement 
-	selectionStmt : IF LPARA simpleExpression RPARA . statement ELSE statement 
+	returnStmt : RETURN SEMICOLON .  (reduce by rule 42)
 
-	ID	shift 41
-	LEFTBRACE	shift 103
-	SEMICOLON	shift 134
-	LPARA	shift 40
-	IF	shift 133
-	WHILE	shift 132
-	RETURN	shift 131
-	BREAK	shift 130
-	CONTINUE	shift 129
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
 
-	statement	goto 149
-	compoundStmt	goto 127
-	expressionStmt	goto 126
-	selectionStmt	goto 125
-	iterationStmt	goto 124
-	returnStmt	goto 123
-	breakStmt	goto 122
-	continueStmt	goto 121
-	expression	goto 120
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
 
-	.	error
+	.	reduce by rule 42
 
 
 state 148:
 
-	iterationStmt : WHILE LPARA simpleExpression RPARA statement .  (reduce by rule 40)
+	iterationStmt : WHILE LPARA . simpleExpression RPARA statement 
+
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	simpleExpression	goto 152
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 149:
+
+	selectionStmt : IF LPARA . simpleExpression RPARA statement 
+	selectionStmt : IF LPARA . simpleExpression RPARA statement ELSE statement 
+
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	simpleExpression	goto 153
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 150:
+
+	simpleExpression : simpleExpression . OR andExpression 
+	singlePrintStmt : COUT LLBRACKET simpleExpression . printStmtHelp 
+
+	OR	shift 65
+	LLBRACKET	shift 155
+
+	printStmtHelp	goto 154
+
+	.	reduce by rule 47
+
+
+state 151:
+
+	returnStmt : RETURN expression SEMICOLON .  (reduce by rule 43)
+
+
+
+	.	reduce by rule 43
+
+
+state 152:
+
+	iterationStmt : WHILE LPARA simpleExpression . RPARA statement 
+	simpleExpression : simpleExpression . OR andExpression 
+
+	RPARA	shift 156
+	OR	shift 65
+
+
+	.	error
+
+
+state 153:
+
+	selectionStmt : IF LPARA simpleExpression . RPARA statement 
+	selectionStmt : IF LPARA simpleExpression . RPARA statement ELSE statement 
+	simpleExpression : simpleExpression . OR andExpression 
+
+	RPARA	shift 157
+	OR	shift 65
+
+
+	.	error
+
+
+state 154:
+
+	singlePrintStmt : COUT LLBRACKET simpleExpression printStmtHelp .  (reduce by rule 46)
+
+
+
+	.	reduce by rule 46
+
+
+state 155:
+
+	printStmtHelp : LLBRACKET . simpleExpression printStmtHelp 
+
+	ID	shift 43
+	LPARA	shift 42
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+
+	simpleExpression	goto 158
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 27
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+
+	.	error
+
+
+state 156:
+
+	iterationStmt : WHILE LPARA simpleExpression RPARA . statement 
+
+	ID	shift 43
+	LEFTBRACE	shift 105
+	SEMICOLON	shift 139
+	LPARA	shift 42
+	IF	shift 138
+	WHILE	shift 137
+	RETURN	shift 136
+	BREAK	shift 135
+	CONTINUE	shift 134
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+	COUT	shift 133
+
+	statement	goto 159
+	compoundStmt	goto 131
+	expressionStmt	goto 130
+	selectionStmt	goto 129
+	iterationStmt	goto 128
+	returnStmt	goto 127
+	breakStmt	goto 126
+	continueStmt	goto 125
+	expression	goto 124
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+	printStmt	goto 123
+	singlePrintStmt	goto 122
+
+	.	error
+
+
+state 157:
+
+	selectionStmt : IF LPARA simpleExpression RPARA . statement 
+	selectionStmt : IF LPARA simpleExpression RPARA . statement ELSE statement 
+
+	ID	shift 43
+	LEFTBRACE	shift 105
+	SEMICOLON	shift 139
+	LPARA	shift 42
+	IF	shift 138
+	WHILE	shift 137
+	RETURN	shift 136
+	BREAK	shift 135
+	CONTINUE	shift 134
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+	COUT	shift 133
+
+	statement	goto 160
+	compoundStmt	goto 131
+	expressionStmt	goto 130
+	selectionStmt	goto 129
+	iterationStmt	goto 128
+	returnStmt	goto 127
+	breakStmt	goto 126
+	continueStmt	goto 125
+	expression	goto 124
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+	printStmt	goto 123
+	singlePrintStmt	goto 122
+
+	.	error
+
+
+state 158:
+
+	simpleExpression : simpleExpression . OR andExpression 
+	printStmtHelp : LLBRACKET simpleExpression . printStmtHelp 
+
+	OR	shift 65
+	LLBRACKET	shift 155
+
+	printStmtHelp	goto 161
+
+	.	reduce by rule 47
+
+
+state 159:
+
+	iterationStmt : WHILE LPARA simpleExpression RPARA statement .  (reduce by rule 41)
+
+
+
+	.	reduce by rule 41
+
+
+state 160:
+
+	selectionStmt : IF LPARA simpleExpression RPARA statement .  (reduce by rule 39)
+	selectionStmt : IF LPARA simpleExpression RPARA statement . ELSE statement 
+
+	ELSE	shift 162
+
+
+	.	reduce by rule 39
+
+
+state 161:
+
+	printStmtHelp : LLBRACKET simpleExpression printStmtHelp .  (reduce by rule 48)
+
+
+
+	.	reduce by rule 48
+
+
+state 162:
+
+	selectionStmt : IF LPARA simpleExpression RPARA statement ELSE . statement 
+
+	ID	shift 43
+	LEFTBRACE	shift 105
+	SEMICOLON	shift 139
+	LPARA	shift 42
+	IF	shift 138
+	WHILE	shift 137
+	RETURN	shift 136
+	BREAK	shift 135
+	CONTINUE	shift 134
+	NOT	shift 41
+	MINUS	shift 40
+	NUMCONST	shift 39
+	CHARCONST	shift 38
+	TRUE	shift 37
+	FALSE	shift 36
+	COUT	shift 133
+
+	statement	goto 163
+	compoundStmt	goto 131
+	expressionStmt	goto 130
+	selectionStmt	goto 129
+	iterationStmt	goto 128
+	returnStmt	goto 127
+	breakStmt	goto 126
+	continueStmt	goto 125
+	expression	goto 124
+	simpleExpression	goto 69
+	andExpression	goto 34
+	unaryRelExpression	goto 33
+	relExpression	goto 32
+	sumExpression	goto 31
+	term	goto 30
+	unaryExpression	goto 29
+	factor	goto 28
+	mutable	goto 68
+	immutable	goto 26
+	call	goto 25
+	constant	goto 24
+	printStmt	goto 123
+	singlePrintStmt	goto 122
+
+	.	error
+
+
+state 163:
+
+	selectionStmt : IF LPARA simpleExpression RPARA statement ELSE statement .  (reduce by rule 40)
 
 
 
 	.	reduce by rule 40
 
 
-state 149:
-
-	selectionStmt : IF LPARA simpleExpression RPARA statement .  (reduce by rule 38)
-	selectionStmt : IF LPARA simpleExpression RPARA statement . ELSE statement 
-
-	ELSE	shift 150
-
-
-	.	reduce by rule 38
-
-
-state 150:
-
-	selectionStmt : IF LPARA simpleExpression RPARA statement ELSE . statement 
-
-	ID	shift 41
-	LEFTBRACE	shift 103
-	SEMICOLON	shift 134
-	LPARA	shift 40
-	IF	shift 133
-	WHILE	shift 132
-	RETURN	shift 131
-	BREAK	shift 130
-	CONTINUE	shift 129
-	NOT	shift 39
-	DASH	shift 38
-	NUMCONST	shift 37
-	CHARCONST	shift 36
-	TRUE	shift 35
-	FALSE	shift 34
-
-	statement	goto 151
-	compoundStmt	goto 127
-	expressionStmt	goto 126
-	selectionStmt	goto 125
-	iterationStmt	goto 124
-	returnStmt	goto 123
-	breakStmt	goto 122
-	continueStmt	goto 121
-	expression	goto 120
-	simpleExpression	goto 67
-	andExpression	goto 32
-	unaryRelExpression	goto 31
-	relExpression	goto 30
-	sumExpression	goto 29
-	term	goto 28
-	unaryExpression	goto 27
-	factor	goto 26
-	mutable	goto 66
-	immutable	goto 24
-	call	goto 23
-	constant	goto 22
-
-	.	error
-
-
-state 151:
-
-	selectionStmt : IF LPARA simpleExpression RPARA statement ELSE statement .  (reduce by rule 39)
-
-
-
-	.	reduce by rule 39
-
-
-state 152:
+state 164:
 
 
 	EOF	accept
@@ -2215,5 +2387,5 @@ state 152:
 
 	.	error
 
-158 of 527 action table entries left after compaction
-404 goto table entries
+166 of 567 action table entries left after compaction
+438 goto table entries

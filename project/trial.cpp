@@ -1,4 +1,4 @@
-#include<bits/stdc++.h> 
+#include <bits/stdc++.h>
 using namespace std;
 
 //afdaf;kdasfsdljfad;fkadf
@@ -6,50 +6,55 @@ using namespace std;
 
 int main()
 {
+    int i =0;
     cout << true;
+    while (i < 100)
+    {
+        cout << i << "\n";
+        i += 1;
+    }
+    return 0;
 }
 //all declaration is at the beginning of the function
-// int a := 0; 
-int b = 0; 
+// int a := 0;
+int b = 0;
 int a[100];
 
-
-
-
-int ant(int bat, bool cat[], bool dog , int elk)
+int ant(int bat, bool cat[], bool dog, int elk)
 {
 
-int gnu, hog[100];
-    int aPoint = 0;    int aLine;
+    int gnu, hog[100];
+    int aPoint = 0;
+    int aLine;
     int two[2];
     // int a :=0 ;
-    string c,d;
+    string c, d;
     int fox;
     bool ad;
     int i = 0;
     two[1] = 0;
-    
+
     // d =c;
-    c= "arpit\n";
+    c = "arpit\n";
     d = c;
-    two[2] += fox=23;
+    two[2] += fox = 23;
     aPoint = 2 + elk;
     ad = true || false;
-    ad = ! (bat == elk);
+    ad = !(bat == elk);
     cat[2] = !true;
     gnu = hog[2] = 3 * -elk;
     if (2 > 3)
         dog = !dog;
     else
         fox++;
-    if (bat  == fox )
+    if (bat == fox)
     {
         while (cat[2])
         {
             int fox = 0;
             int hog;
-            bool detail =true ;
-            string c ;
+            bool detail = true;
+            string c;
             bool majeme;
             // majeme = 2;
             hog = fox;
@@ -58,12 +63,12 @@ int gnu, hog[100];
                 break;
             else if (fox != 0)
                 fox *= 7;
-        } 
-        cout << "hi" ;
+        }
+        cout << "hi";
 
         while (i < 1000000)
         {
-            i +=1;
+            i += 1;
         }
 
         fox = 0;
@@ -74,17 +79,19 @@ int gnu, hog[100];
     return (fox + bat * hog[bat]) / -fox;
 }
 
-int max(int a,int b) {int c = 0;
- if (a > b)
+int max(int a, int b)
+{
+    int c = 0;
+    if (a > b)
         // arpit (0,0);
-        
-        return 0; 
 
+        return 0;
 }
 
-void arpit (int ad, int c){
+void arpit(int ad, int c)
+{
     int a;
     // max (ad ,c);
-    max (ad , c);
-    return ;
+    max(ad, c);
+    return;
 }

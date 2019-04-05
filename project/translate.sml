@@ -11,7 +11,7 @@ fun print_tabs () = if !n = 0 then ( print("")) else (n := !n - 1 ; print ("\t")
 fun print_tabs_real () = (n := !indent ; print_tabs () )
 
 (* =============================== main program ======================================= *)
-fun compileProgram (Ast.declL(x)) = printDeclarationList x
+fun compileProgram (Ast.declL(y,z,x)) = (print_yellow y ; print "\n" ; print_yellow z ; print "\n" ;  printDeclarationList x)
 
 and  printDeclarationList ([x]) = (printDeclaration x)
     | printDeclarationList (x :: y) = (printDeclaration x ; printDeclarationList y)
@@ -30,7 +30,7 @@ and printVarDeclList ([x]) = (printVarDeclInitialize x)
     | printVarDeclList ([]) = ()
 
 and printVarDeclInitialize (Ast.declarationOnlyID (x)) = (printVarDeclID x)
-    | printVarDeclInitialize (Ast.declarationAssignment (x,y)) = (printVarDeclID x ; print_default " := " ; printSimpleExpression y)
+    | printVarDeclInitialize (Ast.declarationAssignment (x,y)) = (printVarDeclID x ; print_default " = " ; printSimpleExpression y)
 
 and printVarDeclID (Ast.vID (x)) = (print_default x)
     | printVarDeclID (Ast.arrayLike (x,y)) = (  
@@ -42,7 +42,7 @@ and printVarDeclID (Ast.vID (x)) = (print_default x)
 
 and   printTypeSpecifier (Ast.integer) = (print_cyan "int ")
     | printTypeSpecifier (Ast.boolean) = (print_cyan "bool ")
-    | printTypeSpecifier (Ast.character) = (print_cyan "char ")
+    | printTypeSpecifier (Ast.character) = (print_cyan "string ")
 
 
 (* ===================================== function declaration ============================== *)
@@ -82,6 +82,7 @@ and printStatement (Ast.eStatement(x)) = (print_tabs_real () ; printExpressionSt
    | printStatement (Ast.rStatement(x)) = (print_tabs_real () ; printReturnStmt x)
    | printStatement (Ast.bStatement(x)) = (print_tabs_real () ; printBreakStmt x)
    | printStatement (Ast.conStatement(x)) = (print_tabs_real () ; printContinueStmt x)
+   | printStatement (Ast.printStatement(x)) = (print_tabs_real () ; printStmt x)
 
 and printCompoundStmt (Ast.statementWithBrace (x,y)) = (
                                                         print_yellow "{\n";
@@ -138,6 +139,11 @@ and printReturnStmt (Ast.returnNoValue ) = (print_tabs_real () ; print_red " ret
 
 and printBreakStmt (Ast.BREAK) = (print "break ;\n") 
 and printContinueStmt (Ast.CONTINUE) = (print "continue ;\n")
+
+and printStmt (Ast.printing (x)) = (print_red "cout " ; printExpressionList x ; print "\n") 
+
+and printExpressionList ([]) = (print " ; ")
+   | printExpressionList (x::xs) = (print_yellow " << " ; printSimpleExpression x ; printExpressionList xs )
  
 (* ================================== expression ==================================== *)
 and printExpression (Ast.assign (x, y)) = (printMutable x ; print_yellow " = " ; printExpression y)
@@ -148,6 +154,7 @@ and printExpression (Ast.assign (x, y)) = (printMutable x ; print_yellow " = " ;
     | printExpression (Ast.increment (x)) = (printMutable x ; print_yellow "++ ")
     | printExpression (Ast.decrement (x)) = (printMutable x ; print_yellow "--") 
     | printExpression (Ast.plainExpression (x)) = (printSimpleExpression x)
+    
 
 and printSimpleExpression (Ast.or (x,y)) = (printSimpleExpression x ; print_yellow " || " ; printAndExpression y)
     | printSimpleExpression (Ast.noOr(x)) = (printAndExpression x)
@@ -184,7 +191,7 @@ and printMulOp (Ast.MULT) = print_yellow " * "
 and printUnaryExpression (Ast.uExp (x,y)) = (printUnaryOp x; printUnaryExpression y)
     | printUnaryExpression (Ast.noUnary (x)) = (printFactor x)
 
-and printUnaryOp (Ast.DASH) = print_yellow " ~ "
+and printUnaryOp (Ast.DASH) = print_yellow " - "
 
 and printFactor (Ast.mut (x)) = (printMutable x)
     | printFactor (Ast.immut (x)) = (printImmutable x)

@@ -118,8 +118,28 @@ structure Semantic = struct
     (* Each of the function returns the type *)
 
     (* ========================== doing the semantic analysis *)
-    fun semanticProgram (Ast.declL(x)) = (print_red "=================== This is semantic Analysis ==================\n" ; 
+    (* This function checks if there is a function of type main *)
+    fun isMain () = if (inTable ("main") = true )
+                    then 
+                        let 
+                        val t = look("main")
+                        val retType = getFunctionReturnType (t)
+                        val args = getFunctionArgTypeList(t)
+                         in 
+                            if ( (retType <> cType.INT = true)  orelse (List.null (args) = false) )
+                            then 
+                            (print_red "Function of type main not matching \n" ; raise SEMANTICERROR)
+                            else
+                            () 
+                        end 
+
+                    else 
+                    (print_red "No Main function\n" ; raise SEMANTICERROR)
+
+    and semanticProgram (Ast.declL(y,z,x)) = (print_red "=================== This is semantic Analysis ==================\n" ; 
+                                        print_yellow y ; print "\n"; print_yellow z ; print "\n" ;
                                         semanticDeclarationList x;
+                                        isMain();
                                         print_red "====================== Compiled successfully ======================\n"  )
 
     and semanticDeclarationList ([x] ) = semanticDeclaration x
@@ -131,6 +151,7 @@ structure Semantic = struct
     | semanticDeclaration (Ast.functionDeclaration (x)) = (
                                                             (* beginScope(); *)
                                                             semanticFunDeclaration x;
+                                                            (* printDetails() *)
                                                             print "\n"
                                                             (* endScope() *)
                                                         )
@@ -161,7 +182,7 @@ and semanticVarDeclInitialize (t, Ast.declarationOnlyID (x)) = (semanticVarDeclI
                                                                         if (leftType = rightType)
                                                                         then
                                                                         (
-                                                                         print_yellow " := " ;
+                                                                         print_yellow " = " ;
                                                                           semanticSimpleExpression y)
                                                                           else
                                                                           (print_red "Assignment type not compatible\n" ; raise SEMANTICERROR)
@@ -192,7 +213,7 @@ and semanticVarDeclID (t, Ast.vID (x) , i) = ( (case t of
 
 and   semanticTypeSpecifier (Ast.integer) = (print_cyan "int ")
     | semanticTypeSpecifier (Ast.boolean) = (print_cyan "bool ")
-    | semanticTypeSpecifier (Ast.character) = (print_cyan "char ")
+    | semanticTypeSpecifier (Ast.character) = (print_cyan "string ")
 
 (* =========================== for the function ======================== *)
 
@@ -294,6 +315,7 @@ and semanticStatement (Ast.eStatement(x)) = (print_tabs_real () ; semanticExpres
    | semanticStatement (Ast.rStatement(x)) = (print_tabs_real () ; semanticReturnStmt x)
    | semanticStatement (Ast.bStatement(x)) = (print_tabs_real () ; semanticBreakStmt x)
    | semanticStatement (Ast.conStatement(x)) = (print_tabs_real () ; semanticContinueStmt x)
+   | semanticStatement (Ast.printStatement (x)) = (print_tabs_real() ; semanticPrintStmt x)
 
 and semanticCompoundStmt (Ast.statementWithBrace (x,y)) = (
                                                         print_yellow "{\n";
@@ -402,6 +424,12 @@ and semanticReturnStmt (Ast.returnNoValue ) = let
 
 and semanticBreakStmt (Ast.BREAK) = (print "break ;\n") 
 and semanticContinueStmt (Ast.CONTINUE) = (print "continue ;\n")
+
+and semanticPrintStmt (Ast.printing (x)) = (print_red "cout " ; semanticExpressionList x ; print "\n") 
+   
+and semanticExpressionList ([]) = (print " ; ")
+   | semanticExpressionList (x::xs) = (print_yellow " << " ; semanticSimpleExpression x ; semanticExpressionList xs )
+
  
 (* ================================ this is expression ===================================== *)
 
@@ -599,7 +627,7 @@ and typeTerm (Ast.multExp (x,y,z)) = let
 and typeUnaryExpression (Ast.uExp (x,y)) = let 
                                         val leftType = typeUnaryExpression y
                                         in 
-                                        if (leftType = cType.INT orelse leftType = cType.BOOL)
+                                        if (leftType = cType.INT)
                                         then
                                         (leftType)
                                         else

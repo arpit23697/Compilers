@@ -6,6 +6,8 @@
 
 (* This section is for the terminal of the language *)
 %term RECORD
+        | HEADER of string
+        | HEADERn of string
         | EOF
         | ID of string
         | LEFTBRACE 
@@ -60,7 +62,8 @@
         | iff 
         | c 
         | COLONEQUAL
-
+        | COUT
+        | LLBRACKET
 
 (* The nonterminals of the language *)
 %nonterm program of Ast.program
@@ -101,6 +104,10 @@
         | argList of Ast.expression list
         | args of Ast.expression list
         | constant of Ast.constant
+        | printStmt of Ast.printStmt
+        | printStmtHelp of Ast.simpleExpression list
+        | singlePrintStmt of Ast.simpleExpression list
+        
     
 
 
@@ -130,7 +137,7 @@
 %%
 
 (* =============================== Grammar ================================*)
-program : declarationList                                       ( Ast.declL(declarationList) )
+program : HEADER HEADERn declarationList                                       ( Ast.declL(HEADER, HEADERn , declarationList) )
 
 declarationList : declarationList declaration                   ( declarationList @ [declaration] )
                 | declaration                                   ( [declaration] )
@@ -146,7 +153,7 @@ varDeclList : varDeclInitialize                                        ([varDecl
                                                  
 
 varDeclInitialize : varDeclID                                       (Ast.declarationOnlyID (varDeclID) )
-                | varDeclID COLONEQUAL simpleExpression                  (Ast.declarationAssignment (varDeclID , simpleExpression))
+                | varDeclID EQUAL simpleExpression                  (Ast.declarationAssignment (varDeclID , simpleExpression))
 
 varDeclID : ID                                                     (Ast.vID (ID))
             | ID LEFTBRACKET NUMCONST RIGHTBRACKET                  (Ast.arrayLike (ID , NUMCONST))
@@ -179,7 +186,7 @@ statement : expressionStmt                                          (Ast.eStatem
             | returnStmt                                            (Ast.rStatement (returnStmt))
             | breakStmt                                             (Ast.bStatement (breakStmt))
             | continueStmt                                           (Ast.conStatement (continueStmt))
-                
+            | printStmt                                               (Ast.printStatement (printStmt) )  
 compoundStmt : LEFTBRACE localDeclarations statementList RIGHTBRACE   (Ast.statementWithBrace (localDeclarations , statementList))
 
 localDeclarations : localDeclarations varDeclaration          (Ast.declIn (localDeclarations , varDeclaration) ) 
@@ -203,7 +210,11 @@ returnStmt : RETURN SEMICOLON                                        (Ast.return
 breakStmt : BREAK SEMICOLON                                             (Ast.BREAK)
 continueStmt : CONTINUE SEMICOLON                                       (Ast.CONTINUE)
 
+singlePrintStmt : COUT LLBRACKET simpleExpression  printStmtHelp                 ( simpleExpression :: printStmtHelp  )
+printStmtHelp :                                          ( [] )
+        | LLBRACKET simpleExpression  printStmtHelp                    ( simpleExpression :: printStmtHelp  )
 
+printStmt : singlePrintStmt SEMICOLON                                         (Ast.printing (singlePrintStmt ))
 (* ================================= EXPRESSION ======================================= *)
 expression : mutable EQUAL expression                               (Ast.assign (mutable , expression))
             | mutable PLUSEQUAL expression                          (Ast.assignPlus (mutable , expression))
@@ -240,7 +251,7 @@ term            : term MULT unaryExpression                                (Ast.
                 | term MOD unaryExpression                                 (Ast.multExp (term , Ast.MOD , unaryExpression))
                 | unaryExpression                                          (Ast.noMult (unaryExpression))
 
-unaryExpression : DASH unaryExpression                                    (Ast.uExp (Ast.DASH , unaryExpression)) 
+unaryExpression : MINUS unaryExpression                                    (Ast.uExp (Ast.DASH , unaryExpression)) 
                 | factor                                                   (Ast.noUnary (factor))
 
 factor : immutable                                                         (Ast.immut (immutable))

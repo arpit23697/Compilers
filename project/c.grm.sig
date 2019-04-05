@@ -2,6 +2,8 @@ signature Tiger_TOKENS =
 sig
 type ('a,'b) token
 type svalue
+val LLBRACKET:  'a * 'a -> (svalue,'a) token
+val COUT:  'a * 'a -> (svalue,'a) token
 val COLONEQUAL:  'a * 'a -> (svalue,'a) token
 val c:  'a * 'a -> (svalue,'a) token
 val iff:  'a * 'a -> (svalue,'a) token
@@ -56,6 +58,8 @@ val RIGHTBRACE:  'a * 'a -> (svalue,'a) token
 val LEFTBRACE:  'a * 'a -> (svalue,'a) token
 val ID: (string) *  'a * 'a -> (svalue,'a) token
 val EOF:  'a * 'a -> (svalue,'a) token
+val HEADERn: (string) *  'a * 'a -> (svalue,'a) token
+val HEADER: (string) *  'a * 'a -> (svalue,'a) token
 val RECORD:  'a * 'a -> (svalue,'a) token
 end
 signature Tiger_LRVALS=

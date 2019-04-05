@@ -1,6 +1,6 @@
 structure Ast = struct 
 
-datatype program = declL of  declaration list
+datatype program = declL of  string * string * declaration list
         
     and declaration = variableDeclaration of varDeclaration 
                     | functionDeclaration of  funDeclaration
@@ -37,6 +37,7 @@ datatype program = declL of  declaration list
                     | rStatement of returnStmt
                     | bStatement of breakStmt
                     | conStatement of continueStmt
+                    | printStatement of printStmt
 
     and compoundStmt = statementWithBrace of (localDeclarations * statement list)       (*{localDeclaration statementList}*)
     
@@ -57,6 +58,8 @@ datatype program = declL of  declaration list
 
     and breakStmt = BREAK                                       (*break ;*)
     and continueStmt = CONTINUE                                 (*continue ;*)
+
+    and printStmt = printing of (simpleExpression list)
 
     (* ===================================== for the expression ================================== *)
     and expression = assign of (mutable * expression)

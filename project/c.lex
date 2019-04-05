@@ -22,6 +22,8 @@ ws    = [\ \t];
 
 %%
 <INITIAL>\n                                  => ( updateLine 1; lex() );
+<INITIAL>"#include"{ws}*"<bits/stdc++.h>"       =>  (Tokens.HEADER(yytext , !lineRef , !lineRef) );
+<INITIAL>"using"{ws}*"namespace"{ws}*"std"{ws}*";"          => (Tokens.HEADERn(yytext , !lineRef , !lineRef) );
 <INITIAL>"="                                 => (Tokens.EQUAL (!lineRef , !lineRef));
 <INITIAL>{ws}+                               => ( lex() );
 <INITIAL>"{"                                 => (Tokens.LEFTBRACE (!lineRef , !lineRef));
@@ -38,7 +40,7 @@ ws    = [\ \t];
 <INITIAL>"static"                            => (Tokens.STATIC (!lineRef , !lineRef));
 <INITIAL>"int"                               => (Tokens.INT (!lineRef , !lineRef));
 <INITIAL>"bool"                              => (Tokens.BOOL (!lineRef , !lineRef));
-<INITIAL>"char"                              => (Tokens.CHAR (!lineRef , !lineRef));
+<INITIAL>"string"                              => (Tokens.CHAR (!lineRef , !lineRef));
 <INITIAL>"void"                              => (Tokens.VOID (!lineRef , !lineRef));
 <INITIAL>"if"                                => (Tokens.IF (!lineRef , !lineRef));
 <INITIAL>"else"                              => (Tokens.ELSE (!lineRef , !lineRef));
@@ -68,6 +70,8 @@ ws    = [\ \t];
 <INITIAL>"/"                                 => (Tokens.DIV (!lineRef , !lineRef));
 <INITIAL>"%"                                 => (Tokens.MOD (!lineRef , !lineRef));
 <INITIAL>"~"                                 => (Tokens.DASH (!lineRef , !lineRef));
+<INITIAL>"<<"                                 => (Tokens.LLBRACKET (!lineRef , !lineRef));
+<INITIAL>"cout"                                 => (Tokens.COUT (!lineRef , !lineRef));
 <INITIAL>"true"                              => (Tokens.TRUE (!lineRef , !lineRef));
 <INITIAL>"false"                             => (Tokens.FALSE (!lineRef , !lineRef));
 <INITIAL>"//".*                              => (lex());
