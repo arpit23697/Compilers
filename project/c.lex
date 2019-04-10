@@ -18,7 +18,9 @@ fun eof   ()      = Tokens.EOF (!lineRef,!lineRef)
 %header (functor TigerLexFun(structure Tokens : Tiger_TOKENS));
 
 escapes = [abfnrtv] | "num" | "xnum" | "\\" | "\"" | "character";
+newline = "\\n" | "\\r" | "\\n\\r" | "\\r\\n";
 ws    = [\ \t];
+
 
 %%
 <INITIAL>\n                                  => ( updateLine 1; lex() );
@@ -77,4 +79,4 @@ ws    = [\ \t];
 <INITIAL>"//".*                              => (lex());
 <INITIAL>[0-9]+                          => (Tokens.NUMCONST (yytext, !lineRef , !lineRef));
 <INITIAL>[a-zA-Z_][a-zA-Z0-9_]*              => (Tokens.ID (yytext , !lineRef , !lineRef));
-<INITIAL>"\""(\\{escapes} | [^\\"])*"\""                          => (Tokens.CHARCONST (yytext, !lineRef , !lineRef));
+<INITIAL>"\""({newline} | [^\\"])*"\""                          => (Tokens.CHARCONST (yytext, !lineRef , !lineRef));

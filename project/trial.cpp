@@ -9,7 +9,7 @@ int main()
     int i =1;
     string b[100];
     
-    string a = "arpi\n";
+    string a = "arpit singh\n";
     b[0] = "arpit\n";
 
     cout << true;
@@ -17,7 +17,7 @@ int main()
     while (i < 100)
     {
         cout << a;
-        cout << i  << 2 + 3 << "\n";
+        cout << i << " " << 2 + 3 << "\n";
         i += 1;
     }
     return 0;

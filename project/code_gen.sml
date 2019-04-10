@@ -3,7 +3,7 @@ structure codeGen = struct
     (* Opening the file *)
     val fd = TextIO.openOut "out.js"    
     fun printS x= ( TextIO.output( fd,x ))
-    
+    val inNewLine = ref false;
 
     val indent = ref 0
     val n = ref 0
@@ -204,19 +204,20 @@ and printArgs ([x]) = (printExpression x )
     | printArgs ([]) = ()
 
 and printConstant (Ast.number (x)) = (printS x)
-    | printConstant (Ast.charConst (x)) =  printS x
+    | printConstant (Ast.charConst (x)) =  ( printS (hasNewline x) )
     | printConstant (Ast.trueValue ) = (printS "true")
     | printConstant (Ast.falseValue ) = (printS "false")
 
 (* Takes the string and convert new line into break *)
-(* and tempFunc #"\n" = "<br>"
-    | tempFunc #"\"" = "\""
-    | tempFunc #"\\" = "\"
-    | tempFunc x = Char.toString (x)
+(* and tempFunc #"\\" = "<br>" *)
+    (* | tempFunc #"\"" = "\"" *)
+    (* | tempFunc x = Char.toString (x) *)
+(*  *)
+(* and hasNewline x = String.translate tempFunc x *)
 
-and hasNewline x = String.translate tempFunc x *)
 
-(* and hasNewline x = let 
+
+and hasNewline x = let 
                     val t = String.explode(x)
                     val t2 = List.tl t
                     fun g [x] = []
@@ -225,13 +226,16 @@ and hasNewline x = String.translate tempFunc x *)
 
                     val t3 = g t2 
                     fun f [] = []
-                        | f (y::xs) = if (Char.compare (y , #"\n") = EQUAL)
+                        | f (y::xs) = if (Char.compare (y , #"\\") = EQUAL)
                                         then 
-                                        ([#"<", #"b", #"r", #">"] @ f xs)
+                                        ( (inNewLine := true); [#"<", #"b", #"r", #">"] @ f xs)
                                         else 
-                                        ( [y] @ f xs)
+                                        ( if (!inNewLine = false) then   [y] @ f xs 
+                                        else
+                                        (inNewLine := false ; [] @ f xs)
+                                         )
                     in 
                         ( "\"" ^ String.implode (f t3) ^ "\"" )
-                    end *)
+                    end
 
 end

@@ -13,6 +13,9 @@ structure Semantic = struct
     (* ===================== for the initialised variables ====================*)
     val initialisedVariables: bool IntBinaryMap.map ref = ref IntBinaryMap.empty
 
+    (* To check for the returns type *)
+    val returnTypeMentioned = ref false;
+
     (* For raising the exception *)
     exception SEMANTICERROR
 
@@ -240,6 +243,11 @@ and semanticFunDeclaration (Ast.functionReturn (x,y,z,w)) =
                                                             semanticParams z;
                                                             print " )";
                                                             semanticCompoundStmt w;
+                                                            (if (!returnTypeMentioned = false)
+                                                            then 
+                                                            (print_red "Return type not mentioned\n" ; raise SEMANTICERROR)
+                                                            else 
+                                                                (returnTypeMentioned := false));
                                                             endScope()
                                                     
                                                          )
@@ -416,7 +424,7 @@ and semanticReturnStmt (Ast.returnNoValue ) = let
                                             in 
                                                 if (t = t2)
                                                 then 
-                                                (print_tabs_real(); print_red " return " ; semanticExpression x ; print_yellow ";\n" )
+                                                ( (returnTypeMentioned := true) ;print_tabs_real(); print_red " return " ; semanticExpression x ; print_yellow ";\n" )
                                                 else 
                                                 (print_red "Return type not matching\n" ; raise SEMANTICERROR)
                                             end

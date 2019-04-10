@@ -1,23 +1,20 @@
-function sum ( a  , n  ){
-	var i = 0;
-	var total = 0;
-	while ( i < n )	{
-		total += a[i];
-		i += 1;
-		}
-	 return total;
+function Fibonacci ( n  ){
+	if ( n == 0 )
+	 return 0;
+	else	if ( n == 1 )
+	 return 1;
+	else	 return ( Fibonacci (n - 1 ) + Fibonacci (n - 2 ) );
 	}
 function main (  ){
-	var a = new Array(100);
-	var i = 0;
-	var n = 100;
-	n = 1;
-	while ( i < n )	{
-		a[i] = i;
-		i += 1;
+	var n , i = 0 , c;
+	n = 30;
+	document.write( "Fibonacci series<br>");
+	c = 1;
+	while ( c <= n )	{
+		document.write( Fibonacci (i )," <br>");
+		i++ ;
+		c++ ;
 		}
-	document.write( "Sum is ",sum (a,n ));
-	document.write( " Feeling so good ");
 	 return 0;
 	}
 var s = main();
