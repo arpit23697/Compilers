@@ -757,18 +757,5 @@ and  getMostRecentFunctionType () = let
         | isFunctionType (_) = false
 end
 
-(* 
-type checking
-Scoping
-Check for undeclared variables
-check for function type name and parameters
-Cannot call the function until it is declared
-Check if the function have the return type (except in case of void)
-Check if correct function type is returned
-Check if the program have the main function
-Check for uninitialised variables
-
-
- *)
 
 
