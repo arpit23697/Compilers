@@ -46,3 +46,6 @@ Check for incompatible declarations. Since the of declaration and value assigned
 
 #####6. test4.cpp
 Check for correct function call. If the function is called with wrong parameters then it will give error. This will also check the type of the calling parameters  
+
+#####7. test5.cpp
+Cannot use undeclared functions. Gives error function is not declared
