@@ -29,6 +29,10 @@ This version is better for html (run using google-chrome)
 #Test Cases
 #####1. Quick.cpp
 Basic c++ program for quick sort. The output file generated is out.js   
-#####1. fib.cpp
+#####2. fib.cpp
 Takes the number n, print fibonacci numbers using recursion upto n, print the output  
 Shows the use of recursion  
+
+#####3. test1.cpp 
+This function will not compile successfully because of the use of variable outside the scope  
+Gives error undeclared variable  
