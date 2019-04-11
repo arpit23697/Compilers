@@ -1,5 +1,5 @@
 #Source language 
-c++ 
+c++  
 1. Only with output  
 2. Support of function  
 3. Three types (string , bool ,int , there respective arrays)  
@@ -26,4 +26,6 @@ This version is better for html (run using google-chrome)
 8. Check if the program have the main function  
 9. Check for uninitialised variables  
 
-
+#Test Cases
+#### Quick.cpp
+Basic c++ program for quick sort. The output file generated is out.js   
