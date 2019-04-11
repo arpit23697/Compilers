@@ -3,6 +3,7 @@ structure codeGen = struct
     (* Opening the file *)
     val fd = TextIO.openOut "out.js"    
     fun printS x= ( TextIO.output( fd,x ))
+    
     val inNewLine = ref false;
 
     val indent = ref 0
