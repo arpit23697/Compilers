@@ -26,30 +26,3 @@ This version is better for html (run using google-chrome)
 8. Check if the program have the main function  
 9. Check for uninitialised variables  
 
-#Test Cases
-#####1. Quick.cpp
-Basic c++ program for quick sort. The output file generated is out.js   
-#####2. fib.cpp
-Takes the number n, print fibonacci numbers using recursion upto n, print the output  
-Shows the use of recursion  
-
-#####3. test1.cpp 
-This program will not compile successfully because of the use of variable outside the scope  
-Gives error undeclared variable  
-
-#####4. test2.cpp 
-This program will not compile successfully because the type of the variable used in the expression  
-are not matching. Gives error left and right hand side not matching  
-
-#####5. test3.cpp
-Check for incompatible declarations. Since the of declaration and value assigned is not matching so error   
-
-#####6. test4.cpp
-Check for correct function call. If the function is called with wrong parameters then it will give error. This will also check the type of the calling parameters  
-
-#####7. test5.cpp
-Cannot use undeclared functions. Gives error function is not declared
-
-#####8. test6.cpp
-Check for the return type of the function. 
-
