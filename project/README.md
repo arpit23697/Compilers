@@ -27,5 +27,8 @@ This version is better for html (run using google-chrome)
 9. Check for uninitialised variables  
 
 #Test Cases
-#### Quick.cpp
+#####1. Quick.cpp
 Basic c++ program for quick sort. The output file generated is out.js   
+#####1. fib.cpp
+Takes the number n, print fibonacci numbers using recursion upto n, print the output  
+Shows the use of recursion  
