@@ -34,5 +34,9 @@ Takes the number n, print fibonacci numbers using recursion upto n, print the ou
 Shows the use of recursion  
 
 #####3. test1.cpp 
-This function will not compile successfully because of the use of variable outside the scope  
+This program will not compile successfully because of the use of variable outside the scope  
 Gives error undeclared variable  
+
+#####4. test2.cpp 
+This program will not compile successfully because the type of the variable used in the expression  
+are not matching. Gives error left and right hand side not matching  

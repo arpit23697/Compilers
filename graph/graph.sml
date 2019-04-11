@@ -334,11 +334,11 @@ fun printStringGraphOpposite ()= let
 
                         end 
 (* Inserting the node *)
-val temp = stringGraph.newNode("arpit")
-val temp = stringGraph.newNode("ipsita")
-val temp = stringGraph.newNode("srishti")
-val temp = stringGraph.newNode("akanksha")
-val temp = stringGraph.newNode ("anshi")
+val temp = stringGraph.newNode("a")
+val temp = stringGraph.newNode("i")
+val temp = stringGraph.newNode("s")
+val temp = stringGraph.newNode("ak")
+val temp = stringGraph.newNode ("an")
 (* Printing the nodes *)
 val x = stringGraph.nodeList ()
 val temp = printStringList x
@@ -346,11 +346,11 @@ val temp = printNodeMap (stringGraph.nodeMap())
 
 
 (* Make the edges *)
-val temp = stringGraph.mk_edge("arpit" , "ipsita")
-val temp = stringGraph.mk_edge("ipsita" , "arpit")
-val temp = stringGraph.mk_edge("arpit" , "srishti")
-val temp = stringGraph.mk_edge ("srishti" , "ipsita")
-val temp = stringGraph.mk_edge ("srishti" , "anshi")
+val temp = stringGraph.mk_edge("a" , "i")
+val temp = stringGraph.mk_edge("i" , "a")
+val temp = stringGraph.mk_edge("a" , "s")
+val temp = stringGraph.mk_edge ("s" , "i")
+val temp = stringGraph.mk_edge ("s" , "an")
 
 (* ================= Printing the graph ================== *)
 val temp = print "================= Printing graph =================\n"
@@ -362,6 +362,6 @@ val temp = printStringGraphAdjacent()
 val temp = print " ======================== print the graph opposite ============= \n"
 val temp = printStringGraphOpposite()
 
-val temp = stringGraph.rm_edge ("srishti" , "arpit")
+val temp = stringGraph.rm_edge ("s" , "a")
 val temp = print "================= Printing graph =================\n"
 val temp = printStringGraph()
