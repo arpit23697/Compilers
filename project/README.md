@@ -43,3 +43,6 @@ are not matching. Gives error left and right hand side not matching
 
 #####5. test3.cpp
 Check for incompatible declarations. Since the of declaration and value assigned is not matching so error   
+
+#####6. test4.cpp
+Check for correct function call. If the function is called with wrong parameters then it will give error. This will also check the type of the calling parameters  
