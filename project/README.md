@@ -21,7 +21,7 @@ This version is better for html (run using google-chrome)
 3. Check for undeclared variables  
 4. check for function type name and parameters  
 5. Cannot call the function until it is declared  
-6. Check if the function have the return type (except in case of void)  
+6. Check if the function have the return statement (except in case of void)  
 7. Check if correct function type is returned  
 8. Check if the program have the main function  
 9. Check for uninitialised variables  
@@ -49,3 +49,7 @@ Check for correct function call. If the function is called with wrong parameters
 
 #####7. test5.cpp
 Cannot use undeclared functions. Gives error function is not declared
+
+#####8. test6.cpp
+Check for the return type of the function. 
+
