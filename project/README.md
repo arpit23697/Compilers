@@ -40,3 +40,6 @@ Gives error undeclared variable
 #####4. test2.cpp 
 This program will not compile successfully because the type of the variable used in the expression  
 are not matching. Gives error left and right hand side not matching  
+
+#####5. test3.cpp
+Check for incompatible declarations. Since the of declaration and value assigned is not matching so error   
