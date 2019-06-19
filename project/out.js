@@ -4,6 +4,7 @@ function partition ( arr  , low  , high  ){
 	var i = ( low - 1 );
 	var j = low;
 	while ( j <= high - 1 )	{
+		document.write( "Hi there <br>");
 		if (arr[j] <= pivot )
 		{
 			var temp;
