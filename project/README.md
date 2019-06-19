@@ -1,4 +1,4 @@
-#Source language 
+# Source language 
 c++  
 1. Only with output  
 2. Support of function  
@@ -6,15 +6,15 @@ c++
 4. Support of basic statements (while , break , if if_else and all)  
 
  
-#Target Language 
+# Target Language 
 Javascript  
 
-#Output 
+# Output 
 The source c++ program can be compiled using g++ compiler  
 After Running the source file out.js file is generated and that can be run using nodejs or using html  
 This version is better for html (run using google-chrome)  
 
-#Semantic Analysis
+# Semantic Analysis
 
 1. type checking  
 2. Scoping  
